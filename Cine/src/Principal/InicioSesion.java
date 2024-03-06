@@ -1,10 +1,14 @@
 
 package Principal;
 
+import utils.BaseDatos;
+
 public class InicioSesion extends javax.swing.JFrame {
 
-    public InicioSesion() {
-        initComponents();
+    private BaseDatos baseDatos;
+
+    public InicioSesion(BaseDatos baseDatos) {
+        this.baseDatos = baseDatos;
     }
 
     @SuppressWarnings("unchecked")
@@ -35,6 +39,11 @@ public class InicioSesion extends javax.swing.JFrame {
         btn_inicar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btn_inicar.setForeground(new java.awt.Color(255, 255, 255));
         btn_inicar.setText("INICIAR");
+        btn_inicar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_inicarActionPerformed(evt);
+            }
+        });
 
         etq_olvido_contraseña.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         etq_olvido_contraseña.setText("¿Olvidaste tu contraseña?");
@@ -100,14 +109,26 @@ public class InicioSesion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new InicioSesion().setVisible(true);
-            }
-        });
+    private void btn_inicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_inicarActionPerformed
+        String usuario = campo_usuario.getText();
+        String contraseña = campo_contraseña.getText();
+        iniciarSesion(usuario, contraseña);
+    }//GEN-LAST:event_btn_inicarActionPerformed
+    
+    public void iniciarSesion(String usuario, String contraseña) {
+        // Verificar las credenciales en la base de datos
+        String rol = baseDatos.verificarCredenciales(usuario, contraseña);
+        
+        if (rol.equals("Cajero")) {
+            // Rol es Cajero
+            System.out.println("Bienvenido Cajero");
+        } else if (rol.equals("Administrador")) {
+            // Rol es Administrador
+            System.out.println("Bienvenido Administrador");
+        } else {
+            // mensaje de error en caso de no encontrar datos
+            System.out.println("Usuario o contraseña incorrectos");
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

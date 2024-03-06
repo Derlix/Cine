@@ -281,6 +281,27 @@ public class BaseDatos {
         }
     }
     
+    // Metodo para verificar credenciales de usuario
+    public String verificarCredenciales(String usuario, String contraseña) {
+        String rol = "";
+        try {
+            String query = "SELECT Rol FROM Usuarios WHERE Nombre_Usuario = ? AND Contraseña = ?";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setString(1, usuario);
+            statement.setString(2, contraseña);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                rol = resultSet.getString("Rol");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al verificar credenciales:");
+            System.out.println(ex.getMessage());
+        }
+        return rol;
+    }
+
+    
+    
     // Método para crear una película
     public void crearPelicula(String titulo, String categoria, String etiquetas, int restriccionEdad, int duracion, String paisOrigen) {
         try {
