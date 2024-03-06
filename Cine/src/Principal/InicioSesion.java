@@ -125,6 +125,7 @@ public class InicioSesion extends javax.swing.JFrame {
         } else if (rol.equals("Administrador")) {
             // Rol es Administrador
             System.out.println("Bienvenido Administrador");
+            Menu menu = new Menu();
         } else {
             // mensaje de error en caso de no encontrar datos
             System.out.println("Usuario o contraseña incorrectos");

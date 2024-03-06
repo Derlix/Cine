@@ -8,10 +8,10 @@ import javax.swing.JPanel;
 import utils.BaseDatos;
 
 public class Menu extends javax.swing.JFrame {
-    BaseDatos DB;
+    BaseDatos basedatos;
     public Menu() {
         initComponents();
-        this.DB = new BaseDatos();
+        this.basedatos = new BaseDatos();
 
         initAlternComponents();
     }
@@ -28,29 +28,29 @@ public class Menu extends javax.swing.JFrame {
         setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/icono_usuario.png")));
         
         
-        btnListar.setBackground(Color.WHITE);
+        btnAdministrarSedes.setBackground(Color.WHITE);
         Image icono_listar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/buscar_usuario.png"));
         icono_listar = icono_listar.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-        btnListar.setIcon(new ImageIcon(icono_listar));
-        btnListar.setForeground(new Color(0, 0, 200));
+        btnAdministrarSedes.setIcon(new ImageIcon(icono_listar));
+        btnAdministrarSedes.setForeground(new Color(0, 0, 200));
         
-        btnCrear.setBackground(Color.WHITE);
+        btnGestionPeliculas.setBackground(Color.WHITE);
         Image icono_crear = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/crear_usuario.png"));
         icono_crear = icono_crear.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-        btnCrear.setIcon(new ImageIcon(icono_crear));
-        btnCrear.setForeground(new Color(0, 200, 0));
+        btnGestionPeliculas.setIcon(new ImageIcon(icono_crear));
+        btnGestionPeliculas.setForeground(new Color(0, 200, 0));
         
-        btnEditar.setBackground(Color.WHITE);
+        btnGestionPersonas.setBackground(Color.WHITE);
         Image icono_editar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/editar_usuario.png"));
         icono_editar = icono_editar.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-        btnEditar.setIcon(new ImageIcon(icono_editar));
-        btnEditar.setForeground(new Color(250, 195, 30));
+        btnGestionPersonas.setIcon(new ImageIcon(icono_editar));
+        btnGestionPersonas.setForeground(new Color(250, 195, 30));
         
-        btnEliminar.setBackground(Color.WHITE);
+        btnProgramarFunciones.setBackground(Color.WHITE);
         Image icono_eliminar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/eliminar_usuario.png"));
         icono_eliminar = icono_eliminar.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-        btnEliminar.setIcon(new ImageIcon(icono_eliminar));
-        btnEliminar.setForeground(new Color(200, 0, 0));
+        btnProgramarFunciones.setIcon(new ImageIcon(icono_eliminar));
+        btnProgramarFunciones.setForeground(new Color(200, 0, 0));
         
         revalidate();
     }
@@ -61,52 +61,61 @@ public class Menu extends javax.swing.JFrame {
 
         contentMenu = new javax.swing.JPanel();
         etqImagen = new javax.swing.JLabel();
-        btnListar = new javax.swing.JButton();
-        btnCrear = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
+        btnAdministrarSedes = new javax.swing.JButton();
+        btnGestionPeliculas = new javax.swing.JButton();
+        btnGestionPersonas = new javax.swing.JButton();
+        btnProgramarFunciones = new javax.swing.JButton();
+        btnAnalisisReporte = new javax.swing.JButton();
         contentPrincipal = new javax.swing.JPanel();
         etqTemporal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        contentMenu.setBackground(new java.awt.Color(153, 204, 255));
+        contentMenu.setBackground(new java.awt.Color(255, 255, 255));
 
         etqImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        btnListar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnListar.setText("  LISTAR");
-        btnListar.setFocusable(false);
-        btnListar.addActionListener(new java.awt.event.ActionListener() {
+        btnAdministrarSedes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAdministrarSedes.setText("ADMINISTRACION DE SEDES");
+        btnAdministrarSedes.setFocusable(false);
+        btnAdministrarSedes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnListarActionPerformed(evt);
+                btnAdministrarSedesActionPerformed(evt);
             }
         });
 
-        btnCrear.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnCrear.setText("   CREAR");
-        btnCrear.setFocusable(false);
-        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+        btnGestionPeliculas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnGestionPeliculas.setText("GESTION DE PELICULAS");
+        btnGestionPeliculas.setFocusable(false);
+        btnGestionPeliculas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearActionPerformed(evt);
+                btnGestionPeliculasActionPerformed(evt);
             }
         });
 
-        btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnEditar.setText("  EDITAR");
-        btnEditar.setFocusable(false);
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+        btnGestionPersonas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnGestionPersonas.setText("GESTION DE PERSONAS");
+        btnGestionPersonas.setFocusable(false);
+        btnGestionPersonas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
+                btnGestionPersonasActionPerformed(evt);
             }
         });
 
-        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnEliminar.setText("   ELIMINAR");
-        btnEliminar.setFocusable(false);
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnProgramarFunciones.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnProgramarFunciones.setText("PROGRAMACION DE FUNCIONES");
+        btnProgramarFunciones.setFocusable(false);
+        btnProgramarFunciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                btnProgramarFuncionesActionPerformed(evt);
+            }
+        });
+
+        btnAnalisisReporte.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAnalisisReporte.setText("ANALISIS Y REPORTES");
+        btnAnalisisReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnalisisReporteActionPerformed(evt);
             }
         });
 
@@ -116,28 +125,37 @@ public class Menu extends javax.swing.JFrame {
             contentMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contentMenuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(contentMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(etqImagen, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(btnCrear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnListar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addGroup(contentMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAnalisisReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAdministrarSedes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentMenuLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(contentMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnGestionPeliculas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnGestionPersonas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnProgramarFunciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentMenuLayout.createSequentialGroup()
+                                .addComponent(etqImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(15, 15, 15)))))
+                .addContainerGap())
         );
         contentMenuLayout.setVerticalGroup(
             contentMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contentMenuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(etqImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(btnListar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(etqImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAdministrarSedes, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGestionPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGestionPersonas, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                .addComponent(btnProgramarFunciones, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAnalisisReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(128, Short.MAX_VALUE))
         );
 
         contentPrincipal.setBackground(new java.awt.Color(153, 204, 255));
@@ -150,7 +168,7 @@ public class Menu extends javax.swing.JFrame {
         contentPrincipal.setLayout(contentPrincipalLayout);
         contentPrincipalLayout.setHorizontalGroup(
             contentPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(etqTemporal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
+            .addComponent(etqTemporal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
         );
         contentPrincipalLayout.setVerticalGroup(
             contentPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,23 +193,10 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
-        //Crear el contenedor nuevo
-        PanelListar nuevo = new PanelListar(DB);
-        //Ajustar el tamaño del nuevo contenedor
-        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
-        nuevo.setSize(contentPrincipal.getSize());
-        //Eliminar el contenido del contentPrincipal
-        contentPrincipal.removeAll();
-        //Agregar dentro de contentPrincipal el contenedor nuevo
-        contentPrincipal.add(nuevo);
-        //repaint(); Re pintamos 
-        repaint();
-        revalidate();
-    }//GEN-LAST:event_btnListarActionPerformed
-
-    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        Panelcrear nuevo = new Panelcrear(DB);
+    private void btnAdministrarSedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarSedesActionPerformed
+        
+         nuevo = new (basedatos);
+        
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
@@ -203,10 +208,12 @@ public class Menu extends javax.swing.JFrame {
         //repaint(); Re pintamos 
         repaint();
         revalidate();
-    }//GEN-LAST:event_btnCrearActionPerformed
+    }//GEN-LAST:event_btnAdministrarSedesActionPerformed
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        Paneleditar nuevo = new Paneleditar(DB);
+    private void btnGestionPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionPeliculasActionPerformed
+        
+         nuevo = new (basedatos);
+        
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
         nuevo.setSize(contentPrincipal.getSize());
@@ -217,11 +224,14 @@ public class Menu extends javax.swing.JFrame {
         //repaint(); Re pintamos 
         repaint();
         revalidate();
-    }//GEN-LAST:event_btnEditarActionPerformed
+    }//GEN-LAST:event_btnGestionPeliculasActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        PanelEliminar nuevo = new PanelEliminar(DB);
-         //Ajustar el tamaño del nuevo contenedor
+    private void btnGestionPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionPersonasActionPerformed
+        
+         nuevo = new (basedatos);
+        
+        
+        //Ajustar el tamaño del nuevo contenedor
         nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
         nuevo.setSize(contentPrincipal.getSize());
         //Eliminar el contenido del contentPrincipal
@@ -231,13 +241,49 @@ public class Menu extends javax.swing.JFrame {
         //repaint(); Re pintamos 
         repaint();
         revalidate();
-    }//GEN-LAST:event_btnEliminarActionPerformed
+    }//GEN-LAST:event_btnGestionPersonasActionPerformed
+
+    private void btnProgramarFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProgramarFuncionesActionPerformed
+        
+         nuevo = new (basedatos);
+        
+        
+        //Ajustar el tamaño del nuevo contenedor
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        nuevo.setSize(contentPrincipal.getSize());
+        //Eliminar el contenido del contentPrincipal
+        contentPrincipal.removeAll();
+        //Agregar dentro de contentPrincipal el contenedor nuevo
+        contentPrincipal.add(nuevo);
+        //repaint(); Re pintamos 
+        repaint();
+        revalidate();
+    }//GEN-LAST:event_btnProgramarFuncionesActionPerformed
+
+    private void btnAnalisisReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalisisReporteActionPerformed
+        
+        
+         nuevo = new (basedatos);
+        
+        
+        //Ajustar el tamaño del nuevo contenedor
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        nuevo.setSize(contentPrincipal.getSize());
+        //Eliminar el contenido del contentPrincipal
+        contentPrincipal.removeAll();
+        //Agregar dentro de contentPrincipal el contenedor nuevo
+        contentPrincipal.add(nuevo);
+        //repaint(); Re pintamos 
+        repaint();
+        revalidate();
+    }//GEN-LAST:event_btnAnalisisReporteActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCrear;
-    private javax.swing.JButton btnEditar;
-    private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnListar;
+    private javax.swing.JButton btnAdministrarSedes;
+    private javax.swing.JButton btnAnalisisReporte;
+    private javax.swing.JButton btnGestionPeliculas;
+    private javax.swing.JButton btnGestionPersonas;
+    private javax.swing.JButton btnProgramarFunciones;
     private javax.swing.JPanel contentMenu;
     private javax.swing.JPanel contentPrincipal;
     private javax.swing.JLabel etqImagen;
