@@ -40,16 +40,19 @@ CREATE TABLE Peliculas (
     Etiquetas VARCHAR(255),
     Restriccion_Edad INT,
     Duracion INT,
-    Pais_Origen VARCHAR(255)
+    Pais_Origen VARCHAR(255),
+    Imagen BLOB,
+    Total_Ventas INT DEFAULT 0
 );
 
 -- Insertar datos de ejemplo en la tabla de Películas
-INSERT INTO Peliculas (Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen) VALUES
-('Titanic', 'Romance', 'Drama, Histórico', 12, 195, 'EEUU'),
-('The Matrix', 'Ciencia Ficción', 'Acción, Cyberpunk', 16, 136, 'EEUU'),
-('The Godfather', 'Crimen', 'Drama, Mafia', 18, 175, 'EEUU'),
-('Inception', 'Ciencia Ficción', 'Aventura, Misterio', 14, 148, 'EEUU'),
-('The Shawshank Redemption', 'Drama', 'Crimen, Inspirador', 16, 142, 'EEUU');
+INSERT INTO Peliculas (Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen, Imagen) VALUES
+('Titanic', 'Romance', 'Drama, Histórico', 12, 195, 'EEUU', LOAD_FILE('/ruta/a/Titanic.jpg')),
+('The Matrix', 'Ciencia Ficción', 'Acción, Cyberpunk', 16, 136, 'EEUU', LOAD_FILE('/ruta/a/TheMatrix.jpg')), 
+('The Godfather', 'Crimen', 'Drama, Mafia', 18, 175, 'EEUU', LOAD_FILE('/ruta/a/TheGodfather.jpg')),
+('Inception', 'Ciencia Ficción', 'Aventura, Misterio', 14, 148, 'EEUU', LOAD_FILE('/ruta/a/Inception.jpg')),
+('The Shawshank Redemption', 'Drama', 'Crimen, Inspirador', 16, 142, 'EEUU', LOAD_FILE('/ruta/a/TheShawshankRedemption.jpg'));
+
 
 -- Crear la tabla de Funciones
 CREATE TABLE Funciones (
@@ -90,22 +93,24 @@ INSERT INTO Usuarios (Nombre_Usuario, Contraseña, Rol) VALUES
 -- Crear la tabla de Ventas
 CREATE TABLE Ventas (
     ID_Venta INT PRIMARY KEY AUTO_INCREMENT,
+    ID_Pelicula INT,
     ID_Funcion INT,
     ID_Usuario INT,
     Cantidad_Boletos INT,
     Total_Venta DECIMAL(10, 2),
     Fecha_Venta DATE,
+    FOREIGN KEY (ID_Pelicula) REFERENCES Peliculas(ID_Pelicula),
     FOREIGN KEY (ID_Funcion) REFERENCES Funciones(ID_Funcion),
     FOREIGN KEY (ID_Usuario) REFERENCES Usuarios(ID_Usuario)
 );
 
 -- Insertar datos de ejemplo en la tabla de Ventas
-INSERT INTO Ventas (ID_Funcion, ID_Usuario, Cantidad_Boletos, Total_Venta, Fecha_Venta) VALUES
-(1, 1, 2, 30.00, '2024-03-01'),
-(2, 2, 3, 45.00, '2024-03-01'),
-(3, 3, 1, 15.00, '2024-03-02'),
-(4, 4, 2, 30.00, '2024-03-02'),
-(5, 5, 2, 40.00, '2024-03-03');
+INSERT INTO Ventas (ID_Pelicula, ID_Funcion, ID_Usuario, Cantidad_Boletos, Total_Venta, Fecha_Venta) VALUES
+(1, 1, 1, 2, 30.00, '2024-03-01'),
+(2, 2, 2, 3, 45.00, '2024-03-01'),
+(3, 3, 3, 1, 15.00, '2024-03-02'),
+(4, 4, 4, 2, 30.00, '2024-03-02'),
+(5, 5, 5, 2, 40.00, '2024-03-03');
 
 -- Crear la tabla de Asientos
 CREATE TABLE Asientos (
@@ -175,3 +180,114 @@ INSERT INTO Anuncios (Contenido, Fecha_Publicacion, Duracion, ID_Pelicula) VALUE
 ('Ven a disfrutar de nuestra promoción.', '2024-03-02', 15, 2),
 ('La mejor experiencia en CineMax.', '2024-03-01', 20, 3);
 
+-- Crear la tabla de Logins
+CREATE TABLE Logins (
+    ID_Login INT PRIMARY KEY AUTO_INCREMENT,
+    ID_Usuario INT,
+    Hora_Login DATETIME,
+    Rol ENUM('Cajero', 'Administrador'),
+    FOREIGN KEY (ID_Usuario) REFERENCES Usuarios(ID_Usuario)
+);
+
+
+-- Trigger para verificar la restricción de edad en las ventas
+DELIMITER //
+CREATE TRIGGER verificar_restriccion_edad
+BEFORE INSERT ON Ventas
+FOR EACH ROW
+BEGIN
+    DECLARE edad_usuario INT;
+    DECLARE usuario_id INT;
+    SELECT Restriccion_Edad INTO edad_usuario FROM Peliculas WHERE ID_Pelicula = NEW.ID_Pelicula;
+    SELECT ID_Usuario INTO usuario_id FROM Ventas WHERE ID_Venta = NEW.ID_Venta;
+    
+    IF edad_usuario > (SELECT DATEDIFF(CURRENT_DATE(), (SELECT Fecha_Nacimiento FROM Usuarios WHERE ID_Usuario = usuario_id)) / 365) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El usuario no cumple con la restricción de edad para esta película.';
+    END IF;
+END//
+DELIMITER ;
+
+-- Trigger para actualizar el total de ventas después de insertar una venta
+DELIMITER //
+CREATE TRIGGER actualizar_total_ventas
+AFTER INSERT ON Ventas
+FOR EACH ROW
+BEGIN
+    UPDATE Peliculas SET Total_Ventas = Total_Ventas + NEW.Cantidad_Boletos WHERE ID_Pelicula = NEW.ID_Pelicula;
+END//
+DELIMITER ;
+
+-- Trigger para actualizar el total de ventas después de eliminar una venta
+DELIMITER //
+CREATE TRIGGER actualizar_total_ventas_eliminar
+AFTER DELETE ON Ventas
+FOR EACH ROW
+BEGIN
+    UPDATE Peliculas SET Total_Ventas = Total_Ventas - OLD.Cantidad_Boletos WHERE ID_Pelicula = OLD.ID_Pelicula;
+END//
+DELIMITER ;
+
+-- Trigger para guardar el usuario logueado y la hora de login
+DELIMITER //
+CREATE TRIGGER registrar_login
+AFTER INSERT ON Usuarios
+FOR EACH ROW
+BEGIN
+    INSERT INTO Logins (ID_Usuario, Hora_Login, Rol) VALUES (NEW.ID_Usuario, NOW(), NEW.Rol);
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER reducir_inventario_asientos
+AFTER INSERT ON Ventas
+FOR EACH ROW
+BEGIN
+    DECLARE cantidad_boletos_vendidos INT;
+    DECLARE id_sala_venta INT;
+
+    -- Obtener la cantidad de boletos vendidos en esta venta
+    SELECT NEW.Cantidad_Boletos INTO cantidad_boletos_vendidos;
+
+    -- Obtener el ID de la sala correspondiente a la función vendida
+    SELECT ID_Sala INTO id_sala_venta FROM Funciones WHERE ID_Funcion = NEW.ID_Funcion;
+
+    -- Actualizar el inventario de asientos disponibles en la sala
+    UPDATE Asientos
+    SET Estado = 'En_Uso'
+    WHERE ID_Asiento IN (
+        SELECT ID_Asiento
+        FROM (
+            SELECT ID_Asiento
+            FROM Asientos
+            WHERE ID_Sala = id_sala_venta AND Estado = 'Disponible'
+            LIMIT cantidad_boletos_vendidos
+        ) AS subquery
+    );
+END;
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER generar_reporte_venta
+AFTER INSERT ON Ventas
+FOR EACH ROW
+BEGIN
+    DECLARE tipo_reporte VARCHAR(10);
+    DECLARE contenido_reporte VARCHAR(255);
+
+    -- Determinar el tipo de reporte según la cantidad de boletos vendidos
+    IF NEW.Cantidad_Boletos <= 3 THEN
+        SET tipo_reporte = 'Diario';
+    ELSEIF NEW.Cantidad_Boletos <= 10 THEN
+        SET tipo_reporte = 'Semanal';
+    ELSE
+        SET tipo_reporte = 'Mensual';
+    END IF;
+
+    -- Construir el contenido del reporte
+    SET contenido_reporte = CONCAT('Venta realizada el ', DATE_FORMAT(NEW.Fecha_Venta, '%Y-%m-%d'), ' por el usuario ID ', NEW.ID_Usuario, ' con ', NEW.Cantidad_Boletos, ' boletos.');
+
+    -- Insertar el reporte en la tabla de Reportes
+    INSERT INTO Reportes (Tipo, Contenido, Fecha_Generacion, ID_Usuario)
+    VALUES (tipo_reporte, contenido_reporte, CURRENT_DATE(), NEW.ID_Usuario);
+END //
+DELIMITER ;

@@ -1,5 +1,6 @@
 package Principal;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -194,7 +195,7 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdministrarSedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarSedesActionPerformed
-        
+        /*
          nuevo = new (basedatos);
         
         
@@ -208,26 +209,29 @@ public class Menu extends javax.swing.JFrame {
         //repaint(); Re pintamos 
         repaint();
         revalidate();
+        */
     }//GEN-LAST:event_btnAdministrarSedesActionPerformed
 
     private void btnGestionPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionPeliculasActionPerformed
         
-         nuevo = new (basedatos);
-        
-        //Ajustar el tamaño del nuevo contenedor
-        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
-        nuevo.setSize(contentPrincipal.getSize());
-        //Eliminar el contenido del contentPrincipal
+        CrearPelicula nuevaPelicula = new CrearPelicula(basedatos);
+    
+        // Eliminar todos los componentes del panel contentPrincipal
         contentPrincipal.removeAll();
-        //Agregar dentro de contentPrincipal el contenedor nuevo
-        contentPrincipal.add(nuevo);
-        //repaint(); Re pintamos 
-        repaint();
-        revalidate();
+
+        // Establecer el layout del panel contentPrincipal
+        contentPrincipal.setLayout(new BorderLayout());
+
+        // Agregar la instancia de CrearPelicula al panel contentPrincipal
+        contentPrincipal.add(nuevaPelicula, BorderLayout.CENTER);
+
+        // Validar y repintar el panel contentPrincipal
+        contentPrincipal.revalidate();
+        contentPrincipal.repaint();
     }//GEN-LAST:event_btnGestionPeliculasActionPerformed
 
     private void btnGestionPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionPersonasActionPerformed
-        
+        /*
          nuevo = new (basedatos);
         
         
@@ -241,10 +245,11 @@ public class Menu extends javax.swing.JFrame {
         //repaint(); Re pintamos 
         repaint();
         revalidate();
+        */
     }//GEN-LAST:event_btnGestionPersonasActionPerformed
 
     private void btnProgramarFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProgramarFuncionesActionPerformed
-        
+        /*
          nuevo = new (basedatos);
         
         
@@ -258,10 +263,11 @@ public class Menu extends javax.swing.JFrame {
         //repaint(); Re pintamos 
         repaint();
         revalidate();
+        */
     }//GEN-LAST:event_btnProgramarFuncionesActionPerformed
 
     private void btnAnalisisReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalisisReporteActionPerformed
-        
+        /*
         
          nuevo = new (basedatos);
         
@@ -276,8 +282,9 @@ public class Menu extends javax.swing.JFrame {
         //repaint(); Re pintamos 
         repaint();
         revalidate();
+        */
     }//GEN-LAST:event_btnAnalisisReporteActionPerformed
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdministrarSedes;
     private javax.swing.JButton btnAnalisisReporte;

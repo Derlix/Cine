@@ -1,5 +1,11 @@
 package utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -302,11 +308,47 @@ public class BaseDatos {
 
     
     
-    // Método para crear una película
-    public void crearPelicula(String titulo, String categoria, String etiquetas, int restriccionEdad, int duracion, String paisOrigen) {
+    // Método para crear una película con imagen
+    public void crearPeliculaConImagen(String titulo, String categoria, String etiquetas, int restriccionEdad, int duracion, String paisOrigen, String rutaImagen) {
+        try {
+            conexion.setAutoCommit(false); // Desactivar el modo de autoconfirmación
+
+            try (PreparedStatement statement = conexion.prepareStatement("INSERT INTO Peliculas (Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen, Imagen) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+                statement.setString(1, titulo);
+                statement.setString(2, categoria);
+                statement.setString(3, etiquetas);
+                statement.setInt(4, restriccionEdad);
+                statement.setInt(5, duracion);
+                statement.setString(6, paisOrigen);
+
+                File file = new File(rutaImagen);
+                try (FileInputStream fis = new FileInputStream(file)) {
+                    statement.setBinaryStream(7, fis, (int) file.length());
+                    statement.executeUpdate();
+                    conexion.commit();
+                    System.out.println("Película creada correctamente con imagen.");
+                } catch (IOException e) {
+                    System.out.println("Error al leer la imagen:");
+                    e.printStackTrace();
+                    conexion.rollback();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error al crear la película con imagen:");
+                ex.printStackTrace();
+                conexion.rollback();
+            } finally {
+                conexion.setAutoCommit(true); // Restaurar el modo de autoconfirmación
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    public void crearPelicula(String titulo, String categoria, String etiquetas, int restriccionEdad, int duracion, String paisOrigen, byte[] imagen) {
         try {
             conexion.setAutoCommit(false);
-            String query = "INSERT INTO Peliculas (Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Peliculas (Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen, Imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setString(1, titulo);
             statement.setString(2, categoria);
@@ -314,11 +356,12 @@ public class BaseDatos {
             statement.setInt(4, restriccionEdad);
             statement.setInt(5, duracion);
             statement.setString(6, paisOrigen);
+            statement.setBytes(7, imagen); // Utilizar setBytes para la imagen
             statement.executeUpdate();
             conexion.commit();
-            System.out.println("Película creada correctamente.");
+            System.out.println("Película creada correctamente con imagen.");
         } catch (SQLException ex) {
-            System.out.println("Error al crear la película:");
+            System.out.println("Error al crear la película con imagen:");
             System.out.println(ex.getMessage());
             try {
                 conexion.rollback();
@@ -329,7 +372,6 @@ public class BaseDatos {
         }
     }
 
-    // Método para obtener todas las películas
     public List<Pelicula> obtenerTodasLasPeliculas() {
         List<Pelicula> peliculas = new ArrayList<>();
         try {
@@ -344,39 +386,14 @@ public class BaseDatos {
                 int restriccionEdad = resultSet.getInt("Restriccion_Edad");
                 int duracion = resultSet.getInt("Duracion");
                 String paisOrigen = resultSet.getString("Pais_Origen");
-                Pelicula pelicula = new Pelicula(id, titulo, categoria, etiquetas, restriccionEdad, duracion, paisOrigen);
-                peliculas.add(pelicula);
-                System.out.println(pelicula.getTitulo());
+                byte[] imagenBytes = resultSet.getBytes("Imagen"); // Utilizar getBytes para la imagen
+                peliculas.add(new Pelicula(id, titulo, categoria, etiquetas, restriccionEdad, duracion, paisOrigen, imagenBytes));
             }
         } catch (SQLException ex) {
-            System.out.println("Error al obtener las películas:");
+            System.out.println("Error al obtener las películas con imagen:");
             System.out.println(ex.getMessage());
         }
         return peliculas;
-    }
-
-    // Método para obtener una película por su ID
-    public Pelicula obtenerPeliculaPorId(int idPelicula) {
-        Pelicula pelicula = null;
-        try {
-            String query = "SELECT * FROM Peliculas WHERE ID_Pelicula = ?";
-            PreparedStatement statement = conexion.prepareStatement(query);
-            statement.setInt(1, idPelicula);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                String titulo = resultSet.getString("Titulo");
-                String categoria = resultSet.getString("Categoria");
-                String etiquetas = resultSet.getString("Etiquetas");
-                int restriccionEdad = resultSet.getInt("Restriccion_Edad");
-                int duracion = resultSet.getInt("Duracion");
-                String paisOrigen = resultSet.getString("Pais_Origen");
-                pelicula = new Pelicula(idPelicula, titulo, categoria, etiquetas, restriccionEdad, duracion, paisOrigen);
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al obtener la película por ID:");
-            System.out.println(ex.getMessage());
-        }
-        return pelicula;
     }
 
     // Método para actualizar una película
@@ -436,4 +453,5 @@ public class BaseDatos {
             }
         }
     }
+
 }
