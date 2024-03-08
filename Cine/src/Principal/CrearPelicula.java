@@ -300,6 +300,7 @@ public class CrearPelicula extends javax.swing.JFrame {
                     campoDuracion.setText("");
                     campoOrigen.setText("");
                     campo_imagen.setText("");
+                    previsualizacion.setText("");
                 }
             } else {
                 // Si no se ha seleccionado una imagen, mostrar un mensaje de error
