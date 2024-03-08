@@ -427,6 +427,11 @@ public class BaseDatos {
             }
         }
     }
+    
+    public Connection getConnection() {
+        return conexion;
+    }
+
 
     // Método para eliminar una película por su ID
     public void eliminarPelicula(int idPelicula) {

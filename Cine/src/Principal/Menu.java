@@ -4,9 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 import utils.BaseDatos;
+
+
+
+
+
 
 public class Menu extends javax.swing.JFrame {
     BaseDatos basedatos;
@@ -267,6 +280,23 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProgramarFuncionesActionPerformed
 
     private void btnAnalisisReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalisisReporteActionPerformed
+        /*
+         String direccion = "C:\\Users\\chris\\OneDrive\\Escritorio\\Cine\\Cine\\src\\utils\\Reporte.jrxml";
+    try {
+        // Compilar el archivo JRXML
+        JasperReport reporteJasper = JasperCompileManager.compileReport(direccion);
+
+        // Llenar el reporte con datos
+        JasperPrint mostrarReport = JasperFillManager.fillReport(reporteJasper, null, basedatos.getConnection());
+
+        // Mostrar el reporte
+        JasperViewer.viewReport(mostrarReport);
+    } catch (JRException ex) {
+        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        */
+        
+        
         /*
         
          nuevo = new (basedatos);
