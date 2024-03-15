@@ -8,12 +8,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import net.sf.jasperreports.engine.JRException;
+/*import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
+import net.sf.jasperreports.view.JasperViewer;*/
 import utils.BaseDatos;
 
 
@@ -36,28 +36,28 @@ public class Menu extends javax.swing.JFrame {
         setVisible(true);
         setResizable(false);
         
-        Image icono_registro = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/icono_usuario.png"));
-        icono_registro = icono_registro.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-        etqImagen.setIcon(new ImageIcon(icono_registro));
+        //Image icono_registro = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/icono_usuario.png"));
+        //icono_registro = icono_registro.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        //etqImagen.setIcon(new ImageIcon(icono_registro));
         setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/icono_usuario.png")));
         
         
         btnAdministrarSedes.setBackground(Color.WHITE);
-        Image icono_listar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/buscar_usuario.png"));
-        icono_listar = icono_listar.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-        btnAdministrarSedes.setIcon(new ImageIcon(icono_listar));
+        //Image icono_listar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/buscar_usuario.png"));
+        //icono_listar = icono_listar.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        //btnAdministrarSedes.setIcon(new ImageIcon(icono_listar));
         btnAdministrarSedes.setForeground(new Color(0, 0, 200));
         
         btnGestionPeliculas.setBackground(Color.WHITE);
-        Image icono_crear = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/crear_usuario.png"));
-        icono_crear = icono_crear.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-        btnGestionPeliculas.setIcon(new ImageIcon(icono_crear));
+        //Image icono_crear = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/crear_usuario.png"));
+        //icono_crear = icono_crear.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+        //btnGestionPeliculas.setIcon(new ImageIcon(icono_crear));
         btnGestionPeliculas.setForeground(new Color(0, 200, 0));
         
         btnGestionPersonas.setBackground(Color.WHITE);
-        Image icono_editar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/editar_usuario.png"));
-        icono_editar = icono_editar.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-        btnGestionPersonas.setIcon(new ImageIcon(icono_editar));
+        //Image icono_editar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/editar_usuario.png"));
+        //icono_editar = icono_editar.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        //btnGestionPersonas.setIcon(new ImageIcon(icono_editar));
         btnGestionPersonas.setForeground(new Color(250, 195, 30));
         
         btnProgramarFunciones.setBackground(Color.WHITE);

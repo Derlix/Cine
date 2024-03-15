@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BaseDatos {
@@ -309,46 +310,47 @@ public class BaseDatos {
     
     
     // Método para crear una película con imagen
-    public void crearPeliculaConImagen(String titulo, String categoria, String etiquetas, int restriccionEdad, int duracion, String paisOrigen, String rutaImagen) {
-        try {
-            conexion.setAutoCommit(false); // Desactivar el modo de autoconfirmación
-
-            try (PreparedStatement statement = conexion.prepareStatement("INSERT INTO Peliculas (Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen, Imagen) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
-                statement.setString(1, titulo);
-                statement.setString(2, categoria);
-                statement.setString(3, etiquetas);
-                statement.setInt(4, restriccionEdad);
-                statement.setInt(5, duracion);
-                statement.setString(6, paisOrigen);
-
-                File file = new File(rutaImagen);
-                try (FileInputStream fis = new FileInputStream(file)) {
-                    statement.setBinaryStream(7, fis, (int) file.length());
-                    statement.executeUpdate();
-                    conexion.commit();
-                    System.out.println("Película creada correctamente con imagen.");
-                } catch (IOException e) {
-                    System.out.println("Error al leer la imagen:");
-                    e.printStackTrace();
-                    conexion.rollback();
+    public Pelicula buscarPeliculaPorId(String idPelicula) {
+        Pelicula pelicula = null;
+        String query = "SELECT * FROM Peliculas WHERE ID_Pelicula = ? AND Estado = 'Activo'"; // Modificado
+        try (PreparedStatement statement = conexion.prepareStatement(query)) {
+            statement.setString(1, idPelicula);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("ID_Pelicula");
+                    String titulo = resultSet.getString("Titulo");
+                    String categoria = resultSet.getString("Categoria");
+                    String etiquetas = resultSet.getString("Etiquetas");
+                    int restriccionEdad = resultSet.getInt("Restriccion_Edad");
+                    int duracion = resultSet.getInt("Duracion");
+                    String paisOrigen = resultSet.getString("Pais_Origen");
+                    byte[] imagen = resultSet.getBytes("Imagen");
+                    String rutaImagen = resultSet.getString("Ruta_Imagen");
+                    String fechaInicio = resultSet.getString("Fecha_Inicio");
+                    String fechaFin = resultSet.getString("Fecha_Fin");
+                    String estado = resultSet.getString("Estado");
+                    pelicula = new Pelicula(id, titulo, categoria, etiquetas, restriccionEdad, duracion, paisOrigen, imagen, rutaImagen, fechaInicio, fechaFin, estado); // Modificado
                 }
-            } catch (SQLException ex) {
-                System.out.println("Error al crear la película con imagen:");
-                ex.printStackTrace();
-                conexion.rollback();
-            } finally {
-                conexion.setAutoCommit(true); // Restaurar el modo de autoconfirmación
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.out.println("Error al buscar la película por ID: " + ex.getMessage());
         }
+        return pelicula;
     }
 
 
-    public void crearPelicula(String titulo, String categoria, String etiquetas, int restriccionEdad, int duracion, String paisOrigen, byte[] imagen) {
+    
+    
+    public void crearPelicula(String titulo, String categoria, String etiquetas, int restriccionEdad, int duracion, String paisOrigen, byte[] imagen, String rutaImagen, Date fechaInicio, Date fechaFin, String estado) {
         try {
-            conexion.setAutoCommit(false);
-            String query = "INSERT INTO Peliculas (Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen, Imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            File imagenFile = new File(rutaImagen);
+            FileInputStream fis = new FileInputStream(imagenFile);
+            byte[] imagenBytes = new byte[(int) imagenFile.length()];
+            fis.read(imagenBytes);
+            fis.close();
+
+            // Insertar la película en la base de datos junto con la imagen
+            String query = "INSERT INTO Peliculas (Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen, Imagen, Ruta_Imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setString(1, titulo);
             statement.setString(2, categoria);
@@ -356,26 +358,20 @@ public class BaseDatos {
             statement.setInt(4, restriccionEdad);
             statement.setInt(5, duracion);
             statement.setString(6, paisOrigen);
-            statement.setBytes(7, imagen); // Utilizar setBytes para la imagen
+            statement.setBytes(7, imagenBytes);
+            statement.setString(8, rutaImagen);
             statement.executeUpdate();
-            conexion.commit();
-            System.out.println("Película creada correctamente con imagen.");
-        } catch (SQLException ex) {
-            System.out.println("Error al crear la película con imagen:");
-            System.out.println(ex.getMessage());
-            try {
-                conexion.rollback();
-            } catch (SQLException e) {
-                System.out.println("Error al hacer rollback:");
-                System.out.println(e.getMessage());
-            }
+        } catch (SQLException | IOException ex) {
+            System.out.println("Error al crear la pelicula:");
+            ex.printStackTrace();
         }
     }
+
 
     public List<Pelicula> obtenerTodasLasPeliculas() {
         List<Pelicula> peliculas = new ArrayList<>();
         try {
-            String query = "SELECT * FROM Peliculas";
+            String query = "SELECT ID_Pelicula, Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen, Ruta_Imagen, Fecha_Inicio, Fecha_Fin, Estado FROM Peliculas WHERE Estado = 'Activo'"; // Modificado
             PreparedStatement statement = conexion.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -386,21 +382,26 @@ public class BaseDatos {
                 int restriccionEdad = resultSet.getInt("Restriccion_Edad");
                 int duracion = resultSet.getInt("Duracion");
                 String paisOrigen = resultSet.getString("Pais_Origen");
-                byte[] imagenBytes = resultSet.getBytes("Imagen"); // Utilizar getBytes para la imagen
-                peliculas.add(new Pelicula(id, titulo, categoria, etiquetas, restriccionEdad, duracion, paisOrigen, imagenBytes));
+                String rutaImagen = resultSet.getString("Ruta_Imagen");
+                String fechaInicio = resultSet.getString("Fecha_Inicio");
+                String fechaFin = resultSet.getString("Fecha_Fin");
+                String estado = resultSet.getString("Estado");
+                peliculas.add(new Pelicula(id, titulo, categoria, etiquetas, restriccionEdad, duracion, paisOrigen, null, rutaImagen, fechaInicio, fechaFin, estado)); // Modificado
             }
         } catch (SQLException ex) {
-            System.out.println("Error al obtener las películas con imagen:");
+            System.out.println("Error al obtener las películas:");
             System.out.println(ex.getMessage());
         }
         return peliculas;
     }
 
+
+
     // Método para actualizar una película
-    public void actualizarPelicula(int idPelicula, String titulo, String categoria, String etiquetas, int restriccionEdad, int duracion, String paisOrigen) {
+    public void actualizarPelicula(int idPelicula, String titulo, String categoria, String etiquetas, int restriccionEdad, int duracion, String paisOrigen, String rutaImagen, String estado) {
         try {
             conexion.setAutoCommit(false);
-            String query = "UPDATE Peliculas SET Titulo = ?, Categoria = ?, Etiquetas = ?, Restriccion_Edad = ?, Duracion = ?, Pais_Origen = ? WHERE ID_Pelicula = ?";
+            String query = "UPDATE Peliculas SET Titulo = ?, Categoria = ?, Etiquetas = ?, Restriccion_Edad = ?, Duracion = ?, Pais_Origen = ?, Ruta_Imagen = ?, Estado = ? WHERE ID_Pelicula = ? AND Estado = 'Activo'"; // Modificado
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setString(1, titulo);
             statement.setString(2, categoria);
@@ -408,13 +409,16 @@ public class BaseDatos {
             statement.setInt(4, restriccionEdad);
             statement.setInt(5, duracion);
             statement.setString(6, paisOrigen);
-            statement.setInt(7, idPelicula);
+            statement.setString(7, rutaImagen);
+            statement.setString(8, estado);
+            statement.setInt(9, idPelicula);
+
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
                 conexion.commit();
                 System.out.println("Película actualizada correctamente.");
             } else {
-                System.out.println("No se encontró la película con ID: " + idPelicula);
+                System.out.println("No se encontró la película con ID: " + idPelicula + " o la película está inactiva.");
             }
         } catch (SQLException ex) {
             System.out.println("Error al actualizar la película:");
@@ -427,10 +431,8 @@ public class BaseDatos {
             }
         }
     }
-    
-    public Connection getConnection() {
-        return conexion;
-    }
+
+
 
 
     // Método para eliminar una película por su ID
@@ -443,12 +445,12 @@ public class BaseDatos {
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
                 conexion.commit();
-                System.out.println("Película eliminada correctamente.");
+                System.out.println("Pelicula eliminada correctamente.");
             } else {
                 System.out.println("No se encontró la película con ID: " + idPelicula);
             }
         } catch (SQLException ex) {
-            System.out.println("Error al eliminar la película:");
+            System.out.println("Error al eliminar la pelicula:");
             System.out.println(ex.getMessage());
             try {
                 conexion.rollback();
