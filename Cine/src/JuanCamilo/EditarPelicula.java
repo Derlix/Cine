@@ -1,4 +1,4 @@
-package Principal;
+package JuanCamilo;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -14,15 +14,15 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import utils.BaseDatos;
+import utils.BaseDatosJuanPrincipal;
 import utils.Pelicula;
 
 public class EditarPelicula extends javax.swing.JFrame {
-    BaseDatos basedatos;
+    BaseDatosJuanPrincipal basedatos;
     JFileChooser archivoSeleccionado;
 
     public EditarPelicula() {
-        this.basedatos = new BaseDatos();
+        this.basedatos = new BaseDatosJuanPrincipal();
         initComponents();
         initAltersComponens();
         setLocationRelativeTo(null);
@@ -233,7 +233,7 @@ public class EditarPelicula extends javax.swing.JFrame {
                             .addComponent(etq_fecha_fin)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(campoFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panel_pelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
             .addGroup(layout.createSequentialGroup()
@@ -246,7 +246,7 @@ public class EditarPelicula extends javax.swing.JFrame {
                         .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_editar_pelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -1,16 +1,16 @@
 
-package Principal;
+package JuanCamilo;
 
 
-import utils.BaseDatos;
+import utils.BaseDatosJuanPrincipal;
 import utils.Pelicula;
 
 
 public class EliminarPelicula extends javax.swing.JFrame {
 
-    BaseDatos basedatos;
-    
-    public EliminarPelicula() {
+    BaseDatosJuanPrincipal basedatos;
+
+    public EliminarPelicula(BaseDatosJuanPrincipal basedatos) {
         initComponents();
         this.basedatos = basedatos;
         setLocationRelativeTo(null);
@@ -77,7 +77,7 @@ public class EliminarPelicula extends javax.swing.JFrame {
         etq_fecha_fin.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         etq_fecha_fin.setText("F. FIN: ");
 
-        btn_cancelar.setBackground(new java.awt.Color(255, 0, 0));
+        btn_cancelar.setBackground(new java.awt.Color(0, 255, 0));
         btn_cancelar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btn_cancelar.setForeground(new java.awt.Color(255, 255, 255));
         btn_cancelar.setText("CANCELAR");
@@ -87,7 +87,7 @@ public class EliminarPelicula extends javax.swing.JFrame {
             }
         });
 
-        btn_eliminar.setBackground(new java.awt.Color(0, 255, 0));
+        btn_eliminar.setBackground(new java.awt.Color(255, 0, 0));
         btn_eliminar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btn_eliminar.setForeground(new java.awt.Color(255, 255, 255));
         btn_eliminar.setText("ELIMINAR");
@@ -145,12 +145,11 @@ public class EliminarPelicula extends javax.swing.JFrame {
                                 .addComponent(etq_origen)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(campoOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
                         .addComponent(btn_cancelar)
                         .addGap(89, 89, 89)
-                        .addComponent(btn_eliminar)
-                        .addGap(34, 34, 34)))
+                        .addComponent(btn_eliminar)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -160,7 +159,7 @@ public class EliminarPelicula extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_buscar)
                     .addComponent(campo_id_pelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
@@ -187,11 +186,11 @@ public class EliminarPelicula extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(etq_origen)
                     .addComponent(campoOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17))
+                .addGap(26, 26, 26))
         );
 
         pack();
@@ -199,7 +198,6 @@ public class EliminarPelicula extends javax.swing.JFrame {
 
     private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
         try {
-            
             String idPelicula = campo_id_pelicula.getText();
             if (!idPelicula.isEmpty()) {
                 Pelicula pelicula = basedatos.buscarPeliculaPorId(idPelicula);
@@ -222,18 +220,51 @@ public class EliminarPelicula extends javax.swing.JFrame {
         campoEtiquetas.setText("");
         campoOrigen.setText("");
         campo_id_pelicula.setText("");
+        campoFechaInicio.setText("");
+        campoFechaFin.setText("");
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-        
+        try {
+            String idPelicula = campo_id_pelicula.getText();
+            if (!idPelicula.isEmpty()) {
+                int id = Integer.parseInt(idPelicula);
+                basedatos.eliminarPelicula(id);
+                limpiarCampos();
+                System.out.println("Pelicula eliminada correctamente.");
+            } else {
+                System.out.println("Error: Debes ingresar el ID de la película.");
+            }
+        } catch (NumberFormatException ex) {
+            System.out.println("Error: Ingresa un ID de película válido.");
+        }
     }//GEN-LAST:event_btn_eliminarActionPerformed
     
+    private void limpiarCampos() {
+        campoTitulo.setText("");
+        campoCategoria.setText("");
+        campoEtiquetas.setText("");
+        campoOrigen.setText("");
+        campo_id_pelicula.setText("");
+        campoFechaInicio.setText("");
+        campoFechaFin.setText("");
+    }
+    
+    private void initAlterComponens() {
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
+    }
     
     private void mostrarDatosPelicula(Pelicula pelicula) {
         campoTitulo.setText(pelicula.getTitulo());
         campoCategoria.setText(pelicula.getCategoria());
         campoEtiquetas.setText(pelicula.getEtiquetas());
         campoOrigen.setText(pelicula.getPaisOrigen());
+        campoFechaInicio.setText(pelicula.getFechaInicio());
+        campoFechaFin.setText(pelicula.getFechaFin());
     }
 
 
@@ -257,4 +288,6 @@ public class EliminarPelicula extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
+
+    
 }

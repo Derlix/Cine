@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import utils.Pelicula;
 import java.util.List;
-import utils.BaseDatos;
+import utils.BaseDatosJuanPrincipal;
 
 public class MostrarPeliculas extends javax.swing.JFrame {
-    private BaseDatos basedatos;
+    private BaseDatosJuanPrincipal basedatos;
 
-    public MostrarPeliculas(BaseDatos basedatos) {
+    public MostrarPeliculas(BaseDatosJuanPrincipal basedatos) {
         this.basedatos = basedatos;
         initComponents();
         mostrarPeliculasEnTabla();

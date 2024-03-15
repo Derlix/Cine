@@ -1,5 +1,6 @@
 package Principal;
 
+import JuanCamilo.CrearPelicula;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,7 +15,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;*/
-import utils.BaseDatos;
+import utils.BaseDatosJuanPrincipal;
 
 
 
@@ -22,10 +23,10 @@ import utils.BaseDatos;
 
 
 public class Menu extends javax.swing.JFrame {
-    BaseDatos basedatos;
+    BaseDatosJuanPrincipal basedatos;
     public Menu() {
         initComponents();
-        this.basedatos = new BaseDatos();
+        this.basedatos = new BaseDatosJuanPrincipal();
 
         initAlternComponents();
     }

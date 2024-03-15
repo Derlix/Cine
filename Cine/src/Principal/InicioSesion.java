@@ -1,13 +1,13 @@
 
 package Principal;
 
-import utils.BaseDatos;
+import utils.BaseDatosJuanPrincipal;
 
 public class InicioSesion extends javax.swing.JFrame {
 
-    private BaseDatos baseDatos;
+    private BaseDatosJuanPrincipal baseDatos;
 
-    public InicioSesion(BaseDatos baseDatos) {
+    public InicioSesion(BaseDatosJuanPrincipal baseDatos) {
         this.baseDatos = baseDatos;
     }
 

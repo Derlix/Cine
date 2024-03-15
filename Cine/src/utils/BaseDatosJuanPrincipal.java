@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class BaseDatos {
+public class BaseDatosJuanPrincipal {
     
     Connection conexion;
     Statement manipularDB;
     
-    public BaseDatos(){
+    public BaseDatosJuanPrincipal(){
         String hostname = "localhost";
         String puerto = "3306";
         String databasename = "bd_cine";
@@ -439,18 +439,39 @@ public class BaseDatos {
     public void eliminarPelicula(int idPelicula) {
         try {
             conexion.setAutoCommit(false);
-            String query = "DELETE FROM Peliculas WHERE ID_Pelicula = ?";
-            PreparedStatement statement = conexion.prepareStatement(query);
-            statement.setInt(1, idPelicula);
-            int rowsDeleted = statement.executeUpdate();
+
+            // Eliminar registros dependientes en la tabla Ventas
+            String deleteVentasQuery = "DELETE FROM ventas WHERE ID_Pelicula = ?";
+            PreparedStatement deleteVentasStatement = conexion.prepareStatement(deleteVentasQuery);
+            deleteVentasStatement.setInt(1, idPelicula);
+            deleteVentasStatement.executeUpdate();
+
+            // Eliminar registros dependientes en la tabla Funciones
+            String deleteFuncionesQuery = "DELETE FROM funciones WHERE ID_Pelicula = ?";
+            PreparedStatement deleteFuncionesStatement = conexion.prepareStatement(deleteFuncionesQuery);
+            deleteFuncionesStatement.setInt(1, idPelicula);
+            deleteFuncionesStatement.executeUpdate();
+
+            // Eliminar registros dependientes en la tabla Anuncios
+            String deleteAnunciosQuery = "DELETE FROM anuncios WHERE ID_Pelicula = ?";
+            PreparedStatement deleteAnunciosStatement = conexion.prepareStatement(deleteAnunciosQuery);
+            deleteAnunciosStatement.setInt(1, idPelicula);
+            deleteAnunciosStatement.executeUpdate();
+
+            // Eliminar la película de la tabla Peliculas
+            String deletePeliculaQuery = "DELETE FROM peliculas WHERE ID_Pelicula = ?";
+            PreparedStatement deletePeliculaStatement = conexion.prepareStatement(deletePeliculaQuery);
+            deletePeliculaStatement.setInt(1, idPelicula);
+            int rowsDeleted = deletePeliculaStatement.executeUpdate();
+
             if (rowsDeleted > 0) {
                 conexion.commit();
-                System.out.println("Pelicula eliminada correctamente.");
+                System.out.println("Película eliminada correctamente.");
             } else {
                 System.out.println("No se encontró la película con ID: " + idPelicula);
             }
         } catch (SQLException ex) {
-            System.out.println("Error al eliminar la pelicula:");
+            System.out.println("Error al eliminar la película:");
             System.out.println(ex.getMessage());
             try {
                 conexion.rollback();
@@ -461,4 +482,5 @@ public class BaseDatos {
         }
     }
 
+    
 }

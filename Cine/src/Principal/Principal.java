@@ -1,16 +1,18 @@
 package Principal;
 
 
-import utils.BaseDatos;
+import JuanCamilo.EliminarPelicula;
+import utils.BaseDatosJuanPrincipal;
 
 public class Principal {
     
     public static void main(String[] args) {
-        BaseDatos basedatos = new BaseDatos();
+        BaseDatosJuanPrincipal basedatos = new BaseDatosJuanPrincipal();
         //CrearPelicula ventana = new CrearPelicula(basedatos);
         //Menu ventana02 =new Menu();
-        EditarPelicula ventanaeditar= new EditarPelicula();
-        //MostrarPeliculas ventana00 = new MostrarPeliculas(basedatos);
+        //EditarPelicula ventanaeditar= new EditarPelicula();
+        MostrarPeliculas ventana00 = new MostrarPeliculas(basedatos);
+        EliminarPelicula ventanaprueba = new EliminarPelicula(basedatos);
         
     }
 }

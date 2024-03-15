@@ -1,4 +1,4 @@
-package Principal;
+package JuanCamilo;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -13,14 +13,14 @@ import java.text.SimpleDateFormat;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import utils.BaseDatos;
+import utils.BaseDatosJuanPrincipal;
 
 public class CrearPelicula extends javax.swing.JFrame {
-    BaseDatos basedatos;
+    BaseDatosJuanPrincipal basedatos;
     JFileChooser archivoSeleccionado;
     private boolean imagenSeleccionada = false;
 
-    public CrearPelicula(BaseDatos basedatos) {
+    public CrearPelicula(BaseDatosJuanPrincipal basedatos) {
         this.basedatos = basedatos;
         initComponents();
         setLocationRelativeTo(null);
