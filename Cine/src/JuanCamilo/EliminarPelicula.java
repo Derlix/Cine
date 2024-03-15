@@ -14,6 +14,7 @@ public class EliminarPelicula extends javax.swing.JFrame {
         initComponents();
         this.basedatos = basedatos;
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 

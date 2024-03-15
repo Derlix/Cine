@@ -9,10 +9,10 @@ public class Principal {
     public static void main(String[] args) {
         BaseDatosJuanPrincipal basedatos = new BaseDatosJuanPrincipal();
         //CrearPelicula ventana = new CrearPelicula(basedatos);
-        //Menu ventana02 =new Menu();
+        MenuAdministrador ventana02 =new MenuAdministrador(basedatos);
         //EditarPelicula ventanaeditar= new EditarPelicula();
-        MostrarPeliculas ventana00 = new MostrarPeliculas(basedatos);
-        EliminarPelicula ventanaprueba = new EliminarPelicula(basedatos);
+        //MostrarPeliculas ventana00 = new MostrarPeliculas(basedatos);
+        //EliminarPelicula ventanaprueba = new EliminarPelicula(basedatos);
         
     }
 }

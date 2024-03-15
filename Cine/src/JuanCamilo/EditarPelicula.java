@@ -21,7 +21,7 @@ public class EditarPelicula extends javax.swing.JFrame {
     BaseDatosJuanPrincipal basedatos;
     JFileChooser archivoSeleccionado;
 
-    public EditarPelicula() {
+    public EditarPelicula(BaseDatosJuanPrincipal baseDatosJuanPrincipal) {
         this.basedatos = new BaseDatosJuanPrincipal();
         initComponents();
         initAltersComponens();
@@ -29,6 +29,7 @@ public class EditarPelicula extends javax.swing.JFrame {
         archivoSeleccionado = new JFileChooser();
         setVisible(true);
         Object idPelicula = null;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     @SuppressWarnings("unchecked")

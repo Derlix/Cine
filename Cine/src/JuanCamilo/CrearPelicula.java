@@ -25,6 +25,7 @@ public class CrearPelicula extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         archivoSeleccionado = new JFileChooser();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 

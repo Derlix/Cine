@@ -1,6 +1,7 @@
 package Principal;
 
 import JuanCamilo.CrearPelicula;
+import JuanCamilo.GestionPeliculas;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,9 +23,9 @@ import utils.BaseDatosJuanPrincipal;
 
 
 
-public class Menu extends javax.swing.JFrame {
+public class MenuAdministrador extends javax.swing.JFrame {
     BaseDatosJuanPrincipal basedatos;
-    public Menu() {
+    public MenuAdministrador(BaseDatosJuanPrincipal baseDatosJuanPrincipal) {
         initComponents();
         this.basedatos = new BaseDatosJuanPrincipal();
 
@@ -228,7 +229,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnGestionPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionPeliculasActionPerformed
         
-        CrearPelicula nuevaPelicula = new CrearPelicula(basedatos);
+        GestionPeliculas ventana = new GestionPeliculas(basedatos);
     
         // Eliminar todos los componentes del panel contentPrincipal
         contentPrincipal.removeAll();
@@ -237,7 +238,7 @@ public class Menu extends javax.swing.JFrame {
         contentPrincipal.setLayout(new BorderLayout());
 
         // Agregar la instancia de CrearPelicula al panel contentPrincipal
-        contentPrincipal.add(nuevaPelicula, BorderLayout.CENTER);
+        contentPrincipal.add(ventana, BorderLayout.CENTER);
 
         // Validar y repintar el panel contentPrincipal
         contentPrincipal.revalidate();
