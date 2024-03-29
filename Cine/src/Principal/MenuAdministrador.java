@@ -1,5 +1,6 @@
 package Principal;
 
+import ChristianArias.Analisis_Y_Reportes;
 import JuanCamilo.CrearPelicula;
 import JuanCamilo.GestionPeliculas;
 import java.awt.BorderLayout;
@@ -17,15 +18,14 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;*/
 import utils.BaseDatosJuanPrincipal;
-
-
-
-
+import utils.BaseDatos_ChristianArias;
 
 
 public class MenuAdministrador extends javax.swing.JFrame {
+    
     BaseDatosJuanPrincipal basedatos;
-    public MenuAdministrador(BaseDatosJuanPrincipal baseDatosJuanPrincipal) {
+    
+    public MenuAdministrador(BaseDatosJuanPrincipal basedatos) {
         initComponents();
         this.basedatos = new BaseDatosJuanPrincipal();
 
@@ -41,13 +41,13 @@ public class MenuAdministrador extends javax.swing.JFrame {
         //Image icono_registro = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/icono_usuario.png"));
         //icono_registro = icono_registro.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         //etqImagen.setIcon(new ImageIcon(icono_registro));
-        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/icono_usuario.png")));
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/adminsede.png")));
         
         
         btnAdministrarSedes.setBackground(Color.WHITE);
-        //Image icono_listar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/buscar_usuario.png"));
-        //icono_listar = icono_listar.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-        //btnAdministrarSedes.setIcon(new ImageIcon(icono_listar));
+        Image icono_listar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/adminsede.png"));
+        icono_listar = icono_listar.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        btnAdministrarSedes.setIcon(new ImageIcon(icono_listar));
         btnAdministrarSedes.setForeground(new Color(0, 0, 200));
         
         btnGestionPeliculas.setBackground(Color.WHITE);
@@ -63,7 +63,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
         btnGestionPersonas.setForeground(new Color(250, 195, 30));
         
         btnProgramarFunciones.setBackground(Color.WHITE);
-        Image icono_eliminar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/eliminar_usuario.png"));
+        Image icono_eliminar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/adminsede.png"));
         icono_eliminar = icono_eliminar.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
         btnProgramarFunciones.setIcon(new ImageIcon(icono_eliminar));
         btnProgramarFunciones.setForeground(new Color(200, 0, 0));
@@ -282,39 +282,32 @@ public class MenuAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProgramarFuncionesActionPerformed
 
     private void btnAnalisisReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalisisReporteActionPerformed
-        /*
-         String direccion = "C:\\Users\\chris\\OneDrive\\Escritorio\\Cine\\Cine\\src\\utils\\Reporte.jrxml";
-    try {
-        // Compilar el archivo JRXML
-        JasperReport reporteJasper = JasperCompileManager.compileReport(direccion);
+        BaseDatos_ChristianArias db = new BaseDatos_ChristianArias();
+        Analisis_Y_Reportes ventana = new Analisis_Y_Reportes(db);
 
-        // Llenar el reporte con datos
-        JasperPrint mostrarReport = JasperFillManager.fillReport(reporteJasper, null, basedatos.getConnection());
+         
 
-        // Mostrar el reporte
-        JasperViewer.viewReport(mostrarReport);
-    } catch (JRException ex) {
-        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-    }
-        */
-        
-        
-        /*
-        
-         nuevo = new (basedatos);
-        
-        
-        //Ajustar el tamaño del nuevo contenedor
-        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
-        nuevo.setSize(contentPrincipal.getSize());
-        //Eliminar el contenido del contentPrincipal
+    
+        // Eliminar todos los componentes del panel contentPrincipal
         contentPrincipal.removeAll();
-        //Agregar dentro de contentPrincipal el contenedor nuevo
-        contentPrincipal.add(nuevo);
-        //repaint(); Re pintamos 
-        repaint();
-        revalidate();
+
+        // Establecer el layout del panel contentPrincipal
+        contentPrincipal.setLayout(new BorderLayout());
+
+        // Agregar la instancia de CrearPelicula al panel contentPrincipal
+        contentPrincipal.add(ventana, BorderLayout.CENTER);
+
+        // Validar y repintar el panel contentPrincipal
+        contentPrincipal.revalidate();
+        contentPrincipal.repaint();
+        
+        
+        /*
+         
         */
+        
+        
+        
     }//GEN-LAST:event_btnAnalisisReporteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

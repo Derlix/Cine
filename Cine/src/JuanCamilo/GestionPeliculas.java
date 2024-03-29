@@ -18,8 +18,6 @@ import utils.Pelicula;
 public class GestionPeliculas extends javax.swing.JPanel {
     BaseDatosJuanPrincipal  basedatos; 
    
-    
-    
     public GestionPeliculas(BaseDatosJuanPrincipal basedatos) {
         this.basedatos = new BaseDatosJuanPrincipal();
         initComponents();
