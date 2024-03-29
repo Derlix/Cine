@@ -32,4 +32,6 @@ public class BaseDatos_ChristianArias extends BaseDatosJuanPrincipal{
         return conexion;
     }
     
+    
+    
 }
