@@ -1,6 +1,3 @@
-CREATE DATABASE bd_cine;
-USE bd_cine;
-
 -- Crear la tabla de Cines
 CREATE TABLE Cines (
     ID_Cine INT PRIMARY KEY AUTO_INCREMENT,
@@ -45,16 +42,22 @@ CREATE TABLE Peliculas (
     Duracion INT,
     Pais_Origen VARCHAR(255),
     Imagen BLOB,
-    Total_Ventas INT DEFAULT 0
+    Ruta_Imagen VARCHAR(255),
+    Fecha_Inicio DATE,
+    Fecha_Fin DATE,
+    Estado ENUM('Activo', 'Inactivo') DEFAULT 'Activo'
 );
 
+
 -- Insertar datos de ejemplo en la tabla de Películas
-INSERT INTO Peliculas (Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen, Imagen) VALUES
-('Titanic', 'Romance', 'Drama, Histórico', 12, 195, 'EEUU', LOAD_FILE('/ruta/a/Titanic.jpg')),
-('The Matrix', 'Ciencia Ficción', 'Acción, Cyberpunk', 16, 136, 'EEUU', LOAD_FILE('/ruta/a/TheMatrix.jpg')), 
-('The Godfather', 'Crimen', 'Drama, Mafia', 18, 175, 'EEUU', LOAD_FILE('/ruta/a/TheGodfather.jpg')),
-('Inception', 'Ciencia Ficción', 'Aventura, Misterio', 14, 148, 'EEUU', LOAD_FILE('/ruta/a/Inception.jpg')),
-('The Shawshank Redemption', 'Drama', 'Crimen, Inspirador', 16, 142, 'EEUU', LOAD_FILE('/ruta/a/TheShawshankRedemption.jpg'));
+INSERT INTO Peliculas (Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen, Imagen, Ruta_Imagen, Fecha_Inicio, Fecha_Fin, Estado) VALUES
+('Titanic', 'Romance', 'Drama, Histórico', 12, 195, 'EEUU', LOAD_FILE('/ruta/a/Titanic.jpg'), '/ruta/a/Titanic.jpg', '2024-01-01', '2024-01-31', 'Activo'),
+('The Matrix', 'Ciencia Ficción', 'Acción, Cyberpunk', 16, 136, 'EEUU', LOAD_FILE('/ruta/a/TheMatrix.jpg'), '/ruta/a/TheMatrix.jpg', '2024-02-01', '2024-02-29', 'Activo'), 
+('The Godfather', 'Crimen', 'Drama, Mafia', 18, 175, 'EEUU', LOAD_FILE('/ruta/a/TheGodfather.jpg'), '/ruta/a/TheGodfather.jpg', '2024-03-01', '2024-03-31', 'Activo'),
+('Inception', 'Ciencia Ficción', 'Aventura, Misterio', 14, 148, 'EEUU', LOAD_FILE('/ruta/a/Inception.jpg'), '/ruta/a/Inception.jpg', '2024-04-01', '2024-04-30', 'Activo'),
+('The Shawshank Redemption', 'Drama', 'Crimen, Inspirador', 16, 142, 'EEUU', LOAD_FILE('/ruta/a/TheShawshankRedemption.jpg'), '/ruta/a/TheShawshankRedemption.jpg', '2024-05-01', '2024-05-31', 'Activo');
+
+
 
 
 -- Crear la tabla de Funciones
@@ -216,8 +219,29 @@ CREATE TRIGGER actualizar_total_ventas
 AFTER INSERT ON Ventas
 FOR EACH ROW
 BEGIN
-    UPDATE Peliculas SET Total_Ventas = Total_Ventas + NEW.Cantidad_Boletos WHERE ID_Pelicula = NEW.ID_Pelicula;
-END//
+    DECLARE cantidad_boletos_vendidos INT;
+    DECLARE id_sala_venta INT;
+
+    -- Obtener la cantidad de boletos vendidos en esta venta
+    SET cantidad_boletos_vendidos = NEW.Cantidad_Boletos;
+
+    -- Obtener el ID de la sala correspondiente a la función vendida
+    SET id_sala_venta = (SELECT ID_Sala FROM Funciones WHERE ID_Funcion = NEW.ID_Funcion);
+
+    -- Actualizar el inventario de asientos disponibles en la sala
+    UPDATE Asientos
+    SET Estado = 'En_Uso'
+    WHERE ID_Asiento IN (
+        SELECT ID_Asiento
+        FROM (
+            SELECT ID_Asiento
+            FROM Asientos
+            WHERE ID_Sala = id_sala_venta AND Estado = 'Disponible'
+            LIMIT cantidad_boletos_vendidos
+        ) AS subquery
+    );
+END;
+//
 DELIMITER ;
 
 -- Trigger para actualizar el total de ventas después de eliminar una venta
@@ -226,7 +250,19 @@ CREATE TRIGGER actualizar_total_ventas_eliminar
 AFTER DELETE ON Ventas
 FOR EACH ROW
 BEGIN
-    UPDATE Peliculas SET Total_Ventas = Total_Ventas - OLD.Cantidad_Boletos WHERE ID_Pelicula = OLD.ID_Pelicula;
+    -- Actualizar el inventario de asientos disponibles en la sala
+    UPDATE Asientos
+    SET Estado = 'Disponible'
+    WHERE ID_Asiento IN (
+        SELECT ID_Asiento
+        FROM (
+            SELECT ID_Asiento
+            FROM Ventas
+            JOIN Funciones ON Ventas.ID_Funcion = Funciones.ID_Funcion
+            JOIN Asientos ON Funciones.ID_Sala = Asientos.ID_Sala
+            WHERE Ventas.ID_Venta = OLD.ID_Venta
+        ) AS subquery
+    );
 END//
 DELIMITER ;
 
@@ -294,3 +330,49 @@ BEGIN
     VALUES (tipo_reporte, contenido_reporte, CURRENT_DATE(), NEW.ID_Usuario);
 END //
 DELIMITER ;
+DELIMITER //
+
+CREATE TRIGGER update_ruta_imagen_trigger
+BEFORE UPDATE ON Peliculas
+FOR EACH ROW
+BEGIN
+    IF OLD.Imagen != NEW.Imagen THEN
+        SET NEW.Ruta_Imagen = CONCAT('/ruta/a/', NEW.Titulo, '.jpg'); -- Cambiar '/ruta/a/' por la ruta real
+    END IF;
+END//
+
+DELIMITER ;
+DELIMITER //
+CREATE TRIGGER tr_pelicula_estado BEFORE INSERT ON Peliculas
+FOR EACH ROW
+BEGIN
+    IF NEW.Fecha_Fin <= CURDATE() THEN
+        SET NEW.Estado = 'Inactivo';
+    END IF;
+END$$
+DELIMITER ;
+-- Trigger para eliminar las relaciones y funciones antes de eliminar un cine
+DELIMITER //
+CREATE TRIGGER eliminar_relaciones_cine
+BEFORE DELETE ON Cines
+FOR EACH ROW
+BEGIN
+    -- Eliminar de la tabla Ventas
+    DELETE FROM Ventas WHERE ID_Funcion IN (SELECT ID_Funcion FROM Funciones WHERE ID_Sala IN (SELECT ID_Sala FROM Salas_Cine WHERE ID_Cine = OLD.ID_Cine));
+
+    -- Eliminar de la tabla Cajeros_Cine
+    DELETE FROM Cajeros_Cine WHERE ID_Cine = OLD.ID_Cine;
+
+    -- Eliminar de la tabla Funciones
+    DELETE FROM Funciones WHERE ID_Sala IN (SELECT ID_Sala FROM Salas_Cine WHERE ID_Cine = OLD.ID_Cine);
+
+    -- Eliminar de la tabla Asientos
+    DELETE FROM Asientos WHERE ID_Sala IN (SELECT ID_Sala FROM Salas_Cine WHERE ID_Cine = OLD.ID_Cine);
+
+    -- Eliminar de la tabla Salas_Cine
+    DELETE FROM Salas_Cine WHERE ID_Cine = OLD.ID_Cine;
+END;
+//
+DELIMITER ;
+
+

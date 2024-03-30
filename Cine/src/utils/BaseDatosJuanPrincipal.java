@@ -144,6 +144,38 @@ public class BaseDatosJuanPrincipal {
     public void eliminarCine(int idCine) {
         try {
             conexion.setAutoCommit(false);
+
+            // Eliminar de la tabla Ventas
+            String queryVentas = "DELETE FROM Ventas WHERE ID_Funcion IN (SELECT ID_Funcion FROM Funciones WHERE ID_Sala IN (SELECT ID_Sala FROM Salas_Cine WHERE ID_Cine = ?))";
+            PreparedStatement statementVentas = conexion.prepareStatement(queryVentas);
+            statementVentas.setInt(1, idCine);
+            statementVentas.executeUpdate();
+
+            // Eliminar de la tabla Funciones
+            String queryFunciones = "DELETE FROM Funciones WHERE ID_Sala IN (SELECT ID_Sala FROM Salas_Cine WHERE ID_Cine = ?)";
+            PreparedStatement statementFunciones = conexion.prepareStatement(queryFunciones);
+            statementFunciones.setInt(1, idCine);
+            statementFunciones.executeUpdate();
+
+            // Eliminar de la tabla Asientos
+            String queryAsientos = "DELETE FROM Asientos WHERE ID_Sala IN (SELECT ID_Sala FROM Salas_Cine WHERE ID_Cine = ?)";
+            PreparedStatement statementAsientos = conexion.prepareStatement(queryAsientos);
+            statementAsientos.setInt(1, idCine);
+            statementAsientos.executeUpdate();
+
+            // Eliminar de la tabla Cajero_Cine
+            String queryCajeroCine = "DELETE FROM Cajeros_Cine WHERE ID_Cine = ?";
+            PreparedStatement statementCajeroCine = conexion.prepareStatement(queryCajeroCine);
+            statementCajeroCine.setInt(1, idCine);
+            statementCajeroCine.executeUpdate();
+
+            // Eliminar de la tabla Sala_Cine
+            String querySalaCine = "DELETE FROM Salas_Cine WHERE ID_Cine = ?";
+            PreparedStatement statementSalaCine = conexion.prepareStatement(querySalaCine);
+            statementSalaCine.setInt(1, idCine);
+            statementSalaCine.executeUpdate();
+
+            // Eliminar de la tabla Cines
             String query = "DELETE FROM Cines WHERE ID_Cine = ?";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setInt(1, idCine);
@@ -165,6 +197,9 @@ public class BaseDatosJuanPrincipal {
             }
         }
     }
+
+
+
     // Método para crear un usuario
     public void crearUsuario(String nombreUsuario, String contraseña, String rol) {
         try {
@@ -337,9 +372,36 @@ public class BaseDatosJuanPrincipal {
         }
         return pelicula;
     }
-
-
     
+    public Pelicula buscarPelicula(String idPelicula) {
+        Pelicula pelicula = null;
+        String query = "SELECT * FROM Peliculas WHERE ID_Pelicula = ?";
+        try (PreparedStatement statement = conexion.prepareStatement(query)) {
+            statement.setString(1, idPelicula);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("ID_Pelicula");
+                    String titulo = resultSet.getString("Titulo");
+                    String categoria = resultSet.getString("Categoria");
+                    String etiquetas = resultSet.getString("Etiquetas");
+                    int restriccionEdad = resultSet.getInt("Restriccion_Edad");
+                    int duracion = resultSet.getInt("Duracion");
+                    String paisOrigen = resultSet.getString("Pais_Origen");
+                    byte[] imagen = resultSet.getBytes("Imagen");
+                    String rutaImagen = resultSet.getString("Ruta_Imagen");
+                    String fechaInicio = resultSet.getString("Fecha_Inicio");
+                    String fechaFin = resultSet.getString("Fecha_Fin");
+                    String estado = resultSet.getString("Estado");
+                    pelicula = new Pelicula(id, titulo, categoria, etiquetas, restriccionEdad, duracion, paisOrigen, imagen, rutaImagen, fechaInicio, fechaFin, estado); // Modificado
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al buscar la película por ID: " + ex.getMessage());
+        }
+        return pelicula;
+    }
+
+
     
     public void crearPelicula(String titulo, String categoria, String etiquetas, int restriccionEdad, int duracion, String paisOrigen, byte[] imagen, String rutaImagen, Date fechaInicio, Date fechaFin, String estado) {
         try {
@@ -371,7 +433,7 @@ public class BaseDatosJuanPrincipal {
     public List<Pelicula> obtenerTodasLasPeliculas() {
         List<Pelicula> peliculas = new ArrayList<>();
         try {
-            String query = "SELECT ID_Pelicula, Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen, Ruta_Imagen, Fecha_Inicio, Fecha_Fin, Estado FROM Peliculas WHERE Estado = 'Activo'"; // Modificado
+            String query = "SELECT ID_Pelicula, Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen, Ruta_Imagen, Fecha_Inicio, Fecha_Fin, Estado FROM Peliculas";
             PreparedStatement statement = conexion.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -466,12 +528,12 @@ public class BaseDatosJuanPrincipal {
 
             if (rowsDeleted > 0) {
                 conexion.commit();
-                System.out.println("Película eliminada correctamente.");
+                System.out.println("Pelicula eliminada correctamente.");
             } else {
                 System.out.println("No se encontró la película con ID: " + idPelicula);
             }
         } catch (SQLException ex) {
-            System.out.println("Error al eliminar la película:");
+            System.out.println("Error al eliminar la pelicula:");
             System.out.println(ex.getMessage());
             try {
                 conexion.rollback();
