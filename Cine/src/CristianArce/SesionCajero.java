@@ -3,8 +3,11 @@ package CristianArce;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.util.List;
+import utils.Cine;
+import utils.Asiento;
 import utils.CristianBD;
 import utils.Pelicula;
+import utils.Sala;
 
 public class SesionCajero extends javax.swing.JFrame {
     CristianBD bd;
@@ -18,7 +21,22 @@ public class SesionCajero extends javax.swing.JFrame {
     
     public void initAlterComponents(){
         
-     
+        List<Pelicula> lista_peliculas = bd.obtenerTodasLasPeliculas();
+        List<Asiento> lista_asientos = bd.obtenerAsientos();
+        List<Sala> lista_salas = bd.obtenerSalas();
+        
+        for (Pelicula pelicula : lista_peliculas) {
+             seleccionar_pelicula.addItem(pelicula.getTitulo());
+        }
+        
+        for (Asiento asiento : lista_asientos) {
+            seleccionar_asiento.addItem(String.valueOf(asiento.getNumero()));
+        }
+        
+        for (Sala sala : lista_salas) {
+            seleccionar_sala.addItem(sala.getNombre());
+        }
+  
     }
 
     @SuppressWarnings("unchecked")
@@ -43,8 +61,8 @@ public class SesionCajero extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         seleccionar_pelicula = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        seleccionar_sala = new javax.swing.JComboBox<>();
+        seleccionar_asiento = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
@@ -152,16 +170,13 @@ public class SesionCajero extends javax.swing.JFrame {
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
 
         seleccionar_pelicula.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        seleccionar_pelicula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(seleccionar_pelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 200, 40));
 
-        jComboBox3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel2.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, 200, 40));
+        seleccionar_sala.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel2.add(seleccionar_sala, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, 200, 40));
 
-        jComboBox4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel2.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 100, 200, 40));
+        seleccionar_asiento.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel2.add(seleccionar_asiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 100, 200, 40));
 
         jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 510, 140));
 
@@ -307,8 +322,6 @@ public class SesionCajero extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -335,7 +348,9 @@ public class SesionCajero extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<String> seleccionar_asiento;
     private javax.swing.JComboBox<String> seleccionar_pelicula;
+    private javax.swing.JComboBox<String> seleccionar_sala;
     // End of variables declaration//GEN-END:variables
 
     private List<Pelicula> obtenerTodasLasPeliculas() {
