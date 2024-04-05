@@ -15,12 +15,15 @@ public class SesionCajero extends javax.swing.JFrame {
         this.bd = bd;
         initComponents();
         initAlterComponents();
-        setVisible(true);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
     }
     
     public void initAlterComponents(){
+        
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
+        setTitle("Menu Cajero");
+        setResizable(true);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
         List<Pelicula> lista_peliculas = bd.obtenerTodasLasPeliculas();
         List<Asiento> lista_asientos = bd.obtenerAsientos();
