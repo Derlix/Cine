@@ -54,6 +54,12 @@ public class Analisis_Y_Reportes extends javax.swing.JPanel {
         icono_listar = icono_listar.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         boton_Generarreporte.setIcon(new ImageIcon(icono_listar));
         boton_Generarreporte.setForeground(new Color(0, 0, 200));
+        
+        boton_Informeventas.setBackground(Color.WHITE);
+        Image icono_informe = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/informeVentas.png"));
+        icono_listar = icono_informe.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        boton_Informeventas.setIcon(new ImageIcon(icono_listar));
+        boton_Informeventas.setForeground(new Color(0, 0, 200));
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -67,13 +73,16 @@ public class Analisis_Y_Reportes extends javax.swing.JPanel {
 
         boton_Generarreporte.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         boton_Generarreporte.setText("Generar Reporte");
+        boton_Generarreporte.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         boton_Generarreporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 boton_GenerarreporteActionPerformed(evt);
             }
         });
 
+        boton_Informeventas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         boton_Informeventas.setText("Informe de ventas");
+        boton_Informeventas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         boton_Informeventas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 boton_InformeventasActionPerformed(evt);
@@ -87,9 +96,9 @@ public class Analisis_Y_Reportes extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addComponent(boton_Generarreporte, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(boton_Informeventas)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(boton_Informeventas, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,7 +106,7 @@ public class Analisis_Y_Reportes extends javax.swing.JPanel {
                 .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(boton_Generarreporte, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(boton_Informeventas))
+                    .addComponent(boton_Informeventas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(345, Short.MAX_VALUE))
         );
 

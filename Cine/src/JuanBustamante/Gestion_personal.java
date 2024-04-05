@@ -1,22 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package JuanBustamante;
 
-/**
- *
- * @author Asus06
- */
-public class Gestion_personal extends javax.swing.JFrame {
+import utils.BaseDatosJuanBustamante;
 
-    /**
-     * Creates new form Gestion_personal
-     */
-    public Gestion_personal() {
+
+public class Gestion_personal extends javax.swing.JFrame {
+    BaseDatosJuanBustamante db;
+    public Gestion_personal(BaseDatosJuanBustamante db) {
         initComponents();
+        setVisible(true);
+        setLocationRelativeTo(null);
     }
-    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

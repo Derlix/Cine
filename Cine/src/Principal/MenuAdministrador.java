@@ -1,6 +1,7 @@
 package Principal;
 
 import ChristianArias.Analisis_Y_Reportes;
+import JuanBustamante.Gestion_personal;
 import JuanCamilo.CrearPelicula;
 import JuanCamilo.GestionPeliculas;
 import java.awt.BorderLayout;
@@ -18,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import utils.BaseDatosJuanBustamante;
 /*import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -411,8 +413,11 @@ public class MenuAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionPeliculasActionPerformed
 
     private void btnGestionPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionPersonasActionPerformed
-        /*
-         nuevo = new (basedatos);
+        BaseDatosJuanBustamante db = new BaseDatosJuanBustamante();
+        Gestion_personal nuevo = new Gestion_personal(db);
+        
+                /*
+        Gestion_personal nuevo = Gestion_personal new (basedatos);
         
         
         //Ajustar el tamaño del nuevo contenedor
@@ -426,6 +431,10 @@ public class MenuAdministrador extends javax.swing.JFrame {
         repaint();
         revalidate();
         */
+        
+        //Ajustar el tamaño del nuevo contenedor
+       
+        
     }//GEN-LAST:event_btnGestionPersonasActionPerformed
 
     private void btnProgramarFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProgramarFuncionesActionPerformed
