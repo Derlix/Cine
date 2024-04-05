@@ -161,7 +161,7 @@ public class Analisis_Y_Reportes extends javax.swing.JPanel {
     }//GEN-LAST:event_boton_GenerarreporteActionPerformed
 
     private void boton_InformeventasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_InformeventasActionPerformed
-        
+        InformeDetalladoVentas ventana = new InformeDetalladoVentas(db);
     }//GEN-LAST:event_boton_InformeventasActionPerformed
     
 
