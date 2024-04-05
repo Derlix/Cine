@@ -122,9 +122,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="jTextField3"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campo_ciudadActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="etq_pais">
       <Properties>
@@ -135,9 +132,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="jTextField4"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campo_paisActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btn_actualizarSede">
       <Properties>

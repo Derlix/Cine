@@ -56,20 +56,10 @@ public class Actualizar_sede extends javax.swing.JFrame {
         etq_ciudad.setText("Ciudad:");
 
         campo_ciudad.setText("jTextField3");
-        campo_ciudad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campo_ciudadActionPerformed(evt);
-            }
-        });
 
         etq_pais.setText("Pais:");
 
         campo_pais.setText("jTextField4");
-        campo_pais.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campo_paisActionPerformed(evt);
-            }
-        });
 
         btn_actualizarSede.setBackground(new java.awt.Color(0, 138, 55));
         btn_actualizarSede.setForeground(new java.awt.Color(255, 255, 255));
@@ -164,14 +154,6 @@ public class Actualizar_sede extends javax.swing.JFrame {
     private void campo_DireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campo_DireccionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campo_DireccionActionPerformed
-
-    private void campo_ciudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campo_ciudadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campo_ciudadActionPerformed
-
-    private void campo_paisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campo_paisActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campo_paisActionPerformed
 
     private void btn_eliminarSedeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarSedeActionPerformed
 

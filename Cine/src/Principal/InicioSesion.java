@@ -9,6 +9,9 @@ public class InicioSesion extends javax.swing.JFrame {
 
     public InicioSesion(BaseDatosJuanPrincipal baseDatos) {
         this.baseDatos = baseDatos;
+        initComponents();
+        setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
