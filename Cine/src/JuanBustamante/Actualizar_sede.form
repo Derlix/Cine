@@ -45,7 +45,7 @@
               <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btn_actualizarSede" max="32767" attributes="0"/>
-                  <Component id="btn_eliminarSede" pref="367" max="32767" attributes="0"/>
+                  <Component id="btn_CancelarSede" pref="367" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="73" max="32767" attributes="0"/>
           </Group>
@@ -75,7 +75,7 @@
               <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
               <Component id="btn_actualizarSede" min="-2" pref="34" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="btn_eliminarSede" min="-2" pref="37" max="-2" attributes="0"/>
+              <Component id="btn_CancelarSede" min="-2" pref="37" max="-2" attributes="0"/>
               <EmptySpace pref="42" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -93,12 +93,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="campo_NombreSede">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campo_NombreSedeActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="etq_Direccion">
       <Properties>
@@ -106,12 +100,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="campo_Direccion">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField2"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campo_DireccionActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="etq_ciudad">
       <Properties>
@@ -119,9 +107,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="campo_ciudad">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField3"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="etq_pais">
       <Properties>
@@ -129,9 +114,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="campo_pais">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField4"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btn_actualizarSede">
       <Properties>
@@ -147,15 +129,15 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_actualizarSedeActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_eliminarSede">
+    <Component class="javax.swing.JButton" name="btn_CancelarSede">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="66" green="66" red="ff" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="ELIMINAR SEDE"/>
+        <Property name="text" type="java.lang.String" value="CANCELAR"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_eliminarSedeActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_CancelarSedeActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

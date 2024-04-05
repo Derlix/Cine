@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseDatosJuanBustamante {
+public class BaseDatosJuanBustamante extends BaseDatosJuanPrincipal{
     
     Connection conexion;
     Statement manipularDB;
@@ -45,7 +45,7 @@ public class BaseDatosJuanBustamante {
     
     // En la clase BaseDatosJuanBustamante
     public void actualizarSede(int idSede, String nombreSede, String direccion, String ciudad, String pais) {
-        String query = "UPDATE cine SET Nombre_Cine = '" + nombreSede + "', Direccion = '" + direccion + "', Ciudad = '" + ciudad + "', Pais = '" + pais + "' WHERE ID_Cine = " + idSede;
+        String query = "UPDATE cines SET Nombre_Cine = '" + nombreSede + "', Direccion = '" + direccion + "', Ciudad = '" + ciudad + "', Pais = '" + pais + "' WHERE ID_Cine = " + idSede;
         try {
             manipularDB.executeUpdate(query);
             System.out.println("Sede actualizada exitosamente.");
@@ -54,5 +54,17 @@ public class BaseDatosJuanBustamante {
             System.out.println(ex.getMessage());
         }
     }
+    
+    public void eliminarSede(int idSede) {
+        String query = "DELETE FROM cines WHERE ID_Cine = " + idSede;
+        try {
+            manipularDB.executeUpdate(query);
+            System.out.println("Sede eliminada exitosamente.");
+        } catch (SQLException ex) {
+            System.out.println("Error al eliminar la sede:");
+            System.out.println(ex.getMessage());
+        }
+    }
+
 
 }
