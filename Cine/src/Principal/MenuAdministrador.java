@@ -10,10 +10,13 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 /*import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -34,6 +37,8 @@ public class MenuAdministrador extends javax.swing.JFrame {
         this.basedatos = new BaseDatosJuanPrincipal();
         eventosMouse();
         initAlternComponents();
+        
+       
     }
 
     public void initAlternComponents(){
@@ -82,6 +87,18 @@ public class MenuAdministrador extends javax.swing.JFrame {
         btnAnalisisReporte.setIcon(new ImageIcon(icono_analisisReporte));
         btnAnalisisReporte.setForeground(Color.BLACK);
         revalidate();
+        
+        
+        //Muestra un notificacion para confirmar si deseas cerrar la aplicacion
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                confirmarCerrarAplicacion();
+            }
+        });
+        
+        
     }
     
     
@@ -109,7 +126,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
         etq_roll = new javax.swing.JLabel();
         etq_imagenUser = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setBackground(new java.awt.Color(204, 51, 255));
 
         contentMenu.setBackground(new java.awt.Color(255, 255, 255));
@@ -556,7 +573,13 @@ public class MenuAdministrador extends javax.swing.JFrame {
             }
         });
     }
-    
+    private void confirmarCerrarAplicacion() {
+    int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de cerrar la aplicación?", "Cerrar aplicación", JOptionPane.YES_NO_OPTION);
+    if (opcion == JOptionPane.YES_OPTION) {
+        // Cerrar la aplicación
+        System.exit(0);
+    }
+}
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

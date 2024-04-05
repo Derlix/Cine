@@ -1,3 +1,6 @@
+CREATE DATABASE bd_cine;
+USE bd_cine;
+
 -- Crear la tabla de Cines
 CREATE TABLE Cines (
     ID_Cine INT PRIMARY KEY AUTO_INCREMENT,
