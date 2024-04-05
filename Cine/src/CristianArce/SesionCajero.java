@@ -2,6 +2,9 @@ package CristianArce;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import java.util.List;
+import utils.CristianBD;
+import utils.Pelicula;
 
 public class SesionCajero extends javax.swing.JFrame {
 
@@ -11,8 +14,11 @@ public class SesionCajero extends javax.swing.JFrame {
     }
     
     public void initAlterComponents(){
-       
-
+        
+       List<Pelicula> peliculas = obtenerTodasLasPeliculas();
+       for (Pelicula pelicula : peliculas) {
+        seleccionar_pelicula.addItem(pelicula.getTitulo());
+}
     }
 
     @SuppressWarnings("unchecked")
@@ -36,7 +42,7 @@ public class SesionCajero extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        seleccionar_pelicula = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
         jComboBox4 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
@@ -134,20 +140,20 @@ public class SesionCajero extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel5.setText("Seleccionar pelicula");
+        jLabel5.setText("Seleccionar asiento");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 200, 40));
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel4.setText("Seleccionar pelicula");
+        jLabel4.setText("Seleccionar sala");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 200, 40));
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel2.setText("Seleccionar pelicula");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
 
-        jComboBox1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 200, 40));
+        seleccionar_pelicula.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        seleccionar_pelicula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(seleccionar_pelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 200, 40));
 
         jComboBox3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -334,7 +340,6 @@ public class SesionCajero extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
@@ -363,5 +368,10 @@ public class SesionCajero extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<String> seleccionar_pelicula;
     // End of variables declaration//GEN-END:variables
+
+    private List<Pelicula> obtenerTodasLasPeliculas() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
