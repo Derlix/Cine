@@ -7,11 +7,13 @@ import JuanCamilo.EliminarCine;
 import JuanCamilo.EliminarPelicula;
 import JuanCamilo.VerCine;
 import utils.BaseDatosJuanPrincipal;
+import utils.CristianBD;
 
 public class Principal {
     
     public static void main(String[] args) {
         BaseDatosJuanPrincipal basedatos = new BaseDatosJuanPrincipal();
+        CristianBD bd = new CristianBD();
         //CrearPelicula ventana = new CrearPelicula(basedatos);
         //MenuAdministrador ventana02 =new MenuAdministrador(basedatos);
         //EditarPelicula ventanaeditar= new EditarPelicula();
@@ -21,6 +23,6 @@ public class Principal {
         //EditarCine ventanapr = new EditarCine(basedatos);
         //EliminarCine ventanar = new EliminarCine(basedatos);
         //VerCine ventanaPru = new VerCine(basedatos);
-        InicioSesion ventana = new InicioSesion(basedatos);
+        InicioSesion ventana = new InicioSesion(basedatos,bd);
     }
 }

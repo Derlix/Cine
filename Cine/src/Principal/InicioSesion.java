@@ -1,14 +1,17 @@
 
 package Principal;
 
+import CristianArce.SesionCajero;
 import utils.BaseDatosJuanPrincipal;
+import utils.CristianBD;
 
 public class InicioSesion extends javax.swing.JFrame {
 
     private BaseDatosJuanPrincipal baseDatos;
-
-    public InicioSesion(BaseDatosJuanPrincipal baseDatos) {
+    CristianBD bd;
+    public InicioSesion(BaseDatosJuanPrincipal baseDatos, CristianBD bd) {
         this.baseDatos = baseDatos;
+        this.bd = bd;
         initComponents();
         setVisible(true);
         setLocationRelativeTo(null);
@@ -125,6 +128,7 @@ public class InicioSesion extends javax.swing.JFrame {
         if (rol.equals("Cajero")) {
             // Rol es Cajero
             System.out.println("Bienvenido Cajero");
+            SesionCajero ventana = new SesionCajero(bd);
         } else if (rol.equals("Administrador")) {
             // Rol es Administrador
             System.out.println("Bienvenido Administrador");
