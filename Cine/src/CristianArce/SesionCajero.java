@@ -6,8 +6,11 @@ import java.util.List;
 import utils.Cine;
 import utils.Asiento;
 import utils.CristianBD;
+import utils.Funcion;
 import utils.Pelicula;
 import utils.Sala;
+import utils.Usuario;
+import CristianArce.ItemCombo;
 
 public class SesionCajero extends javax.swing.JFrame {
     CristianBD bd;
@@ -15,6 +18,8 @@ public class SesionCajero extends javax.swing.JFrame {
         this.bd = bd;
         initComponents();
         initAlterComponents();
+        setVisible(true);
+        setLocationRelativeTo(null);
         
     }
     
@@ -24,23 +29,19 @@ public class SesionCajero extends javax.swing.JFrame {
         setTitle("Menu Cajero");
         setResizable(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+
+        List<Funcion> lista_funciones = bd.obtenerFunciones();
         List<Pelicula> lista_peliculas = bd.obtenerTodasLasPeliculas();
-        List<Asiento> lista_asientos = bd.obtenerAsientos();
-        List<Sala> lista_salas = bd.obtenerSalas();
-        
-        for (Pelicula pelicula : lista_peliculas) {
-             seleccionar_pelicula.addItem(pelicula.getTitulo());
+       
+        //Funciones disponibles
+        for (Funcion funcion : lista_funciones) {
+            for (Pelicula pelicula : lista_peliculas) {
+                if (funcion.getId_pelicula() == pelicula.getIdPelicula()) {
+                    ItemCombo item = new ItemCombo(funcion.getId_sala(), pelicula.getTitulo());
+                    seleccionar_pelicula.addItem(item);
+                }
+            }
         }
-        
-        for (Asiento asiento : lista_asientos) {
-            seleccionar_asiento.addItem(String.valueOf(asiento.getNumero()));
-        }
-        
-        for (Sala sala : lista_salas) {
-            seleccionar_sala.addItem(sala.getNombre());
-        }
-  
     }
 
     @SuppressWarnings("unchecked")
@@ -174,6 +175,11 @@ public class SesionCajero extends javax.swing.JFrame {
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
 
         seleccionar_pelicula.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        seleccionar_pelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionar_peliculaActionPerformed(evt);
+            }
+        });
         jPanel2.add(seleccionar_pelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 200, 40));
 
         seleccionar_sala.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -268,11 +274,6 @@ public class SesionCajero extends javax.swing.JFrame {
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("IMPRIMIR FACTURA");
         jButton2.setBorder(null);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
         jPanel5.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 600, 200, 40));
 
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, 610, 680));
@@ -313,15 +314,36 @@ public class SesionCajero extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-   
+    private void seleccionar_peliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionar_peliculaActionPerformed
+        
+    ItemCombo itemSeleccionado = (ItemCombo) seleccionar_pelicula.getSelectedItem();
+    int id_funcion = itemSeleccionado.getId_sala();
+    String nombre_pelicula = itemSeleccionado.getNombre_pelicula();
+    List<Sala> lista_salas = bd.obtenerSalas();
+    seleccionar_sala.removeAllItems();
+    for (Sala sala : lista_salas) {
+        if(id_funcion == sala.getId_sala()){
+            seleccionar_sala.addItem(sala.getNombre());
+            seleccionarAsientos(sala.getId_sala(), sala.getCapacidad());
+        }
+    }
+    }//GEN-LAST:event_seleccionar_peliculaActionPerformed
+
+    public void seleccionarAsientos(int id_sala, int capacidad){
+        seleccionar_asiento.removeAllItems();
+        List<Asiento> lista_asientos = bd.obtenerAsientos();
+        for (Asiento asiento : lista_asientos) {
+            if(id_sala == asiento.getId()){
+                for(int i = 1; i <= capacidad; i++){
+                    seleccionar_asiento.addItem(i);
+                }
+            }
+        }
+   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel etq_mostrar_asiento;
@@ -361,8 +383,8 @@ public class SesionCajero extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JComboBox<String> seleccionar_asiento;
-    private javax.swing.JComboBox<String> seleccionar_pelicula;
+    private javax.swing.JComboBox<Integer> seleccionar_asiento;
+    private javax.swing.JComboBox<ItemCombo> seleccionar_pelicula;
     private javax.swing.JComboBox<String> seleccionar_sala;
     // End of variables declaration//GEN-END:variables
 
