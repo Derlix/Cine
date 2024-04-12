@@ -71,12 +71,12 @@ public class SesionCajero extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        etq_mostrar_asiento = new javax.swing.JLabel();
+        etq_mostrar_id = new javax.swing.JLabel();
         etq_mostrar_sala = new javax.swing.JLabel();
         etq_mostrar_hora = new javax.swing.JLabel();
         etq_mostrar_pelicula = new javax.swing.JLabel();
-        etq_mostrar_asiento1 = new javax.swing.JLabel();
-        etq_mostrar_asiento2 = new javax.swing.JLabel();
+        etq_mostrar_asiento = new javax.swing.JLabel();
+        etq_mostrar_precio = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -200,10 +200,10 @@ public class SesionCajero extends javax.swing.JFrame {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        etq_mostrar_asiento.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        etq_mostrar_asiento.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        etq_mostrar_asiento.setText("ID");
-        jPanel8.add(etq_mostrar_asiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 210, -1));
+        etq_mostrar_id.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_mostrar_id.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        etq_mostrar_id.setText("ID");
+        jPanel8.add(etq_mostrar_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 210, -1));
 
         etq_mostrar_sala.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         etq_mostrar_sala.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -220,15 +220,15 @@ public class SesionCajero extends javax.swing.JFrame {
         etq_mostrar_pelicula.setText("Pelicula");
         jPanel8.add(etq_mostrar_pelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 210, -1));
 
-        etq_mostrar_asiento1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        etq_mostrar_asiento1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        etq_mostrar_asiento1.setText("Asiento");
-        jPanel8.add(etq_mostrar_asiento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 210, -1));
+        etq_mostrar_asiento.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_mostrar_asiento.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        etq_mostrar_asiento.setText("Asiento");
+        jPanel8.add(etq_mostrar_asiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 210, -1));
 
-        etq_mostrar_asiento2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        etq_mostrar_asiento2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        etq_mostrar_asiento2.setText("Precio");
-        jPanel8.add(etq_mostrar_asiento2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 210, -1));
+        etq_mostrar_precio.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_mostrar_precio.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        etq_mostrar_precio.setText("Precio");
+        jPanel8.add(etq_mostrar_precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 210, -1));
 
         jPanel7.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 240, 240));
 
@@ -274,6 +274,11 @@ public class SesionCajero extends javax.swing.JFrame {
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("IMPRIMIR FACTURA");
         jButton2.setBorder(null);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel5.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 600, 200, 40));
 
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, 610, 680));
@@ -333,6 +338,20 @@ public class SesionCajero extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_seleccionar_peliculaActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        //devolver los valores a 0;
+        etq_mostrar_asiento.setText("");
+        etq_mostrar_hora.setText("");
+        etq_mostrar_id.setText("");
+        etq_mostrar_pelicula.setText("");
+        etq_mostrar_precio.setText("");
+        etq_mostrar_sala.setText("");
+        
+        VentanaEmergente mensaje = new VentanaEmergente("Felicidades", "Factura impresa con exito");
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     public void seleccionarAsientos(int id_sala, int capacidad){
         seleccionar_asiento.removeAllItems();
         List<Asiento> lista_asientos = bd.obtenerAsientos();
@@ -347,10 +366,10 @@ public class SesionCajero extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel etq_mostrar_asiento;
-    private javax.swing.JLabel etq_mostrar_asiento1;
-    private javax.swing.JLabel etq_mostrar_asiento2;
     private javax.swing.JLabel etq_mostrar_hora;
+    private javax.swing.JLabel etq_mostrar_id;
     private javax.swing.JLabel etq_mostrar_pelicula;
+    private javax.swing.JLabel etq_mostrar_precio;
     private javax.swing.JLabel etq_mostrar_sala;
     private javax.swing.JPanel fondo;
     private javax.swing.JButton jButton2;
