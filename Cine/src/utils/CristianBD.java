@@ -26,7 +26,8 @@ public class CristianBD extends BaseDatosJuanPrincipal{
                 String fecha = resultSet.getString("Fecha");
                 String hora_inicio = resultSet.getString("Hora_Inicio");
                 String hora_final = resultSet.getString("Hora_Final");
-                Funcion funcion = new Funcion(id_funcion, id_pelicula, id_sala, fecha, hora_inicio, hora_final);
+                int precio = resultSet.getInt("Precio");
+                Funcion funcion = new Funcion(id_funcion, id_pelicula, id_sala, fecha, hora_inicio, hora_final, precio);
                 funciones.add(funcion);
             }
         } catch (SQLException ex) {
@@ -42,6 +43,24 @@ public class CristianBD extends BaseDatosJuanPrincipal{
         
     }
     
+    //insertar fecha
+    public void insertarVenta(int id_pelicula, int id_funcion, int id_usuario, int cantidad_boletos, double total_venta, String fecha) {
+        String query = "INSERT INTO ventas (ID_Pelicula, ID_Funcion, ID_Usuario, Cantidad_Boletos, Total_Venta, Fecha_Venta) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = conexion.prepareStatement(query)) {
+            statement.setInt(1, id_pelicula);
+            statement.setInt(2, id_funcion);
+            statement.setInt(3, id_usuario);
+            statement.setInt(4, cantidad_boletos);
+            statement.setDouble(5, total_venta);
+            statement.setString(6, fecha);
+
+            statement.executeUpdate();
+            System.out.println("Venta agregada correctamente.");
+        } catch (SQLException ex) {
+            System.out.println("Error al agregar la venta.");
+            System.out.println(ex.getMessage());
+        }
+    }
     
     //Obtener asientos
     public List<Asiento> obtenerAsientos() {

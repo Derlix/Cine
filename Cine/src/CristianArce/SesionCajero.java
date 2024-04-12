@@ -11,9 +11,17 @@ import utils.Pelicula;
 import utils.Sala;
 import utils.Usuario;
 import CristianArce.ItemCombo;
+import CristianArce.Venta;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SesionCajero extends javax.swing.JFrame {
+    int id_pelicula;
+    int id_funcion;
+    int id_usuario;
     CristianBD bd;
+    int cantidad_boletos;
+    int total_venta;
     public SesionCajero(CristianBD bd) {
         this.bd = bd;
         initComponents();
@@ -37,7 +45,12 @@ public class SesionCajero extends javax.swing.JFrame {
         for (Funcion funcion : lista_funciones) {
             for (Pelicula pelicula : lista_peliculas) {
                 if (funcion.getId_pelicula() == pelicula.getIdPelicula()) {
-                    ItemCombo item = new ItemCombo(funcion.getId_sala(), pelicula.getTitulo());
+                    ItemCombo item = new ItemCombo(funcion.getId_funcion(), funcion.getId_sala(), pelicula.getTitulo(), funcion.getHora_inicio(), funcion.getPrecio());
+                    id_pelicula = pelicula.getIdPelicula();
+                    id_funcion = funcion.getId_funcion();
+                    id_usuario = 1;
+                    cantidad_boletos = 1;
+                    total_venta = funcion.getPrecio();
                     seleccionar_pelicula.addItem(item);
                 }
             }
@@ -325,17 +338,21 @@ public class SesionCajero extends javax.swing.JFrame {
 
     private void seleccionar_peliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionar_peliculaActionPerformed
         
-    ItemCombo itemSeleccionado = (ItemCombo) seleccionar_pelicula.getSelectedItem();
-    int id_funcion = itemSeleccionado.getId_sala();
-    String nombre_pelicula = itemSeleccionado.getNombre_pelicula();
-    List<Sala> lista_salas = bd.obtenerSalas();
-    seleccionar_sala.removeAllItems();
-    for (Sala sala : lista_salas) {
-        if(id_funcion == sala.getId_sala()){
-            seleccionar_sala.addItem(sala.getNombre());
-            seleccionarAsientos(sala.getId_sala(), sala.getCapacidad());
+        ItemCombo itemSeleccionado = (ItemCombo) seleccionar_pelicula.getSelectedItem();
+        int id_funcion = itemSeleccionado.getId_sala();
+        String nombre_pelicula = itemSeleccionado.getNombre_pelicula();
+        etq_mostrar_pelicula.setText(nombre_pelicula);
+        etq_mostrar_hora.setText(itemSeleccionado.getHora());
+        etq_mostrar_precio.setText(itemSeleccionado.getPrecio()+"");
+        etq_mostrar_id.setText(itemSeleccionado.getId_funcion()+"");
+        List<Sala> lista_salas = bd.obtenerSalas();
+        seleccionar_sala.removeAllItems();
+        for (Sala sala : lista_salas) {
+            if(id_funcion == sala.getId_sala()){
+                seleccionar_sala.addItem(sala.getNombre());
+                seleccionarAsientos(sala.getId_sala(), sala.getCapacidad());
+            }
         }
-    }
     }//GEN-LAST:event_seleccionar_peliculaActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -349,9 +366,17 @@ public class SesionCajero extends javax.swing.JFrame {
         etq_mostrar_sala.setText("");
         
         VentanaEmergente mensaje = new VentanaEmergente("Felicidades", "Factura impresa con exito");
+        bd.insertarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    public static String obtenerFecha() {
+        LocalDate fechaActual = LocalDate.now();
+        DateTimeFormatter formatoDeseado = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String fechaFormateada = fechaActual.format(formatoDeseado);
+        return fechaFormateada;
+    }
+    
     public void seleccionarAsientos(int id_sala, int capacidad){
         seleccionar_asiento.removeAllItems();
         List<Asiento> lista_asientos = bd.obtenerAsientos();

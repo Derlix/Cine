@@ -9,14 +9,16 @@ public class Funcion {
     private String fecha;
     private String hora_inicio;
     private String hora_final;
+    private int precio;
 
-    public Funcion(int id_funcion, int id_pelicula, int id_sala, String fecha, String hora_inicio, String hora_final) {
+    public Funcion(int id_funcion, int id_pelicula, int id_sala, String fecha, String hora_inicio, String hora_final, int precio) {
         this.id_funcion = id_funcion;
         this.id_pelicula = id_pelicula;
         this.id_sala = id_sala;
         this.fecha = fecha;
         this.hora_inicio = hora_inicio;
         this.hora_final = hora_final;
+        this.precio = precio;
     }
 
     public int getId_funcion() {
@@ -66,8 +68,13 @@ public class Funcion {
     public void setHora_final(String hora_final) {
         this.hora_final = hora_final;
     }
-    
-    
-    
+
+    public int getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(int precio) {
+        this.precio = precio;
+    }
     
 }
