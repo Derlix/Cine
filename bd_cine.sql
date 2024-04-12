@@ -1,4 +1,5 @@
-CREATE DATABASE bd_cine;
+-- Crear la base de datos bd_cine
+
 USE bd_cine;
 
 -- Crear la tabla de Cines
@@ -44,13 +45,12 @@ CREATE TABLE Peliculas (
     Restriccion_Edad INT,
     Duracion INT,
     Pais_Origen VARCHAR(255),
-    Imagen BLOB,
+    Imagen LONGBLOB DEFAULT NULL,
     Ruta_Imagen VARCHAR(255),
     Fecha_Inicio DATE,
     Fecha_Fin DATE,
     Estado ENUM('Activo', 'Inactivo') DEFAULT 'Activo'
 );
-
 
 -- Insertar datos de ejemplo en la tabla de Películas
 INSERT INTO Peliculas (Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion, Pais_Origen, Imagen, Ruta_Imagen, Fecha_Inicio, Fecha_Fin, Estado) VALUES
@@ -60,9 +60,6 @@ INSERT INTO Peliculas (Titulo, Categoria, Etiquetas, Restriccion_Edad, Duracion,
 ('Inception', 'Ciencia Ficción', 'Aventura, Misterio', 14, 148, 'EEUU', LOAD_FILE('/ruta/a/Inception.jpg'), '/ruta/a/Inception.jpg', '2024-04-01', '2024-04-30', 'Activo'),
 ('The Shawshank Redemption', 'Drama', 'Crimen, Inspirador', 16, 142, 'EEUU', LOAD_FILE('/ruta/a/TheShawshankRedemption.jpg'), '/ruta/a/TheShawshankRedemption.jpg', '2024-05-01', '2024-05-31', 'Activo');
 
-
-
-
 -- Crear la tabla de Funciones
 CREATE TABLE Funciones (
     ID_Funcion INT PRIMARY KEY AUTO_INCREMENT,
@@ -71,33 +68,42 @@ CREATE TABLE Funciones (
     Fecha DATE,
     Hora_Inicio TIME,
     Hora_Final TIME,
+    Precio INT,
     FOREIGN KEY (ID_Pelicula) REFERENCES Peliculas(ID_Pelicula),
     FOREIGN KEY (ID_Sala) REFERENCES Salas_Cine(ID_Sala)
 );
 
 -- Insertar datos de ejemplo en la tabla de Funciones
-INSERT INTO Funciones (ID_Pelicula, ID_Sala, Fecha, Hora_Inicio, Hora_Final) VALUES
-(1, 1, '2024-03-01', '15:00:00', '17:30:00'),
-(2, 2, '2024-03-01', '17:30:00', '20:00:00'),
-(3, 3, '2024-03-02', '14:00:00', '16:55:00'),
-(4, 4, '2024-03-02', '18:00:00', '20:30:00'),
-(5, 5, '2024-03-03', '16:30:00', '19:15:00');
+INSERT INTO Funciones (ID_Pelicula, ID_Sala, Fecha, Hora_Inicio, Hora_Final, Precio) VALUES
+(1, 1, '2024-03-01', '15:00:00', '17:30:00',1),
+(2, 2, '2024-03-01', '17:30:00', '20:00:00',2),
+(3, 3, '2024-03-02', '14:00:00', '16:55:00',3),
+(4, 4, '2024-03-02', '18:00:00', '20:30:00',4),
+(5, 5, '2024-03-03', '16:30:00', '19:15:00',5);
 
 -- Crear la tabla de Usuarios
 CREATE TABLE Usuarios (
     ID_Usuario INT PRIMARY KEY AUTO_INCREMENT,
+    Correo VARCHAR(255),
     Nombre_Usuario VARCHAR(255),
     Contraseña VARCHAR(255),
-    Rol ENUM('Cajero', 'Administrador')
+    Foto LONGBLOB DEFAULT NULL,
+    Rol ENUM('Cajero','Administrador'),
+    dias_laborales VARCHAR(255),
+    hora_inicio VARCHAR(11),
+    hora_final VARCHAR(11),
+    ID_Cine INT,
+    FOREIGN KEY (ID_Cine) REFERENCES Cines(ID_Cine)
 );
 
 -- Insertar datos de ejemplo en la tabla de Usuarios
-INSERT INTO Usuarios (Nombre_Usuario, Contraseña, Rol) VALUES
-('usuario1', 'password1', 'Cajero'),
-('usuario2', 'password2', 'Cajero'),
-('usuario3', 'password3', 'Administrador'),
-('usuario4', 'password4', 'Cajero'),
-('usuario5', 'password5', 'Administrador');
+INSERT INTO Usuarios (Correo, Nombre_Usuario, Contraseña, Rol, Foto, dias_laborales, hora_inicio, hora_final, ID_Cine) VALUES
+('nuevo1@gmail.com', 'usuario1', 'password1', 'Cajero',LOAD_FILE(''), 'Lunes a Viernes', '09:00', '18:00', 1),
+('nuevo2@gmail.com', 'usuario2', 'password2', 'Cajero',LOAD_FILE(''), 'Lunes a Viernes', '10:00', '19:00', 5),
+('nuevo3@gmail.com', 'usuario3', 'password3', 'Administrador',LOAD_FILE(''), 'Lunes a Sábado', '08:00', '17:00', 2),
+('nuevo4@gmail.com', 'usuario4', 'password4', 'Cajero',LOAD_FILE(''), 'Lunes a Viernes', '09:30', '18:30', 3),
+('nuevo5@gmail.com', 'usuario5', 'password5', 'Administrador',LOAD_FILE(''), 'Lunes a Viernes', '08:30', '17:30', 4);
+
 
 -- Crear la tabla de Ventas
 CREATE TABLE Ventas (
@@ -172,7 +178,6 @@ INSERT INTO Reportes (Tipo, Contenido, Fecha_Generacion, ID_Usuario) VALUES
 ('Semanal', 'Reporte semanal de asistencias.', '2024-03-01', 5),
 ('Mensual', 'Reporte mensual de ingresos.', '2024-03-01', 3);
 
-
 -- Crear la tabla de Anuncios
 CREATE TABLE Anuncios (
     ID_Anuncio INT PRIMARY KEY AUTO_INCREMENT,
@@ -197,6 +202,16 @@ CREATE TABLE Logins (
     Rol ENUM('Cajero', 'Administrador'),
     FOREIGN KEY (ID_Usuario) REFERENCES Usuarios(ID_Usuario)
 );
+
+CREATE TABLE Asientos_funciones (
+    ID_Funcion INT,
+    ID_Asiento INT,
+    ID_Venta INT DEFAULT NULL,
+    FOREIGN KEY(ID_Funcion) REFERENCES Funciones(ID_Funcion),
+    FOREIGN KEY(ID_Asiento) REFERENCES Asientos(ID_Asiento),
+    FOREIGN KEY(ID_Venta) REFERENCES Ventas(ID_Venta)
+);
+
 
 
 -- Trigger para verificar la restricción de edad en las ventas
@@ -333,8 +348,9 @@ BEGIN
     VALUES (tipo_reporte, contenido_reporte, CURRENT_DATE(), NEW.ID_Usuario);
 END //
 DELIMITER ;
-DELIMITER //
 
+-- Trigger para actualizar la ruta de la imagen si cambia el BLOB
+DELIMITER //
 CREATE TRIGGER update_ruta_imagen_trigger
 BEFORE UPDATE ON Peliculas
 FOR EACH ROW
@@ -356,26 +372,9 @@ END$$
 DELIMITER ;
 -- Trigger para eliminar las relaciones y funciones antes de eliminar un cine
 DELIMITER //
-CREATE TRIGGER eliminar_relaciones_cine
-BEFORE DELETE ON Cines
+CREATE TRIGGER tr_eliminar_cine BEFORE DELETE ON Cines
 FOR EACH ROW
 BEGIN
-    -- Eliminar de la tabla Ventas
-    DELETE FROM Ventas WHERE ID_Funcion IN (SELECT ID_Funcion FROM Funciones WHERE ID_Sala IN (SELECT ID_Sala FROM Salas_Cine WHERE ID_Cine = OLD.ID_Cine));
-
-    -- Eliminar de la tabla Cajeros_Cine
-    DELETE FROM Cajeros_Cine WHERE ID_Cine = OLD.ID_Cine;
-
-    -- Eliminar de la tabla Funciones
-    DELETE FROM Funciones WHERE ID_Sala IN (SELECT ID_Sala FROM Salas_Cine WHERE ID_Cine = OLD.ID_Cine);
-
-    -- Eliminar de la tabla Asientos
-    DELETE FROM Asientos WHERE ID_Sala IN (SELECT ID_Sala FROM Salas_Cine WHERE ID_Cine = OLD.ID_Cine);
-
-    -- Eliminar de la tabla Salas_Cine
     DELETE FROM Salas_Cine WHERE ID_Cine = OLD.ID_Cine;
-END;
-//
+END$$
 DELIMITER ;
-
-

@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -15,6 +16,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
+import static javax.crypto.Cipher.SECRET_KEY;
 
 public class BaseDatosJuanPrincipal {
     
@@ -200,15 +208,21 @@ public class BaseDatosJuanPrincipal {
 
 
 
-    // Método para crear un usuario
-    public void crearUsuario(String nombreUsuario, String contraseña, String rol) {
+    public void crearUsuario(String correo,String nombreUsuario,String contraseña,byte[] foto,String rol,String diasLaborales,String horaInicio,String horaFinal,int idCine) {
         try {
             conexion.setAutoCommit(false);
-            String query = "INSERT INTO Usuarios (Nombre_Usuario, Contraseña, Rol) VALUES (?, ?, ?)";
+            String query = "INSERT INTO Usuarios (Correo, Nombre_Usuario, Contraseña, Foto, Rol, dias_laborales, hora_inicio, hora_final, ID_Cine) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conexion.prepareStatement(query);
-            statement.setString(1, nombreUsuario);
-            statement.setString(2, contraseña);
-            statement.setString(3, rol);
+            statement.setString(1, correo);
+            statement.setString(2, nombreUsuario);
+            statement.setString(3, encriptarContraseña(contraseña));
+            statement.setBytes(4, foto);
+            statement.setString(5, rol);
+            statement.setString(6, diasLaborales);
+            statement.setString(7, horaInicio);
+            statement.setString(8, horaFinal);
+            statement.setInt(9, idCine);
+
             statement.executeUpdate();
             conexion.commit();
             System.out.println("Usuario creado correctamente.");
@@ -223,8 +237,8 @@ public class BaseDatosJuanPrincipal {
             }
         }
     }
-    
-    // Método para obtener todos los usuarios
+
+
     public List<Usuario> obtenerTodosLosUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
         try {
@@ -233,12 +247,19 @@ public class BaseDatosJuanPrincipal {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("ID_Usuario");
+                String correo = resultSet.getString("Correo");
                 String nombreUsuario = resultSet.getString("Nombre_Usuario");
                 String contraseña = resultSet.getString("Contraseña");
+                byte[] foto = resultSet.getBytes("Foto");
                 String rol = resultSet.getString("Rol");
-                Usuario usuario = new Usuario(id, nombreUsuario, contraseña, rol);
+                String diasLaborales = resultSet.getString("dias_laborales");
+                String horaInicio = resultSet.getString("hora_inicio");
+                String horaFinal = resultSet.getString("hora_final");
+                int idCine = resultSet.getInt("ID_Cine");
+
+                Usuario usuario = new Usuario(id, correo, nombreUsuario, contraseña, foto, rol, diasLaborales, horaInicio, horaFinal, idCine);
                 usuarios.add(usuario);
-                System.out.println(usuario.getNombreUsuario()+" "+usuario.getRol());
+                System.out.println(usuario.getNombreUsuario() + " " + usuario.getRol());
             }
         } catch (SQLException ex) {
             System.out.println("Error al obtener los usuarios:");
@@ -256,10 +277,17 @@ public class BaseDatosJuanPrincipal {
             statement.setInt(1, idUsuario);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
+                String correo = resultSet.getString("Correo");
                 String nombreUsuario = resultSet.getString("Nombre_Usuario");
                 String contraseña = resultSet.getString("Contraseña");
+                byte[] foto = resultSet.getBytes("Foto");
                 String rol = resultSet.getString("Rol");
-                usuario = new Usuario(idUsuario, nombreUsuario, contraseña, rol);
+                String diasLaborales = resultSet.getString("dias_laborales");
+                String horaInicio = resultSet.getString("hora_inicio");
+                String horaFinal = resultSet.getString("hora_final");
+                int idCine = resultSet.getInt("ID_Cine");
+
+                usuario = new Usuario(idUsuario, correo, nombreUsuario, contraseña, foto, rol, diasLaborales, horaInicio, horaFinal, idCine);
             }
         } catch (SQLException ex) {
             System.out.println("Error al obtener el usuario por ID:");
@@ -269,15 +297,20 @@ public class BaseDatosJuanPrincipal {
     }
 
     // Método para actualizar un usuario
-    public void actualizarUsuario(int idUsuario, String nombreUsuario, String contraseña, String rol) {
+    public void actualizarUsuario(int idUsuario, String nombreUsuario, String contraseña, String rol, String correo, String diasLaborales, String horaInicio, String horaFinal, int idCine, byte[] foto) {
         try {
             conexion.setAutoCommit(false);
-            String query = "UPDATE Usuarios SET Nombre_Usuario = ?, Contraseña = ?, Rol = ? WHERE ID_Usuario = ?";
+            String query = "UPDATE Usuarios SET Nombre_Usuario = ?, Contraseña = ?, Rol = ?, dias_laborales = ?, hora_inicio = ?, hora_final = ?, ID_Cine = ?, Foto = ? WHERE ID_Usuario = ?";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setString(1, nombreUsuario);
             statement.setString(2, contraseña);
             statement.setString(3, rol);
-            statement.setInt(4, idUsuario);
+            statement.setString(4, diasLaborales);
+            statement.setString(5, horaInicio);
+            statement.setString(6, horaFinal);
+            statement.setInt(7, idCine);
+            statement.setBytes(8, foto);
+            statement.setInt(9, idUsuario);
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
                 conexion.commit();
@@ -323,26 +356,82 @@ public class BaseDatosJuanPrincipal {
         }
     }
     
-    // Metodo para verificar credenciales de usuario
-    public String verificarCredenciales(String usuario, String contraseña) {
-        String rol = "";
+    public Usuario verificarCredenciales(String correo, String contraseña) {
+        Usuario usuario = null;
         try {
-            String query = "SELECT Rol FROM Usuarios WHERE Nombre_Usuario = ? AND Contraseña = ?";
+            String query = "SELECT * FROM Usuarios WHERE Correo = ?";
             PreparedStatement statement = conexion.prepareStatement(query);
-            statement.setString(1, usuario);
-            statement.setString(2, contraseña);
+            statement.setString(1, correo);
             ResultSet resultSet = statement.executeQuery();
+
             if (resultSet.next()) {
-                rol = resultSet.getString("Rol");
+                String contraseñaEnBaseDeDatos = resultSet.getString("Contraseña");
+
+                if (contraseña.equals(desencriptarContraseña(contraseñaEnBaseDeDatos)) || 
+                    contraseña.equals(contraseñaEnBaseDeDatos)) {
+
+                    usuario = new Usuario(
+                        resultSet.getInt("ID_Usuario"),
+                        resultSet.getString("Correo"),
+                        resultSet.getString("Nombre_Usuario"),
+                        contraseñaEnBaseDeDatos,
+                        resultSet.getBytes("Foto"),
+                        resultSet.getString("Rol"),
+                        resultSet.getString("dias_laborales"),
+                        resultSet.getString("hora_inicio"),
+                        resultSet.getString("hora_final"),
+                        resultSet.getInt("ID_Cine")
+                    );
+                }
             }
         } catch (SQLException ex) {
             System.out.println("Error al verificar credenciales:");
             System.out.println(ex.getMessage());
         }
-        return rol;
+        return usuario;
     }
 
+
+
     
+    
+
+    private static final String SECRET_KEY = "mySecretKey12345"; // Clave secreta para el cifrado
+    private static final String ALGORITHM = "AES";
+
+    public static String encriptarContraseña(String contraseña) {
+        try {
+            SecretKey secretKey = new SecretKeySpec(SECRET_KEY.getBytes(), ALGORITHM);
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+
+            byte[] encryptedBytes = cipher.doFinal(contraseña.getBytes());
+            return Base64.getEncoder().encodeToString(encryptedBytes);
+        } catch (Exception e) {
+            System.out.println("Error al encriptar la contraseña:");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String desencriptarContraseña(String contraseñaEncriptada) {
+        try {
+            SecretKey secretKey = new SecretKeySpec(SECRET_KEY.getBytes(StandardCharsets.UTF_8), ALGORITHM);
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+
+            byte[] decodedBytes = Base64.getDecoder().decode(contraseñaEncriptada.getBytes(StandardCharsets.UTF_8));
+            byte[] decryptedBytes = cipher.doFinal(decodedBytes);
+
+            return new String(decryptedBytes, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            System.out.println("Error al desencriptar la contraseña:");
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+
     
     // Método para crear una película con imagen
     public Pelicula buscarPeliculaPorId(String idPelicula) {

@@ -9,6 +9,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.border.LineBorder;
 import utils.BaseDatosJuanPrincipal;
 import utils.CristianBD;
+import utils.Usuario;
 
 public class InicioSesion extends javax.swing.JFrame {
 
@@ -163,28 +164,35 @@ public class InicioSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_inicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_inicarActionPerformed
-        String usuario = campo_usuario.getText();
+        String correo = campo_usuario.getText();
         String contraseña = campo_contraseña.getText();
-        iniciarSesion(usuario, contraseña);
+        iniciarSesion(correo, contraseña);
     }//GEN-LAST:event_btn_inicarActionPerformed
     
-    public void iniciarSesion(String usuario, String contraseña) {
-        // Verificar las credenciales en la base de datos
-        String rol = baseDatos.verificarCredenciales(usuario, contraseña);
-        
-        if (rol.equals("Cajero")) {
+    public void iniciarSesion(String correo, String contraseña) {
+    // Verificar las credenciales en la base de datos
+    Usuario usuario = baseDatos.verificarCredenciales(correo, contraseña);
+    
+    if (usuario != null) {
+        if (usuario.getRol().equals("Cajero")) {
             // Rol es Cajero
             System.out.println("Bienvenido Cajero");
             SesionCajero ventana = new SesionCajero(bd);
-        } else if (rol.equals("Administrador")) {
+        } else if (usuario.getRol().equals("Administrador")) {
             // Rol es Administrador
             System.out.println("Bienvenido Administrador");
             MenuAdministrador menu = new MenuAdministrador(baseDatos);
         } else {
             // mensaje de error en caso de no encontrar datos
-            System.out.println("Usuario o contraseña incorrectos");
+            System.out.println("Rol desconocido: " + usuario.getRol());
         }
+    } else {
+        // mensaje de error en caso de no encontrar usuario
+        System.out.println("Usuario o contraseña incorrectos");
     }
+}
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_inicar;
