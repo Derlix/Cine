@@ -2,6 +2,7 @@
 package Principal;
 
 import CristianArce.SesionCajero;
+import JuanCamilo.CrearUsuario;
 import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -55,7 +56,7 @@ public class InicioSesion extends javax.swing.JFrame {
         etq_olvido_contraseña = new javax.swing.JLabel();
         etq_imagePrincipal = new javax.swing.JLabel();
         campo_contraseña = new javax.swing.JPasswordField();
-        jLabel1 = new javax.swing.JLabel();
+        btn_registrarse = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,7 +72,6 @@ public class InicioSesion extends javax.swing.JFrame {
         etq_contraseña.setText("CONTRASEÑA: ");
 
         btn_inicar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        btn_inicar.setForeground(new java.awt.Color(0, 0, 0));
         btn_inicar.setText("INICIAR");
         btn_inicar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_inicar.addActionListener(new java.awt.event.ActionListener() {
@@ -87,10 +87,14 @@ public class InicioSesion extends javax.swing.JFrame {
         etq_imagePrincipal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etq_imagePrincipal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("REGISTRARSE");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_registrarse.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btn_registrarse.setText("REGISTRARSE ");
+        btn_registrarse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_registrarse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_registrarseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
         fondo.setLayout(fondoLayout);
@@ -100,25 +104,30 @@ public class InicioSesion extends javax.swing.JFrame {
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(fondoLayout.createSequentialGroup()
                         .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(campo_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_inicar, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(fondoLayout.createSequentialGroup()
-                                    .addGap(47, 47, 47)
-                                    .addComponent(etq_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(243, 243, 243)))
+                            .addGroup(fondoLayout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(campo_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btn_inicar, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(fondoLayout.createSequentialGroup()
+                                        .addComponent(etq_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(243, 243, 243))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(etq_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(campo_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
-                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(etq_olvido_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(106, 106, 106))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
-                        .addComponent(etq_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(103, 103, 103)))
+                        .addContainerGap()
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
+                                .addComponent(etq_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(103, 103, 103))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
+                                .addComponent(etq_olvido_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(106, 106, 106))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
+                                .addComponent(btn_registrarse)
+                                .addGap(97, 97, 97)))))
                 .addComponent(etq_imagePrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(47, Short.MAX_VALUE))
         );
@@ -145,8 +154,8 @@ public class InicioSesion extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(etq_olvido_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(19, 19, 19))
+                        .addComponent(btn_registrarse)))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -168,34 +177,41 @@ public class InicioSesion extends javax.swing.JFrame {
         String contraseña = campo_contraseña.getText();
         iniciarSesion(correo, contraseña);
     }//GEN-LAST:event_btn_inicarActionPerformed
+
+    private void btn_registrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarseActionPerformed
+        CrearUsuario v = new CrearUsuario(baseDatos);
+    }//GEN-LAST:event_btn_registrarseActionPerformed
     
     public void iniciarSesion(String correo, String contraseña) {
-    // Verificar las credenciales en la base de datos
-    Usuario usuario = baseDatos.verificarCredenciales(correo, contraseña);
-    
-    if (usuario != null) {
-        if (usuario.getRol().equals("Cajero")) {
-            // Rol es Cajero
-            System.out.println("Bienvenido Cajero");
-            SesionCajero ventana = new SesionCajero(bd);
-        } else if (usuario.getRol().equals("Administrador")) {
-            // Rol es Administrador
-            System.out.println("Bienvenido Administrador");
-            MenuAdministrador menu = new MenuAdministrador(baseDatos);
+        // Verificar las credenciales en la base de datos
+        Usuario usuario = baseDatos.verificarCredenciales(correo, contraseña);
+
+        if (usuario != null) {
+            if (usuario.getRol().equals("Cajero")) {
+                // Rol es Cajero
+                System.out.println("Bienvenido Cajero");
+                SesionCajero ventana = new SesionCajero(bd);
+            } else if (usuario.getRol().equals("Administrador")) {
+                // Rol es Administrador
+                System.out.println("Bienvenido Administrador");
+                MenuAdministrador menu = new MenuAdministrador(baseDatos, usuario); // Pasar el usuario
+            } else {
+                // mensaje de error en caso de no encontrar datos
+                System.out.println("Rol desconocido: " + usuario.getRol());
+            }
         } else {
-            // mensaje de error en caso de no encontrar datos
-            System.out.println("Rol desconocido: " + usuario.getRol());
+            // mensaje de error en caso de no encontrar usuario
+            System.out.println("Usuario o contraseña incorrectos");
         }
-    } else {
-        // mensaje de error en caso de no encontrar usuario
-        System.out.println("Usuario o contraseña incorrectos");
     }
-}
+
+
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_inicar;
+    private javax.swing.JButton btn_registrarse;
     private javax.swing.JPasswordField campo_contraseña;
     private javax.swing.JTextField campo_usuario;
     private javax.swing.JLabel etq_contraseña;
@@ -204,6 +220,5 @@ public class InicioSesion extends javax.swing.JFrame {
     private javax.swing.JLabel etq_titulo;
     private javax.swing.JLabel etq_usuario;
     private javax.swing.JPanel fondo;
-    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

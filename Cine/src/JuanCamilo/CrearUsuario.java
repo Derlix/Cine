@@ -24,6 +24,7 @@ public class CrearUsuario extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         initComponents();
         setVisible(true);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
 

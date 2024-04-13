@@ -391,11 +391,6 @@ public class BaseDatosJuanPrincipal {
         return usuario;
     }
 
-
-
-    
-    
-
     private static final String SECRET_KEY = "mySecretKey12345"; // Clave secreta para el cifrado
     private static final String ALGORITHM = "AES";
 
