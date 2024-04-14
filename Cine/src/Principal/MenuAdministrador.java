@@ -11,10 +11,14 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -28,20 +32,53 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;*/
 import utils.BaseDatosJuanPrincipal;
 import utils.BaseDatos_ChristianArias;
+import utils.Usuario;
 
 
 public class MenuAdministrador extends javax.swing.JFrame {
     
     BaseDatosJuanPrincipal basedatos;
+    Usuario usuarioActual;
     
-    public MenuAdministrador(BaseDatosJuanPrincipal basedatos) {
+    public MenuAdministrador(BaseDatosJuanPrincipal basedatos, Usuario usuario) {
         initComponents();
         this.basedatos = new BaseDatosJuanPrincipal();
         eventosMouse();
         initAlternComponents();
-        
-       
+        this.usuarioActual = usuario;
+        mostrarInformacionUsuario(); 
     }
+    
+    private void mostrarInformacionUsuario() {
+        if (usuarioActual != null) {
+            // Mostrar nombre y rol
+            etq_nombreUsuario.setText(usuarioActual.getNombreUsuario());
+            etq_roll.setText(usuarioActual.getRol());
+
+            // Mostrar imagen del usuario
+            byte[] imagenBytes = usuarioActual.getFoto();
+            if (imagenBytes != null) {
+                try {
+                    BufferedImage imagenOriginal = ImageIO.read(new ByteArrayInputStream(imagenBytes));
+
+                    // Redimensionar la imagen para que se adapte al tamaño del JLabel
+                    ImageIcon icono = new ImageIcon(imagenOriginal.getScaledInstance(etq_imagenUser.getWidth(), etq_imagenUser.getHeight(), Image.SCALE_SMOOTH));
+
+                    etq_imagenUser.setIcon(icono);
+                } catch (IOException ex) {
+                    System.out.println("Error al leer la imagen: " + ex.getMessage());
+                }
+            } else {
+                ImageIcon iconoOriginal = new ImageIcon(ClassLoader.getSystemResource("imagenes/user.png"));
+                Image imagenOriginal = iconoOriginal.getImage();
+                Image imagenRedimensionada = imagenOriginal.getScaledInstance(etq_imagenUser.getWidth(), etq_imagenUser.getHeight(), Image.SCALE_SMOOTH);
+                ImageIcon iconoRedimensionado = new ImageIcon(imagenRedimensionada);
+                etq_imagenUser.setIcon(iconoRedimensionado);
+            }
+        }
+    }
+
+
 
     public void initAlternComponents(){
         setTitle("Menu");

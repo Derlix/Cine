@@ -11,6 +11,7 @@ import utils.Pelicula;
 import utils.Sala;
 import utils.Usuario;
 import CristianArce.ItemCombo;
+import utils.BaseDatos_ChristianArias;
 import CristianArce.Venta;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -98,6 +99,7 @@ public class SesionCajero extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
@@ -294,6 +296,15 @@ public class SesionCajero extends javax.swing.JFrame {
         });
         jPanel5.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 600, 200, 40));
 
+        jToggleButton1.setText("Seleccionar Asiento Graficamente");
+        jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 260, 200, 50));
+
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, 610, 680));
 
         jButton4.setBackground(new java.awt.Color(0, 51, 153));
@@ -354,6 +365,12 @@ public class SesionCajero extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_seleccionar_peliculaActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        BaseDatos_ChristianArias db = new BaseDatos_ChristianArias();
+        ReservacionesAsientos ventana = new ReservacionesAsientos(db);
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
@@ -427,6 +444,7 @@ public class SesionCajero extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JComboBox<Integer> seleccionar_asiento;
     private javax.swing.JComboBox<ItemCombo> seleccionar_pelicula;
     private javax.swing.JComboBox<String> seleccionar_sala;
