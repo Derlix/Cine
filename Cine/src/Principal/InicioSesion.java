@@ -1,6 +1,7 @@
 
 package Principal;
 
+import ChristianArias.RedondearBorde;
 import CristianArce.SesionCajero;
 import JuanCamilo.CrearUsuario;
 import java.awt.Color;
@@ -20,7 +21,8 @@ public class InicioSesion extends javax.swing.JFrame {
     private Timer timer;
     private int currentIndex = 0;
     CristianBD bd;
-    private String[] imagenes = {"/imagenes/cine.jpg", "/imagenes/fondo_cajero.jpg", "/imagenes/pantalla.png"};
+    
+    private String[] imagenes = {"/imagenesCarrusel/figthClub.png", "/imagenesCarrusel/gustavo.png", "/imagenesCarrusel/joliwu.png","/imagenesCarrusel/batman.png","/imagenesCarrusel/totoro.png", "/imagenesCarrusel/dardevil.png" , "/imagenesCarrusel/futuro.png", "/imagenesCarrusel/elzorro.png", "/imagenesCarrusel/tonystark.png", "/imagenesCarrusel/ironman.png","/imagenesCarrusel/nose.png","/imagenesCarrusel/chica.png","/imagenesCarrusel/strangerthings.png","/imagenesCarrusel/guardianesGalaxia.png"};
     public InicioSesion(BaseDatosJuanPrincipal baseDatos, CristianBD bd) {
         this.baseDatos = baseDatos;
         this.bd = bd;
@@ -28,36 +30,26 @@ public class InicioSesion extends javax.swing.JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         componentesAlternos();
+        imagenesCarusel();
         
-        timer = new Timer(3000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currentIndex = (currentIndex + 1) % imagenes.length; // Avanzar al siguiente índice de imagen
-                Image icono_listar = new ImageIcon(getClass().getResource(imagenes[currentIndex])).getImage();
-                icono_listar = icono_listar.getScaledInstance(550, 500, Image.SCALE_SMOOTH);
-                etq_imagePrincipal.setIcon(new ImageIcon(icono_listar)); // Establecer la nueva imagen en la JLabel
-            }
-        });
-        timer.start();
     }
     
     public void componentesAlternos(){
         //icono Principal
+        RedondearBorde redondear = new RedondearBorde(20);
         setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
         setTitle("Inicio de Sesion");
         setResizable(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
-        Image icono_listar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/cine.jpg"));
-        icono_listar = icono_listar.getScaledInstance(550, 500, Image.SCALE_SMOOTH);
+        Image icono_listar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/cine.png"));
+        icono_listar = icono_listar.getScaledInstance(500, 400, Image.SCALE_SMOOTH);
         etq_imagePrincipal.setIcon(new ImageIcon(icono_listar));
-        LineBorder rebordear = new LineBorder(null, 2, true);
-        
-        campo_contraseña.setBorder(rebordear);
-        campo_usuario.setBorder(rebordear);
-        btn_inicar.setBackground(Color.WHITE);
+    
+        campo_contraseña.putClientProperty("JComponent.roundRect", true);
         
     }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -101,7 +93,6 @@ public class InicioSesion extends javax.swing.JFrame {
         etq_olvido_contraseña.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         etq_imagePrincipal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        etq_imagePrincipal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btn_registrarse.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btn_registrarse.setText("REGISTRARSE ");
@@ -207,10 +198,12 @@ public class InicioSesion extends javax.swing.JFrame {
                 // Rol es Cajero
                 System.out.println("Bienvenido Cajero");
                 SesionCajero ventana = new SesionCajero(bd);
+                this.dispose();
             } else if (usuario.getRol().equals("Administrador")) {
                 // Rol es Administrador
                 System.out.println("Bienvenido Administrador");
                 MenuAdministrador menu = new MenuAdministrador(baseDatos, usuario); // Pasar el usuario
+                this.dispose();
             } else {
                 // mensaje de error en caso de no encontrar datos
                 System.out.println("Rol desconocido: " + usuario.getRol());
@@ -221,6 +214,18 @@ public class InicioSesion extends javax.swing.JFrame {
         }
     }
 
+    public void imagenesCarusel(){
+        timer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentIndex = (currentIndex + 1) % imagenes.length; // Avanzar al siguiente índice de imagen
+                Image icono_listar = new ImageIcon(getClass().getResource(imagenes[currentIndex])).getImage();
+                icono_listar = icono_listar.getScaledInstance(500, 400, Image.SCALE_SMOOTH);
+                etq_imagePrincipal.setIcon(new ImageIcon(icono_listar)); // Establecer la nueva imagen en la JLabel
+            }
+        });
+        timer.start();
+    }
 
 
 

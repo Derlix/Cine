@@ -4,6 +4,7 @@ import ChristianArias.Analisis_Y_Reportes;
 import JuanBustamante.Gestion_personal;
 import JuanCamilo.CrearPelicula;
 import JuanCamilo.GestionPeliculas;
+import com.mysql.cj.xdevapi.DbDoc;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -32,6 +33,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;*/
 import utils.BaseDatosJuanPrincipal;
 import utils.BaseDatos_ChristianArias;
+import utils.CristianBD;
 import utils.Usuario;
 
 
@@ -153,6 +155,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
         btnGestionPersonas = new javax.swing.JButton();
         btnProgramarFunciones = new javax.swing.JButton();
         btnAnalisisReporte = new javax.swing.JButton();
+        boton_cerrarSesion = new javax.swing.JToggleButton();
         contentPrincipal = new javax.swing.JPanel();
         etqTemporal = new javax.swing.JLabel();
         panelIcon = new javax.swing.JPanel();
@@ -224,6 +227,13 @@ public class MenuAdministrador extends javax.swing.JFrame {
             }
         });
 
+        boton_cerrarSesion.setText("CERRAR SESION");
+        boton_cerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boton_cerrarSesionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout contentMenuLayout = new javax.swing.GroupLayout(contentMenu);
         contentMenu.setLayout(contentMenuLayout);
         contentMenuLayout.setHorizontalGroup(
@@ -237,6 +247,10 @@ public class MenuAdministrador extends javax.swing.JFrame {
                     .addComponent(btnProgramarFunciones, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                     .addComponent(btnAnalisisReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(contentMenuLayout.createSequentialGroup()
+                .addGap(86, 86, 86)
+                .addComponent(boton_cerrarSesion)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         contentMenuLayout.setVerticalGroup(
             contentMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,7 +265,9 @@ public class MenuAdministrador extends javax.swing.JFrame {
                 .addComponent(btnProgramarFunciones, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAnalisisReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(boton_cerrarSesion)
+                .addGap(22, 22, 22))
         );
 
         getContentPane().add(contentMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 138, 290, -1));
@@ -503,6 +519,16 @@ public class MenuAdministrador extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnAnalisisReporteActionPerformed
+
+    private void boton_cerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_cerrarSesionActionPerformed
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de cerrar sesion?", "Cerrar aplicación", JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
+            // Cerrar la aplicación
+            CristianBD bd = new CristianBD();
+            this.dispose();
+            InicioSesion ventana = new InicioSesion(basedatos, bd);
+        }
+    }//GEN-LAST:event_boton_cerrarSesionActionPerformed
     Color customColor = Color.decode("#7F265B");
     public void eventosMouse(){
         
@@ -612,6 +638,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton boton_cerrarSesion;
     private javax.swing.JButton btnAdministrarSedes;
     private javax.swing.JButton btnAnalisisReporte;
     private javax.swing.JButton btnGestionPeliculas;
