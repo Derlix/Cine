@@ -13,8 +13,14 @@ import utils.Usuario;
 import CristianArce.ItemCombo;
 import utils.BaseDatos_ChristianArias;
 import CristianArce.Venta;
+import Principal.InicioSesion;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
+import utils.BaseDatosJuanBustamante;
+import utils.BaseDatosJuanPrincipal;
 
 public class SesionCajero extends javax.swing.JFrame {
     int id_pelicula;
@@ -23,17 +29,17 @@ public class SesionCajero extends javax.swing.JFrame {
     CristianBD bd;
     int cantidad_boletos;
     int total_venta;
+    BaseDatosJuanPrincipal baseDatos = new BaseDatosJuanPrincipal();
     public SesionCajero(CristianBD bd) {
         this.bd = bd;
         initComponents();
         initAlterComponents();
         setVisible(true);
         setLocationRelativeTo(null);
-        
+        abrirventanaAlCerrar();
     }
     
     public void initAlterComponents(){
-        
         setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
         setTitle("Menu Cajero");
         setResizable(true);
@@ -56,6 +62,7 @@ public class SesionCajero extends javax.swing.JFrame {
                 }
             }
         }
+     
     }
 
     @SuppressWarnings("unchecked")
@@ -344,7 +351,16 @@ public class SesionCajero extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        dispose();
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de cerrar sesion?", "Cerrar aplicación", JOptionPane.YES_NO_OPTION);
+        
+        if (opcion == JOptionPane.YES_OPTION) {
+            // Cerrar la aplicación
+            CristianBD bd = new CristianBD();
+            this.dispose();
+            InicioSesion ventana = new InicioSesion(baseDatos, bd);
+        }
+        
+        
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void seleccionar_peliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionar_peliculaActionPerformed
@@ -406,6 +422,14 @@ public class SesionCajero extends javax.swing.JFrame {
         }
    }
 
+    public void abrirventanaAlCerrar(){
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                InicioSesion ventana = new InicioSesion(baseDatos,bd);
+            }
+        });
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel etq_mostrar_asiento;
     private javax.swing.JLabel etq_mostrar_hora;
