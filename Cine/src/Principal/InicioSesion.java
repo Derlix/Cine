@@ -5,17 +5,22 @@ import CristianArce.SesionCajero;
 import JuanCamilo.CrearUsuario;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.border.LineBorder;
 import utils.BaseDatosJuanPrincipal;
 import utils.CristianBD;
 import utils.Usuario;
-
+import javax.swing.*;
 public class InicioSesion extends javax.swing.JFrame {
 
     private BaseDatosJuanPrincipal baseDatos;
+    private Timer timer;
+    private int currentIndex = 0;
     CristianBD bd;
+    private String[] imagenes = {"/imagenes/cine.jpg", "/imagenes/fondo_cajero.jpg", "/imagenes/pantalla.png"};
     public InicioSesion(BaseDatosJuanPrincipal baseDatos, CristianBD bd) {
         this.baseDatos = baseDatos;
         this.bd = bd;
@@ -23,6 +28,17 @@ public class InicioSesion extends javax.swing.JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         componentesAlternos();
+        
+        timer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentIndex = (currentIndex + 1) % imagenes.length; // Avanzar al siguiente índice de imagen
+                Image icono_listar = new ImageIcon(getClass().getResource(imagenes[currentIndex])).getImage();
+                icono_listar = icono_listar.getScaledInstance(550, 500, Image.SCALE_SMOOTH);
+                etq_imagePrincipal.setIcon(new ImageIcon(icono_listar)); // Establecer la nueva imagen en la JLabel
+            }
+        });
+        timer.start();
     }
     
     public void componentesAlternos(){
