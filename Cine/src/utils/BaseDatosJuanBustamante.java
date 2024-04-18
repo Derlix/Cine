@@ -291,4 +291,49 @@ public Usuario obtenerEmpleadoPorId(int idEmpleado) {
     return empleado;
 }
 
+public Cine obtenerInformacionCine(int idCine) {
+    Cine cine = null;
+    String query = "SELECT * FROM cines WHERE ID_Cine = ?";
+    try {
+        PreparedStatement ps = conexion.prepareStatement(query);
+        ps.setInt(1, idCine);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            int id = rs.getInt("ID_Cine");
+            String nombre = rs.getString("Nombre_Cine");
+            String direccion = rs.getString("Direccion");
+            String ciudad = rs.getString("Ciudad");
+            String pais = rs.getString("Pais");
+
+            cine = new Cine(id, nombre, direccion, ciudad, pais);
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener la información del cine:");
+        System.out.println(ex.getMessage());
+    }
+    return cine;
+}
+
+public List<Sala> obtenerSalasPorIdSede(int idSede) {
+        List<Sala> salas = new ArrayList<>();
+        String query = "SELECT * FROM salas_cine WHERE ID_Cine = ?";
+        try {
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ps.setInt(1, idSede);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int idSala = rs.getInt("ID_Sala");
+                String nombre = rs.getString("Nombre_Sala");
+                int capacidad = rs.getInt("Capacidad");
+
+                Sala sala = new Sala(idSala, nombre, capacidad, idSede);
+                salas.add(sala);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener las salas de la sede:");
+            System.out.println(ex.getMessage());
+        }
+        return salas;
+    }
+
 }
