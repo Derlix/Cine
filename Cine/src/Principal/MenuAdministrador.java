@@ -1,6 +1,7 @@
 package Principal;
 
 import ChristianArias.Analisis_Y_Reportes;
+import JuanBustamante.Gestion_empresa;
 import JuanBustamante.Gestion_personal;
 import JuanCamilo.CrearPelicula;
 import JuanCamilo.GestionPeliculas;
@@ -413,8 +414,10 @@ public class MenuAdministrador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdministrarSedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarSedesActionPerformed
-        /*
-         nuevo = new (basedatos);
+        
+        BaseDatosJuanBustamante db = new BaseDatosJuanBustamante();
+               
+        Gestion_empresa nuevo = new Gestion_empresa(db);
         
         
         //Ajustar el tamaño del nuevo contenedor
@@ -427,7 +430,8 @@ public class MenuAdministrador extends javax.swing.JFrame {
         //repaint(); Re pintamos 
         repaint();
         revalidate();
-        */
+        
+        
     }//GEN-LAST:event_btnAdministrarSedesActionPerformed
 
     private void btnGestionPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionPeliculasActionPerformed
@@ -449,11 +453,10 @@ public class MenuAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionPeliculasActionPerformed
 
     private void btnGestionPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionPersonasActionPerformed
-        BaseDatosJuanBustamante db = new BaseDatosJuanBustamante();
-        Gestion_personal nuevo = new Gestion_personal(db);
         
-                /*
-        Gestion_personal nuevo = Gestion_personal new (basedatos);
+        BaseDatosJuanBustamante db = new BaseDatosJuanBustamante();
+               
+        Gestion_personal nuevo = new Gestion_personal(db);
         
         
         //Ajustar el tamaño del nuevo contenedor
@@ -466,10 +469,10 @@ public class MenuAdministrador extends javax.swing.JFrame {
         //repaint(); Re pintamos 
         repaint();
         revalidate();
-        */
         
         //Ajustar el tamaño del nuevo contenedor
        
+        
         
     }//GEN-LAST:event_btnGestionPersonasActionPerformed
 

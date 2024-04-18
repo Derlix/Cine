@@ -5,17 +5,21 @@ import utils.BaseDatosJuanBustamante;
 
 public class Actualizar_sede extends javax.swing.JFrame {
     BaseDatosJuanBustamante basedatos;
-    
-    public Actualizar_sede(BaseDatosJuanBustamante basedatos) {
+    int idSede;
+    public Actualizar_sede(BaseDatosJuanBustamante basedatos, int idSede) {
         this.basedatos = basedatos;
+        this.idSede = idSede;
         initComponents();
+        setVisible(true);
+        etq_sedeID.setText("Actualizar sede: #"+String.valueOf(idSede));
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        etq_sedeID = new javax.swing.JLabel();
         etq_NombreSede = new javax.swing.JLabel();
         campo_NombreSede = new javax.swing.JTextField();
         etq_Direccion = new javax.swing.JLabel();
@@ -29,7 +33,9 @@ public class Actualizar_sede extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Actualizar sede: ARBOLEDA #1");
+        etq_sedeID.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        etq_sedeID.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etq_sedeID.setText("Actualizar sede: #");
 
         etq_NombreSede.setText("Nombre sede:");
 
@@ -73,7 +79,7 @@ public class Actualizar_sede extends javax.swing.JFrame {
                     .addComponent(campo_NombreSede)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(154, 154, 154)
-                        .addComponent(jLabel1)))
+                        .addComponent(etq_sedeID, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(26, 26, 26))
             .addGroup(layout.createSequentialGroup()
                 .addGap(87, 87, 87)
@@ -86,7 +92,7 @@ public class Actualizar_sede extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addComponent(jLabel1)
+                .addComponent(etq_sedeID)
                 .addGap(18, 18, 18)
                 .addComponent(etq_NombreSede)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -107,7 +113,7 @@ public class Actualizar_sede extends javax.swing.JFrame {
                 .addComponent(btn_actualizarSede, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_CancelarSede, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -122,7 +128,7 @@ public class Actualizar_sede extends javax.swing.JFrame {
         String pais = campo_pais.getText();
 
         // Llamar a la función para actualizar la sede
-        basedatos.actualizarSede(1, nombreSede, direccion, ciudad, pais);
+        basedatos.actualizarSede(idSede, nombreSede, direccion, ciudad, pais);
        
         
         if (nombreSede.isEmpty() || direccion.isEmpty() || ciudad.isEmpty() || pais.isEmpty()) {
@@ -157,6 +163,6 @@ public class Actualizar_sede extends javax.swing.JFrame {
     private javax.swing.JLabel etq_NombreSede;
     private javax.swing.JLabel etq_ciudad;
     private javax.swing.JLabel etq_pais;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel etq_sedeID;
     // End of variables declaration//GEN-END:variables
 }

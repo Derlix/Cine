@@ -205,6 +205,11 @@ public class SesionCajero extends javax.swing.JFrame {
         jPanel2.add(seleccionar_pelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 200, 40));
 
         seleccionar_sala.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        seleccionar_sala.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionar_salaActionPerformed(evt);
+            }
+        });
         jPanel2.add(seleccionar_sala, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, 200, 40));
 
         seleccionar_asiento.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -402,6 +407,10 @@ public class SesionCajero extends javax.swing.JFrame {
         bd.insertarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
         
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void seleccionar_salaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionar_salaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_seleccionar_salaActionPerformed
 
     public static String obtenerFecha() {
         LocalDate fechaActual = LocalDate.now();
