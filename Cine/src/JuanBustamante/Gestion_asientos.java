@@ -3,6 +3,8 @@ package JuanBustamante;
 
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import utils.BaseDatosJuanBustamante;
 import utils.Cine;
 import utils.Sala;
@@ -21,6 +23,7 @@ public class Gestion_asientos extends javax.swing.JFrame {
         cargarSalas();
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
     }
     
     // Método para cargar la información del cine
@@ -43,22 +46,44 @@ public class Gestion_asientos extends javax.swing.JFrame {
     }
 
     private void cargarSalas() {
-        // Obtener todas las salas vinculadas a la sede
-        List<Sala> salas = basedatos.obtenerSalasPorIdSede(idSede);
-        
-        DefaultListModel<String> model = new DefaultListModel<>();
-        
-        // Construir las cadenas de nombre y capacidad de cada sala y agregarlas al modelo
-        for (Sala sala : salas) {
-            String nombreSala = sala.getNombre();
-            int capacidad = sala.getCapacidad();
-            String infoSala = "Sala: " + nombreSala + " - Capacidad: " + capacidad;
-            model.addElement(infoSala);
-        }
-        
-        // Establecer el modelo en la JList
-        SalaCap_jList.setModel(model);
+    // Obtener todas las salas vinculadas a la sede
+    List<Sala> salas = basedatos.obtenerSalasPorIdSede(idSede);
+    
+    DefaultListModel<String> model = new DefaultListModel<>();
+    
+    // Construir las cadenas de nombre y capacidad de cada sala y agregarlas al modelo
+    for (Sala sala : salas) {
+        String nombreSala = sala.getNombre();
+        int capacidad = sala.getCapacidad();
+        int idSala = sala.getId_sala(); // Asegúrate de que la clase Sala tenga un método getId_sala()
+        String infoSala = "Sala: " + nombreSala + " - Capacidad: " + capacidad + " - ID: " + idSala;
+        model.addElement(infoSala);
     }
+    
+    // Establecer el modelo en la JList
+    SalaCap_jList.setModel(model);
+    
+    // Agregar un ListSelectionListener a la lista
+    SalaCap_jList.addListSelectionListener((ListSelectionEvent event) -> {
+        if (!event.getValueIsAdjusting()) {
+            // Obtener el índice del elemento seleccionado
+            int selectedIndex = SalaCap_jList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                // Obtener el elemento seleccionado
+                String selectedElement = SalaCap_jList.getModel().getElementAt(selectedIndex);
+                // Extraer la ID de la sala del elemento seleccionado
+                // Aquí asumimos que la ID de la sala siempre está al final del elemento
+                String idSalaStr = selectedElement.substring(selectedElement.lastIndexOf("ID: ") + 4);
+                // Convertir la ID de la sala a int
+                int idSala = Integer.parseInt(idSalaStr);
+                // Ahora puedes usar la ID de la sala para lo que necesites
+                System.out.println("ID de la sala seleccionada: " + idSala);
+                Actualizar_sala actuaSala = new Actualizar_sala(basedatos, idSala, idSede);
+            }
+        }
+    });
+}
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -72,7 +97,7 @@ public class Gestion_asientos extends javax.swing.JFrame {
         etq_DireccionSede = new javax.swing.JLabel();
         etq_CiudadSede = new javax.swing.JLabel();
         etq_PaisSede = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btn_crearSala = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         SalaCap_jList = new javax.swing.JList<>();
 
@@ -98,7 +123,12 @@ public class Gestion_asientos extends javax.swing.JFrame {
 
         etq_PaisSede.setText("Pais: Pais A");
 
-        jButton1.setText("Crear sala");
+        btn_crearSala.setText("Crear sala");
+        btn_crearSala.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_crearSalaActionPerformed(evt);
+            }
+        });
 
         SalaCap_jList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Sala: 1 - Capacidad: 30", "Sala: 2 - Capacidad: 30", "Sala: 3 - Capacidad: 30", "Sala: 4 - Capacidad: 30" };
@@ -114,7 +144,7 @@ public class Gestion_asientos extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(37, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton1)
+                    .addComponent(btn_crearSala)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(etq_PaisSede, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -146,7 +176,7 @@ public class Gestion_asientos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(etq_PaisSede)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btn_crearSala)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(27, Short.MAX_VALUE))
@@ -171,17 +201,23 @@ public class Gestion_asientos extends javax.swing.JFrame {
         Actualizar_sede ActualizadorSede = new Actualizar_sede(basedatos, idSede);
     }//GEN-LAST:event_btn_EditarActionPerformed
 
+    private void btn_crearSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearSalaActionPerformed
+        // TODO add your handling code here:
+        
+        Crear_sala CreaLaSala = new Crear_sala(basedatos,idSede);
+    }//GEN-LAST:event_btn_crearSalaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> SalaCap_jList;
     private javax.swing.JButton btn_Editar;
+    private javax.swing.JButton btn_crearSala;
     private javax.swing.JLabel etq_CiudadSede;
     private javax.swing.JLabel etq_DireccionSede;
     private javax.swing.JLabel etq_InformacionSede;
     private javax.swing.JLabel etq_Nombre_sede;
     private javax.swing.JLabel etq_PaisSede;
     private javax.swing.JLabel etq_SalaTotal;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

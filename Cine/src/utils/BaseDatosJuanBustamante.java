@@ -336,4 +336,41 @@ public List<Sala> obtenerSalasPorIdSede(int idSede) {
         return salas;
     }
 
+    public void insertarSala(Sala sala) {
+        String query = "INSERT INTO salas_cine (Nombre_Sala, Capacidad, ID_Cine) VALUES (?, ?, ?)";
+        try {
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ps.setString(1, sala.getNombre());
+            ps.setInt(2, sala.getCapacidad());
+            ps.setInt(3, sala.getId_cine());
+
+            // Ejecutar la consulta para insertar la nueva sala
+            ps.executeUpdate();
+            System.out.println("Sala insertada exitosamente.");
+        } catch (SQLException ex) {
+            System.out.println("Error al insertar la sala:");
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void actualizarSala(Sala sala) {
+        String query = "UPDATE salas_cine SET Nombre_Sala = ?, Capacidad = ? WHERE ID_Sala = ?";
+        try {
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ps.setString(1, sala.getNombre());
+            ps.setInt(2, sala.getCapacidad());
+            ps.setInt(3, sala.getId_sala());
+
+            // Ejecutar la consulta para actualizar la sala
+            ps.executeUpdate();
+            System.out.println("Sala actualizada exitosamente.");
+        } catch (SQLException ex) {
+            System.out.println("Error al actualizar la sala:");
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    
+
+
 }

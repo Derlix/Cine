@@ -41,7 +41,7 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="37" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_crearSala" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="etq_PaisSede" max="32767" attributes="0"/>
@@ -79,7 +79,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="etq_PaisSede" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_crearSala" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="313" max="-2" attributes="0"/>
                   <EmptySpace pref="27" max="32767" attributes="0"/>
@@ -129,10 +129,13 @@
             <Property name="text" type="java.lang.String" value="Pais: Pais A"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btn_crearSala">
           <Properties>
             <Property name="text" type="java.lang.String" value="Crear sala"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_crearSalaActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <AuxValues>

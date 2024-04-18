@@ -19,10 +19,6 @@ public class Gestion_personal extends javax.swing.JPanel {
         this.basedatos = db;
         initComponents();
         setVisible(true);
-        
-        initComponents();
-        this.basedatos = db;
-        setVisible(true);
 
         // Agregar un ListSelectionListener a la lista sedes_jList
         sedes_jList.addListSelectionListener((ListSelectionEvent e) -> {

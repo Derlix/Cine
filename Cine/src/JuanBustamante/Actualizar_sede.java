@@ -128,7 +128,7 @@ public class Actualizar_sede extends javax.swing.JFrame {
         String pais = campo_pais.getText();
 
         // Llamar a la función para actualizar la sede
-        basedatos.actualizarSede(1, nombreSede, direccion, ciudad, pais);
+        basedatos.actualizarSede(idSede, nombreSede, direccion, ciudad, pais);
        
         
         if (nombreSede.isEmpty() || direccion.isEmpty() || ciudad.isEmpty() || pais.isEmpty()) {
