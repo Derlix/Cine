@@ -450,11 +450,10 @@ public class MenuAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionPeliculasActionPerformed
 
     private void btnGestionPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionPersonasActionPerformed
-        BaseDatosJuanBustamante db = new BaseDatosJuanBustamante();
-        Gestion_personal nuevo = new Gestion_personal(db);
         
-                /*
-        Gestion_personal nuevo = Gestion_personal new (basedatos);
+        BaseDatosJuanBustamante db = new BaseDatosJuanBustamante();
+               
+        Gestion_personal nuevo = new Gestion_personal(db);
         
         
         //Ajustar el tamaño del nuevo contenedor
@@ -467,10 +466,10 @@ public class MenuAdministrador extends javax.swing.JFrame {
         //repaint(); Re pintamos 
         repaint();
         revalidate();
-        */
         
         //Ajustar el tamaño del nuevo contenedor
        
+        
         
     }//GEN-LAST:event_btnGestionPersonasActionPerformed
 

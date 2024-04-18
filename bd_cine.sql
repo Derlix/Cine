@@ -1,5 +1,5 @@
 -- Crear la base de datos bd_cine
-
+CREATE DATABASE bd_cine;
 USE bd_cine;
 
 -- Crear la tabla de Cines
