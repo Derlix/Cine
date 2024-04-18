@@ -130,7 +130,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
         btnAnalisisReporte.setForeground(Color.BLACK);
         
         
-        
+                
         //Muestra un notificacion para confirmar si deseas cerrar la aplicacion
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -539,6 +539,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
             public void mouseEntered(MouseEvent e) {
                 btnAdministrarSedes.setBackground(customColor);
                 btnAdministrarSedes.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                btnAdministrarSedes.setForeground(Color.WHITE);
             }
             
              
@@ -546,6 +547,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
             @Override
             public void mouseExited(MouseEvent e) {
                 btnAdministrarSedes.setBackground(Color.WHITE);            
+                btnAdministrarSedes.setForeground(Color.BLACK);
             }
             // Establecer el color personalizado cuando se hace clic en cualquier botón
             @Override
@@ -560,11 +562,13 @@ public class MenuAdministrador extends javax.swing.JFrame {
             public void mouseEntered(MouseEvent e) {
                 btnGestionPeliculas.setBackground(customColor);
                 btnGestionPeliculas.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                btnGestionPeliculas.setForeground(Color.WHITE);
             }
             // Volver al color predeterminado cuando el raton sale del botón
             @Override
             public void mouseExited(MouseEvent e) {
-                btnGestionPeliculas.setBackground(Color.WHITE);            
+                btnGestionPeliculas.setBackground(Color.WHITE);
+                btnGestionPeliculas.setForeground(Color.BLACK);
             }
             // Establecer el color personalizado cuando se hace clic en cualquier botón
             @Override
@@ -579,11 +583,13 @@ public class MenuAdministrador extends javax.swing.JFrame {
             public void mouseEntered(MouseEvent e) {
                 btnGestionPersonas.setBackground(customColor);
                 btnGestionPersonas.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                btnGestionPersonas.setForeground(Color.WHITE);
             }
             // Volver al color predeterminado cuando el raton sale del botón
             @Override
             public void mouseExited(MouseEvent e) {
                 btnGestionPersonas.setBackground(Color.WHITE);            
+                btnGestionPersonas.setForeground(Color.BLACK);
             }
             // Establecer el color personalizado cuando se hace clic en cualquier botón
             @Override
@@ -597,11 +603,13 @@ public class MenuAdministrador extends javax.swing.JFrame {
             public void mouseEntered(MouseEvent e) {
                 btnProgramarFunciones.setBackground(customColor);
                 btnProgramarFunciones.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                btnProgramarFunciones.setForeground(Color.WHITE);
             }
             // Volver al color predeterminado cuando el raton sale del botón
             @Override
             public void mouseExited(MouseEvent e) {
-                btnProgramarFunciones.setBackground(Color.WHITE);            
+                btnProgramarFunciones.setBackground(Color.WHITE);
+                btnProgramarFunciones.setForeground(Color.BLACK);
             }
             // Establecer el color personalizado cuando se hace clic en cualquier botón
             @Override
@@ -613,13 +621,16 @@ public class MenuAdministrador extends javax.swing.JFrame {
             @Override
             // Evento cambio de color cuando se pasa el mouse por el boton
             public void mouseEntered(MouseEvent e) {
+                btnAnalisisReporte.setForeground(Color.WHITE);
                 btnAnalisisReporte.setBackground(customColor);
                 btnAnalisisReporte.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                
             }
             // Volver al color predeterminado cuando el raton sale del botón
             @Override
             public void mouseExited(MouseEvent e) {
-                btnAnalisisReporte.setBackground(Color.WHITE);            
+                btnAnalisisReporte.setBackground(Color.WHITE);    
+                btnAnalisisReporte.setForeground(Color.BLACK);
             }
             // Establecer el color personalizado cuando se hace clic en cualquier botón
             @Override

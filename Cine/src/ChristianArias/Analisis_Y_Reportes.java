@@ -26,8 +26,11 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import javax.swing.ImageIcon;
@@ -41,7 +44,7 @@ public class Analisis_Y_Reportes extends javax.swing.JPanel {
     BaseDatos_ChristianArias db;
     public Analisis_Y_Reportes(BaseDatos_ChristianArias db) {
         initComponents();
-        
+        eventosMouse();
         this.db = db;
         initComponents();
         setVisible(true);
@@ -69,7 +72,7 @@ public class Analisis_Y_Reportes extends javax.swing.JPanel {
         boton_Generarreporte = new javax.swing.JToggleButton();
         boton_Informeventas = new javax.swing.JToggleButton();
 
-        jPanel1.setBackground(new java.awt.Color(204, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         boton_Generarreporte.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         boton_Generarreporte.setText("Generar Reporte");
@@ -169,11 +172,41 @@ public class Analisis_Y_Reportes extends javax.swing.JPanel {
        
     }//GEN-LAST:event_boton_GenerarreporteActionPerformed
 
+    
+    
     private void boton_InformeventasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_InformeventasActionPerformed
         InformeDetalladoVentas ventana = new InformeDetalladoVentas(db);
     }//GEN-LAST:event_boton_InformeventasActionPerformed
     
-
+    
+    //ESTILOS
+     Color customColor = Color.decode("#7F265B");
+    public void eventosMouse(){
+        
+        
+        boton_Generarreporte.addMouseListener(new MouseAdapter() {
+            @Override
+            // Evento cambio de color cuando se pasa el mouse por el boton
+            public void mouseEntered(MouseEvent e) {
+                boton_Generarreporte.setBackground(customColor);
+                boton_Generarreporte.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                boton_Generarreporte.setForeground(Color.WHITE);
+            }
+            
+             
+            // Volver al color predeterminado cuando el raton sale del botón
+            @Override
+            public void mouseExited(MouseEvent e) {
+                boton_Generarreporte.setBackground(Color.WHITE);            
+                boton_Generarreporte.setForeground(Color.BLACK);
+            }
+            // Establecer el color personalizado cuando se hace clic en cualquier botón
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                boton_Generarreporte.setBackground(customColor);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton boton_Generarreporte;
