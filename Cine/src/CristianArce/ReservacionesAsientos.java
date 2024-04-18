@@ -32,7 +32,6 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         botones();
-        
         setVisible(true);
         mantenerAsientosOcupados();
         componentesAlternos();
@@ -125,61 +124,63 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         
     }
     
-    public void reservarAsiento(int numeroAsiento){
-        try {
-            conexion = (Connection) db.conectar();
-      
-            String consulta = "UPDATE asientos SET estado = 'Reservado' WHERE ID_Asiento = ?";
-            PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
-            sentenciaPreparada.setInt(1, numeroAsiento);
-            int mensaje = sentenciaPreparada.executeUpdate();
+   public void reservarAsiento(int numeroAsiento){
+    try {
+        conexion = (Connection) db.conectar();
+        String consulta = "UPDATE Asientos_funciones SET ID_Venta = ? WHERE ID_Asiento = ? AND ID_Venta IS NULL";
+        PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
+        // En lugar de usar el número de asiento, usamos el ID_Asiento
+        sentenciaPreparada.setInt(1, obtenerIdVenta());
+        sentenciaPreparada.setInt(2, numeroAsiento);
+        int mensaje = sentenciaPreparada.executeUpdate();
 
-            if(mensaje > 0){
-                JOptionPane.showMessageDialog(null,"Asiento reservado Reservada");
-            }else{
-             JOptionPane.showMessageDialog(null,"Error al actualizar el estado de la habitación");
-            }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta SQL: " + e.getMessage());
-            } finally {
-                try {
-                    if (conexion != null) {
-                        conexion.close();
-                    }
-            } catch (SQLException ex) {
-                Logger.getLogger(ReservacionesAsientos.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + ex.getMessage());
-            }   
-    }
-}
-    
-    public void quitarReservacionAsiento(int numeroAsiento){
+        if(mensaje > 0){
+            JOptionPane.showMessageDialog(null,"Asiento reservado correctamente");
+        } else {
+            JOptionPane.showMessageDialog(null,"El asiento ya está reservado");
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta SQL: " + e.getMessage());
+    } finally {
         try {
-            conexion = (Connection) db.conectar();
-      
-            String consulta = "UPDATE asientos SET estado = 'Disponible' WHERE ID_Asiento = ?";
-            PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
-            sentenciaPreparada.setInt(1, numeroAsiento);
-            int mensaje = sentenciaPreparada.executeUpdate();
-
-            if(mensaje > 0){
-                JOptionPane.showMessageDialog(null,"Asiento ya no reservas este asiento");
-            }else{
-                JOptionPane.showMessageDialog(null,"Error al actualizar el estado de la habitación");
+            if (conexion != null) {
+                conexion.close();
             }
-            } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta SQL: " + e.getMessage());
-            } finally {
-                try {
-                if (conexion != null) {
-                    conexion.close();
-                }
-            } catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(ReservacionesAsientos.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + ex.getMessage());
         }
     }
 }
+    
+    public void quitarReservacionAsiento(int numeroAsiento){
+    try {
+        conexion = (Connection) db.conectar();
+
+        String consulta = "UPDATE Asientos_funciones SET ID_Venta = NULL WHERE ID_Asiento = ?";
+        PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
+        sentenciaPreparada.setInt(1, numeroAsiento);
+        int mensaje = sentenciaPreparada.executeUpdate();
+
+        if(mensaje > 0){
+            JOptionPane.showMessageDialog(null,"Reserva del asiento cancelada");
+        } else {
+            JOptionPane.showMessageDialog(null,"Error al cancelar la reserva del asiento");
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta SQL: " + e.getMessage());
+    } finally {
+        try {
+            if (conexion != null) {
+                conexion.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservacionesAsientos.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + ex.getMessage());
+        }
+    }
+}
+
 
     
     
@@ -219,39 +220,75 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         
     }
     
-    public void mantenerAsientosOcupados(){
-        try {
-            conexion = db.conectar();
-            String consulta = "SELECT ID_Asiento,Estado FROM asientos";
-            PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
-            resultado = sentenciaPreparada.executeQuery();
-            
-            int numeroAsiento;
-            String estado;
-            
-            while (resultado.next()) {                
-                numeroAsiento = resultado.getInt("ID_Asiento");
-                estado = resultado.getString("Estado");
-                for (int i = 0; i < filas; i++) {
-                    for (int j = 0; j < columnas; j++) {
-                        String textoBton = DimensionBotones[i][j].getText();
-                        int numeroAsientoN = Integer.parseInt(textoBton.split("Asiento")[1]);
-                        if((numeroAsiento == numeroAsientoN)&&(estado.equals("Reservado"))){
+    public void mantenerAsientosOcupados() {
+    try {
+        conexion = db.conectar();
+        String consulta = "SELECT ID_Asiento, ID_Venta FROM Asientos_funciones";
+        PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
+        resultado = sentenciaPreparada.executeQuery();
+
+        int numeroAsiento;
+        int idVenta;
+
+        while (resultado.next()) {
+            numeroAsiento = resultado.getInt("ID_Asiento");
+            idVenta = resultado.getInt("ID_Venta");
+            for (int i = 0; i < filas; i++) {
+                for (int j = 0; j < columnas; j++) {
+                    String textoBton = DimensionBotones[i][j].getText();
+                    int numeroAsientoN = Integer.parseInt(textoBton.split("Asiento")[1]);
+                    if (numeroAsiento == numeroAsientoN) {
+                        if (idVenta != 0) {
+                            // El asiento está ocupado
                             Image icono_etqImagen = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/sillavendida.png"));
                             icono_etqImagen = icono_etqImagen.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
                             DimensionBotones[i][j].setIcon(new ImageIcon(icono_etqImagen));
-                            DimensionBotones[i][j].setSelected(true);
+                            DimensionBotones[i][j].setEnabled(false); // Deshabilitar el botón para que no se pueda seleccionar
+                            DimensionBotones[i][j].setContentAreaFilled(false); // Quitar el fondo del botón
+                            DimensionBotones[i][j].setBorderPainted(false); // Quitar el borde del botón
+                        } else {
+                            // El asiento está disponible
+                            Image icono_etqImagen = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/sillanull.png"));
+                            icono_etqImagen = icono_etqImagen.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+                            DimensionBotones[i][j].setIcon(new ImageIcon(icono_etqImagen));
+                            DimensionBotones[i][j].setEnabled(true); // Habilitar el botón para que se pueda seleccionar
+                            DimensionBotones[i][j].setContentAreaFilled(true); // Restaurar el fondo del botón
+                            DimensionBotones[i][j].setBorderPainted(true); // Restaurar el borde del botón
                         }
                     }
-                    
                 }
-                
             }
-        } catch (SQLException e) {
-            System.out.println("Error"+e);
         }
-        
+    } catch (SQLException e) {
+        System.out.println("Error" + e);
     }
+}
+
+    
+    private int obtenerIdVenta() {
+    int idVenta = 0;
+    try {
+        conexion = (Connection) db.conectar();
+        String consulta = "SELECT ID_Venta FROM Asientos_funciones WHERE ID_Venta IS NULL LIMIT 1";
+        PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
+        ResultSet resultado = sentenciaPreparada.executeQuery();
+        if (resultado.next()) {
+            idVenta = resultado.getInt("ID_Venta");
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al obtener el ID de venta: " + e.getMessage());
+    } finally {
+        try {
+            if (conexion != null) {
+                conexion.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservacionesAsientos.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + ex.getMessage());
+        }
+    }
+    return idVenta;
+}
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
