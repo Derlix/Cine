@@ -190,7 +190,7 @@ public class InicioSesion extends javax.swing.JFrame {
             if (usuario.getRol().equals("Cajero")) {
                 // Rol es Cajero
                 System.out.println("Bienvenido Cajero");
-                SesionCajero ventana = new SesionCajero(bd);
+                SesionCajero ventana = new SesionCajero(bd, usuario);
             } else if (usuario.getRol().equals("Administrador")) {
                 // Rol es Administrador
                 System.out.println("Bienvenido Administrador");

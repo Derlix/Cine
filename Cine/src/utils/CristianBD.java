@@ -1,6 +1,7 @@
 
 package utils;
 
+import CristianArce.VentanaEmergente;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,28 +38,55 @@ public class CristianBD extends BaseDatosJuanPrincipal{
         return funciones;
     }
     
-    public void rellenarFactura(){
-        
-        
-        
+    //obtener la ultima venta ingresada
+    public int ultimo_id_venta() {
+        int id_venta = -1;
+        try {
+            String query = "SELECT MAX(ID_Venta) FROM ventas";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                id_venta = resultSet.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener último ID de venta:");
+            System.out.println(ex.getMessage());
+        }
+        return id_venta;
     }
     
-    //insertar fecha
-    public void insertarVenta(int id_pelicula, int id_funcion, int id_usuario, int cantidad_boletos, double total_venta, String fecha) {
-        String query = "INSERT INTO ventas (ID_Pelicula, ID_Funcion, ID_Usuario, Cantidad_Boletos, Total_Venta, Fecha_Venta) VALUES (?, ?, ?, ?, ?, ?)";
+    public void eliminarVenta(int id) {
+        try {
+            String query = "DELETE FROM VENTAS WHERE ID_Venta = ?";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            VentanaEmergente nueva = new VentanaEmergente("Reembolso exitoso", "El reembolso se ha realizado con éxico");
+
+        } catch (SQLException ex) {
+            VentanaEmergente nueva = new VentanaEmergente("Error", "No se ha podido realizar el reembolso");
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    //insertar venta
+    public void insertarVenta(int id_venta, int id_pelicula, int id_funcion, int id_usuario, int cantidad_boletos, double total_venta, String fecha) {
+        String query = "INSERT INTO ventas (ID_Venta, ID_Pelicula, ID_Funcion, ID_Usuario, Cantidad_Boletos, Total_Venta, Fecha_Venta) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conexion.prepareStatement(query)) {
-            statement.setInt(1, id_pelicula);
-            statement.setInt(2, id_funcion);
-            statement.setInt(3, id_usuario);
-            statement.setInt(4, cantidad_boletos);
-            statement.setDouble(5, total_venta);
-            statement.setString(6, fecha);
+            statement.setInt(1, id_venta);
+            statement.setInt(2, id_pelicula);
+            statement.setInt(3, id_funcion);
+            statement.setInt(4, id_usuario);
+            statement.setInt(5, cantidad_boletos);
+            statement.setDouble(6, total_venta);
+            statement.setString(7, fecha);
 
             statement.executeUpdate();
-            System.out.println("Venta agregada correctamente.");
+            VentanaEmergente nueva = new VentanaEmergente("Venta exitosa", "La venta se ha agregado con exito");
         } catch (SQLException ex) {
+            VentanaEmergente nueva = new VentanaEmergente("Error", "No se ha podido hacer la venta");
             System.out.println("Error al agregar la venta.");
-            System.out.println(ex.getMessage());
         }
     }
     
