@@ -3,7 +3,7 @@
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-      <Color blue="ff" green="ff" red="cc" type="rgb"/>
+      <Color blue="ff" green="ff" red="ff" type="rgb"/>
     </Property>
   </Properties>
   <AuxValues>
@@ -27,11 +27,11 @@
                   <Component id="PanelPeliculas" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-                      <Component id="CrearPelicula" min="-2" pref="151" max="-2" attributes="0"/>
+                      <Component id="btnCrearPelicula" min="-2" pref="151" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="EditarPelicula" min="-2" pref="161" max="-2" attributes="0"/>
+                      <Component id="btnEditarPelicula" min="-2" pref="161" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="EliminarPelicula" min="-2" pref="146" max="-2" attributes="0"/>
+                      <Component id="btnEliminarPelicula" min="-2" pref="146" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="76" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -44,9 +44,9 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="EliminarPelicula" max="32767" attributes="0"/>
-                  <Component id="EditarPelicula" max="32767" attributes="0"/>
-                  <Component id="CrearPelicula" min="-2" pref="59" max="-2" attributes="0"/>
+                  <Component id="btnEliminarPelicula" max="32767" attributes="0"/>
+                  <Component id="btnEditarPelicula" max="32767" attributes="0"/>
+                  <Component id="btnCrearPelicula" min="-2" pref="59" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="PanelPeliculas" min="-2" max="-2" attributes="0"/>
@@ -56,31 +56,36 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JToggleButton" name="CrearPelicula">
+    <Component class="javax.swing.JToggleButton" name="btnCrearPelicula">
       <Properties>
         <Property name="text" type="java.lang.String" value="Crear Pelicula"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CrearPeliculaActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCrearPeliculaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JToggleButton" name="EditarPelicula">
+    <Component class="javax.swing.JToggleButton" name="btnEditarPelicula">
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar Pelicula"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EditarPeliculaActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarPeliculaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JToggleButton" name="EliminarPelicula">
+    <Component class="javax.swing.JToggleButton" name="btnEliminarPelicula">
       <Properties>
         <Property name="text" type="java.lang.String" value="Elimnar Pelicula"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EliminarPeliculaActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarPeliculaActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="PanelPeliculas">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -96,7 +101,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="510" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="320" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>

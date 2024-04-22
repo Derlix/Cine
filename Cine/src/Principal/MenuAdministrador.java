@@ -26,12 +26,6 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import utils.BaseDatosJuanBustamante;
-/*import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;*/
 import utils.BaseDatosJuanPrincipal;
 import utils.BaseDatos_ChristianArias;
 import utils.CristianBD;
