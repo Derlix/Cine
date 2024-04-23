@@ -30,5 +30,6 @@ public class Principal {
         InicioSesion ventana = new InicioSesion(basedatos,bd);
         //CrearUsuario v = new CrearUsuario(basedatos);
         //EditarUsuario b = new EditarUsuario(basedatos);
+
     }
 }
