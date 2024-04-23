@@ -7,13 +7,23 @@ public class ItemCombo {
     private String nombre_pelicula;
     private String hora;
     private int precio;
+    private int id_pelicula;
 
-    public ItemCombo(int id_funcion, int id_sala, String nombre_pelicula, String hora, int precio) {
+    public ItemCombo(int id_pelicula, int id_funcion, int id_sala, String nombre_pelicula, String hora, int precio) {
         this.id_funcion = id_funcion;
         this.id_sala = id_sala;
         this.nombre_pelicula = nombre_pelicula;
         this.hora = hora;
         this.precio = precio;
+        this.id_pelicula = id_pelicula;
+    }
+
+    public int getId_pelicula() {
+        return id_pelicula;
+    }
+
+    public void setId_pelicula(int id_pelicula) {
+        this.id_pelicula = id_pelicula;
     }
 
     public int getId_funcion() {
@@ -58,7 +68,7 @@ public class ItemCombo {
     
     @Override
     public String toString() {
-        return nombre_pelicula;
+        return nombre_pelicula + ": " + hora;
     }
 
 }

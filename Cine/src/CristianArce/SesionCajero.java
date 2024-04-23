@@ -18,51 +18,115 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import utils.BaseDatosJuanBustamante;
 import utils.BaseDatosJuanPrincipal;
 
 public class SesionCajero extends javax.swing.JFrame {
+    
+    CristianBD bd;
+    List<String> meses_disponibles = new ArrayList<>();
+    List<String> dias_disponibles = new ArrayList<>();
     int id_pelicula;
     int id_funcion;
     int id_usuario;
-    CristianBD bd;
     int cantidad_boletos;
     int total_venta;
-    BaseDatosJuanPrincipal baseDatos = new BaseDatosJuanPrincipal();
-    public SesionCajero(CristianBD bd) {
+    int id_venta;
+    
+    public SesionCajero(CristianBD bd, Usuario usuario) {
+        id_usuario = usuario.getIdUsuario();
         this.bd = bd;
         initComponents();
         initAlterComponents();
         setVisible(true);
         setLocationRelativeTo(null);
-        abrirventanaAlCerrar();
     }
     
     public void initAlterComponents(){
+        obtener_meses();
+        seleccionar_pelicula.setEnabled(false);
+        
+        seleccionar_mes.addItem("Mes");
+        seleccionar_dia.addItem("Día");
+        
+        for(String mes : meses_disponibles){
+            seleccionar_mes.addItem(mes);
+        }
+        
         setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
         setTitle("Menu Cajero");
         setResizable(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
+     
+    }
+    
+    public void obtener_meses(){
+        meses_disponibles.clear();
         List<Funcion> lista_funciones = bd.obtenerFunciones();
         List<Pelicula> lista_peliculas = bd.obtenerTodasLasPeliculas();
-       
-        //Funciones disponibles
         for (Funcion funcion : lista_funciones) {
             for (Pelicula pelicula : lista_peliculas) {
                 if (funcion.getId_pelicula() == pelicula.getIdPelicula()) {
-                    ItemCombo item = new ItemCombo(funcion.getId_funcion(), funcion.getId_sala(), pelicula.getTitulo(), funcion.getHora_inicio(), funcion.getPrecio());
-                    id_pelicula = pelicula.getIdPelicula();
-                    id_funcion = funcion.getId_funcion();
-                    id_usuario = 1;
-                    cantidad_boletos = 1;
-                    total_venta = funcion.getPrecio();
-                    seleccionar_pelicula.addItem(item);
+                    String fecha = funcion.getFecha();
+                    String[] fecha_separada = fecha.split("-");
+                    String mes = fecha_separada[1];
+                    if(!meses_disponibles.contains(mes)){
+                        meses_disponibles.add(mes);
+                    }
                 }
             }
         }
-     
+    }
+    
+    public void limpiar_factura(){
+        seleccionar_cantidad.setValue(1);
+        etq_pelicula.setText("");
+        etq_hora.setText("");
+        etq_sala.setText("");
+        etq_asiento.setText("");
+        etq_precio.setText("");
+        etq_cantidad.setText("");
+        etq_id.setText("");
+        etq_valor_total.setText("");
+        
+        etq_mostrar_pelicula.setText("");
+        etq_mostrar_hora.setText("");
+        etq_mostrar_sala.setText("");
+        etq_mostrar_asiento.setText("");
+        etq_mostrar_precio.setText("");
+        etq_mostrar_cantidad.setText("");
+        etq_mostrar_id.setText("");
+        etq_mostrar_valor_total.setText("");
+    }
+    
+    public void obtener_dias(String mes_seleccionado){
+        dias_disponibles.clear();
+        seleccionar_dia.removeAllItems();
+        seleccionar_dia.addItem("Día");
+        List<Funcion> lista_funciones = bd.obtenerFunciones();
+        List<Pelicula> lista_peliculas = bd.obtenerTodasLasPeliculas();
+        for (Funcion funcion : lista_funciones) {
+            for (Pelicula pelicula : lista_peliculas) {
+                if (funcion.getId_pelicula() == pelicula.getIdPelicula()) {
+                    
+                    String fecha = funcion.getFecha();
+                    String[] fecha_separada = fecha.split("-");
+                    
+                    if(fecha_separada[1].equals(mes_seleccionado)){
+                        String dia = fecha_separada[2];
+                        if(!dias_disponibles.contains(dia)){
+                            dias_disponibles.add(dia);
+                        }
+                    }
+                }
+            }
+        }
+        
+        for(String dia : dias_disponibles){
+            seleccionar_dia.addItem(dia);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -71,24 +135,17 @@ public class SesionCajero extends javax.swing.JFrame {
 
         fondo = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        jPanel11 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jPanel13 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        seleccionar_pelicula = new javax.swing.JComboBox<>();
-        seleccionar_sala = new javax.swing.JComboBox<>();
         seleccionar_asiento = new javax.swing.JComboBox<>();
+        seleccionar_mes = new javax.swing.JComboBox<>();
+        seleccionar_dia = new javax.swing.JComboBox<>();
+        seleccionar_pelicula = new javax.swing.JComboBox<>();
+        jToggleButton1 = new javax.swing.JToggleButton();
         jLabel3 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
@@ -98,18 +155,29 @@ public class SesionCajero extends javax.swing.JFrame {
         etq_mostrar_pelicula = new javax.swing.JLabel();
         etq_mostrar_asiento = new javax.swing.JLabel();
         etq_mostrar_precio = new javax.swing.JLabel();
+        etq_mostrar_cantidad = new javax.swing.JLabel();
+        etq_mostrar_valor_total = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jButton4 = new javax.swing.JButton();
+        etq_pelicula = new javax.swing.JLabel();
+        etq_hora = new javax.swing.JLabel();
+        etq_sala = new javax.swing.JLabel();
+        etq_asiento = new javax.swing.JLabel();
+        etq_id = new javax.swing.JLabel();
+        etq_cantidad = new javax.swing.JLabel();
+        etq_precio = new javax.swing.JLabel();
+        etq_valor_total = new javax.swing.JLabel();
+        seleccionar_cantidad = new javax.swing.JSpinner();
+        btn_generar = new javax.swing.JButton();
+        btn_imprimir_factura = new javax.swing.JButton();
+        btn_cancelar_factura = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        btn_reembolso = new javax.swing.JButton();
+        btn_cancelar_factura2 = new javax.swing.JButton();
+        campo_id_reembolso = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -119,44 +187,6 @@ public class SesionCajero extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel12.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Hacer reembolso");
-        jPanel4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 610, -1));
-
-        jPanel11.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel12.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel12.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 210, 22));
-
-        jPanel11.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 240, 60));
-
-        jPanel13.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel14.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel14.setText("Ingrese ID de la factura");
-        jPanel13.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 210, -1));
-
-        jPanel11.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 60));
-
-        jPanel4.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 510, 60));
-
-        jButton3.setBackground(new java.awt.Color(102, 0, 102));
-        jButton3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("IMPRIMIR FACTURA");
-        jButton3.setBorder(null);
-        jPanel4.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 150, 200, 40));
-
-        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 610, 210));
 
         jPanel5.setBackground(new java.awt.Color(204, 204, 204));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -186,15 +216,36 @@ public class SesionCajero extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel5.setText("Seleccionar asiento");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 200, 40));
-
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel4.setText("Seleccionar sala");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 200, 40));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 200, 40));
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel2.setText("Seleccionar pelicula");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+        jLabel2.setPreferredSize(new java.awt.Dimension(160, 24));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 200, 40));
+
+        seleccionar_asiento.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        seleccionar_asiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionar_asientoActionPerformed(evt);
+            }
+        });
+        jPanel2.add(seleccionar_asiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, 80, 40));
+
+        seleccionar_mes.setPreferredSize(new java.awt.Dimension(72, 24));
+        seleccionar_mes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionar_mesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(seleccionar_mes, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, 80, 40));
+
+        seleccionar_dia.setPreferredSize(new java.awt.Dimension(72, 24));
+        seleccionar_dia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionar_diaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(seleccionar_dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 80, 40));
 
         seleccionar_pelicula.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         seleccionar_pelicula.addActionListener(new java.awt.event.ActionListener() {
@@ -202,24 +253,26 @@ public class SesionCajero extends javax.swing.JFrame {
                 seleccionar_peliculaActionPerformed(evt);
             }
         });
-        jPanel2.add(seleccionar_pelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 200, 40));
+        jPanel2.add(seleccionar_pelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 510, 40));
 
-        seleccionar_sala.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        seleccionar_sala.addActionListener(new java.awt.event.ActionListener() {
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 510, 160));
+
+        jToggleButton1.setBackground(new java.awt.Color(0, 0, 153));
+        jToggleButton1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jToggleButton1.setText("Seleccionar Asiento Graficamente");
+        jToggleButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                seleccionar_salaActionPerformed(evt);
+                jToggleButton1ActionPerformed(evt);
             }
         });
-        jPanel2.add(seleccionar_sala, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, 200, 40));
-
-        seleccionar_asiento.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jPanel2.add(seleccionar_asiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 100, 200, 40));
-
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 510, 140));
+        jPanel5.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 340, 40));
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel3.setText("Factura:");
-        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, -1, -1));
+        jLabel3.setText("Cantidad");
+        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 90, -1));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -229,101 +282,118 @@ public class SesionCajero extends javax.swing.JFrame {
 
         etq_mostrar_id.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         etq_mostrar_id.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        etq_mostrar_id.setText("ID");
-        jPanel8.add(etq_mostrar_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 210, -1));
+        jPanel8.add(etq_mostrar_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 210, 22));
 
         etq_mostrar_sala.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         etq_mostrar_sala.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        etq_mostrar_sala.setText("Sala");
-        jPanel8.add(etq_mostrar_sala, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 210, -1));
+        jPanel8.add(etq_mostrar_sala, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 210, 22));
 
         etq_mostrar_hora.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         etq_mostrar_hora.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        etq_mostrar_hora.setText("Hora");
-        jPanel8.add(etq_mostrar_hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 210, -1));
+        jPanel8.add(etq_mostrar_hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 210, 22));
 
         etq_mostrar_pelicula.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         etq_mostrar_pelicula.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        etq_mostrar_pelicula.setText("Pelicula");
-        jPanel8.add(etq_mostrar_pelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 210, -1));
+        jPanel8.add(etq_mostrar_pelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 210, 22));
 
         etq_mostrar_asiento.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         etq_mostrar_asiento.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        etq_mostrar_asiento.setText("Asiento");
-        jPanel8.add(etq_mostrar_asiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 210, -1));
+        jPanel8.add(etq_mostrar_asiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 210, 22));
 
         etq_mostrar_precio.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         etq_mostrar_precio.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        etq_mostrar_precio.setText("Precio");
-        jPanel8.add(etq_mostrar_precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 210, -1));
+        jPanel8.add(etq_mostrar_precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 210, 22));
 
-        jPanel7.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 240, 240));
+        etq_mostrar_cantidad.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_mostrar_cantidad.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jPanel8.add(etq_mostrar_cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 210, 22));
+
+        etq_mostrar_valor_total.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_mostrar_valor_total.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jPanel8.add(etq_mostrar_valor_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 210, -1));
+
+        jPanel7.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 240, 250));
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("ID");
-        jPanel9.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 210, -1));
+        etq_pelicula.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_pelicula.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel9.add(etq_pelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 210, 22));
 
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("Pelicula");
-        jPanel9.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 210, -1));
+        etq_hora.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_hora.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel9.add(etq_hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 210, 22));
 
-        jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel8.setText("Hora");
-        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 210, -1));
+        etq_sala.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_sala.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel9.add(etq_sala, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 210, 22));
 
-        jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("Sala");
-        jPanel9.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 210, -1));
+        etq_asiento.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_asiento.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel9.add(etq_asiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 210, 22));
 
-        jLabel10.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel10.setText("Asiento");
-        jPanel9.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 210, -1));
+        etq_id.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_id.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel9.add(etq_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 210, 22));
 
-        jLabel11.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel11.setText("Precio");
-        jPanel9.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 210, -1));
+        etq_cantidad.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_cantidad.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel9.add(etq_cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 210, 22));
 
-        jPanel7.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 240));
+        etq_precio.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_precio.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel9.add(etq_precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 210, 22));
 
-        jPanel5.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 510, -1));
+        etq_valor_total.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etq_valor_total.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel9.add(etq_valor_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 210, 22));
 
-        jButton2.setBackground(new java.awt.Color(102, 0, 102));
-        jButton2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("IMPRIMIR FACTURA");
-        jButton2.setBorder(null);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jPanel7.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 250));
+
+        jPanel5.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 350, 510, 250));
+
+        seleccionar_cantidad.setModel(new javax.swing.SpinnerNumberModel(1, null, null, 1));
+        jPanel5.add(seleccionar_cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 60, 40));
+
+        btn_generar.setBackground(new java.awt.Color(102, 102, 102));
+        btn_generar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btn_generar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_generar.setText("Generar");
+        btn_generar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_generar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_generarActionPerformed(evt);
             }
         });
-        jPanel5.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 600, 200, 40));
+        jPanel5.add(btn_generar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 300, 150, 40));
 
-        jToggleButton1.setText("Seleccionar Asiento Graficamente");
-        jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_imprimir_factura.setBackground(new java.awt.Color(0, 153, 51));
+        btn_imprimir_factura.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btn_imprimir_factura.setForeground(new java.awt.Color(255, 255, 255));
+        btn_imprimir_factura.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_imprimir_factura.setLabel("Imprimir factura");
+        btn_imprimir_factura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                btn_imprimir_facturaActionPerformed(evt);
             }
         });
-        jPanel5.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 260, 200, 50));
+        jPanel5.add(btn_imprimir_factura, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 620, 200, 40));
+
+        btn_cancelar_factura.setBackground(new java.awt.Color(102, 102, 102));
+        btn_cancelar_factura.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btn_cancelar_factura.setForeground(new java.awt.Color(255, 255, 255));
+        btn_cancelar_factura.setText("Cancelar");
+        btn_cancelar_factura.setActionCommand("");
+        btn_cancelar_factura.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_cancelar_factura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelar_facturaActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btn_cancelar_factura, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 300, 150, 40));
 
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, 610, 680));
-
-        jButton4.setBackground(new java.awt.Color(0, 51, 153));
-        jButton4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Vista de asientos");
-        jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 410, 200, 40));
 
         jButton5.setBackground(new java.awt.Color(204, 0, 0));
         jButton5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -338,6 +408,47 @@ public class SesionCajero extends javax.swing.JFrame {
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo_cajero.jpg"))); // NOI18N
         jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 65, 610, 320));
+
+        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("Hacer reembolso");
+        jPanel4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 610, -1));
+
+        btn_reembolso.setBackground(new java.awt.Color(0, 153, 51));
+        btn_reembolso.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btn_reembolso.setForeground(new java.awt.Color(255, 255, 255));
+        btn_reembolso.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_reembolso.setLabel("Hacer reembolso");
+        btn_reembolso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_reembolsoActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btn_reembolso, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, 200, 40));
+
+        btn_cancelar_factura2.setBackground(new java.awt.Color(204, 0, 0));
+        btn_cancelar_factura2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btn_cancelar_factura2.setForeground(new java.awt.Color(255, 255, 255));
+        btn_cancelar_factura2.setText("Cancelar");
+        btn_cancelar_factura2.setActionCommand("");
+        btn_cancelar_factura2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_cancelar_factura2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelar_factura2ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btn_cancelar_factura2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 620, 200, 40));
+        jPanel4.add(campo_id_reembolso, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 100, 40));
+
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel14.setText("Ingrese ID de la factura");
+        jPanel4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 200, 40));
+
+        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 610, 280));
 
         fondo.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 1240, 680));
 
@@ -357,34 +468,72 @@ public class SesionCajero extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de cerrar sesion?", "Cerrar aplicación", JOptionPane.YES_NO_OPTION);
-        
         if (opcion == JOptionPane.YES_OPTION) {
             // Cerrar la aplicación
             CristianBD bd = new CristianBD();
             this.dispose();
-            InicioSesion ventana = new InicioSesion(baseDatos, bd);
+            InicioSesion ventana = new InicioSesion(bd, bd);
         }
-        
-        
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void seleccionar_peliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionar_peliculaActionPerformed
-        
-        ItemCombo itemSeleccionado = (ItemCombo) seleccionar_pelicula.getSelectedItem();
-        int id_funcion = itemSeleccionado.getId_sala();
-        String nombre_pelicula = itemSeleccionado.getNombre_pelicula();
-        etq_mostrar_pelicula.setText(nombre_pelicula);
-        etq_mostrar_hora.setText(itemSeleccionado.getHora());
-        etq_mostrar_precio.setText(itemSeleccionado.getPrecio()+"");
-        etq_mostrar_id.setText(itemSeleccionado.getId_funcion()+"");
-        List<Sala> lista_salas = bd.obtenerSalas();
-        seleccionar_sala.removeAllItems();
-        for (Sala sala : lista_salas) {
-            if(id_funcion == sala.getId_sala()){
-                seleccionar_sala.addItem(sala.getNombre());
-                seleccionarAsientos(sala.getId_sala(), sala.getCapacidad());
+
+    private void seleccionar_asientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionar_asientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_seleccionar_asientoActionPerformed
+
+    private void seleccionar_mesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionar_mesActionPerformed
+        String mes = (String) seleccionar_mes.getSelectedItem();
+        obtener_dias(mes);
+    }//GEN-LAST:event_seleccionar_mesActionPerformed
+
+    private void seleccionar_diaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionar_diaActionPerformed
+
+        seleccionar_pelicula.removeAllItems();
+
+        String dia_seleccionado = (String) seleccionar_dia.getSelectedItem();
+        String mes_seleccionado = (String) seleccionar_mes.getSelectedItem();
+
+        Boolean pelicula_encontrada = false;
+
+        if (dia_seleccionado != null && mes_seleccionado != null) {
+            if(!dia_seleccionado.equals("Día") && !mes_seleccionado.equals("Mes")){
+                pelicula_encontrada  = true;
+
             }
         }
+
+        if(pelicula_encontrada){
+
+            List<Funcion> lista_funciones = bd.obtenerFunciones();
+            List<Pelicula> lista_peliculas = bd.obtenerTodasLasPeliculas();
+
+            for (Funcion funcion : lista_funciones) {
+                for (Pelicula pelicula : lista_peliculas) {
+                    if (funcion.getId_pelicula() == pelicula.getIdPelicula()) {
+
+                        String fecha = funcion.getFecha();
+                        String[] fecha_separada = fecha.split("-");
+
+                        String dia = fecha_separada[2];
+                        String mes = fecha_separada[1];
+
+                        if(dia_seleccionado.equals(dia) && mes_seleccionado.equals(mes)){
+                            ItemCombo item;
+                            item = new ItemCombo(pelicula.getIdPelicula(), funcion.getId_funcion(), funcion.getId_sala(), pelicula.getTitulo(), funcion.getHora_inicio(), funcion.getPrecio());
+                            seleccionar_pelicula.addItem(item);
+
+                        }
+                    }
+                }
+            }
+            seleccionar_pelicula.setEnabled(true);
+        } else {
+            seleccionar_pelicula.setEnabled(false);
+        }
+    }//GEN-LAST:event_seleccionar_diaActionPerformed
+
+    private void seleccionar_peliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionar_peliculaActionPerformed
+
     }//GEN-LAST:event_seleccionar_peliculaActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
@@ -392,25 +541,56 @@ public class SesionCajero extends javax.swing.JFrame {
         ReservacionesAsientos ventana = new ReservacionesAsientos(db);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
+    private void btn_generarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarActionPerformed
+        etq_pelicula.setText("Pelicula");
+        etq_hora.setText("Hora");
+        etq_sala.setText("Sala");
+        etq_asiento.setText("Asiento");
+        etq_precio.setText("Precio");
+        etq_cantidad.setText("Cantidad");
+        etq_id.setText("id");
+        etq_valor_total.setText("Valor total");
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        //devolver los valores a 0;
-        etq_mostrar_asiento.setText("");
-        etq_mostrar_hora.setText("");
-        etq_mostrar_id.setText("");
-        etq_mostrar_pelicula.setText("");
-        etq_mostrar_precio.setText("");
-        etq_mostrar_sala.setText("");
-        
-        VentanaEmergente mensaje = new VentanaEmergente("Felicidades", "Factura impresa con exito");
-        bd.insertarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
+        ItemCombo item = (ItemCombo) seleccionar_pelicula.getSelectedItem();
+        if (item != null) {
 
-    private void seleccionar_salaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionar_salaActionPerformed
+            id_pelicula = item.getId_pelicula();
+            id_funcion = item.getId_funcion();
+            id_venta = bd.ultimo_id_venta()+1;
+            cantidad_boletos = (int) seleccionar_cantidad.getValue();
+            total_venta = item.getPrecio() * cantidad_boletos;
+
+            etq_mostrar_pelicula.setText(item.getNombre_pelicula()+"");
+            etq_mostrar_hora.setText(item.getHora());
+            etq_mostrar_sala.setText(item.getId_sala()+"");
+            etq_mostrar_asiento.setText("En mantenimiento :)");
+            etq_mostrar_precio.setText(item.getPrecio()+"");
+            etq_mostrar_cantidad.setText(seleccionar_cantidad.getValue()+"");
+            etq_mostrar_id.setText((bd.ultimo_id_venta()+1)+"");
+            etq_mostrar_valor_total.setText((item.getPrecio() * cantidad_boletos)+"");
+
+        }
+    }//GEN-LAST:event_btn_generarActionPerformed
+
+    private void btn_imprimir_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimir_facturaActionPerformed
+        bd.insertarVenta(id_venta, id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
+        limpiar_factura();
+    }//GEN-LAST:event_btn_imprimir_facturaActionPerformed
+
+    private void btn_cancelar_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar_facturaActionPerformed
+        limpiar_factura();
+    }//GEN-LAST:event_btn_cancelar_facturaActionPerformed
+
+    private void btn_reembolsoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reembolsoActionPerformed
+
+        int id = Integer.parseInt(campo_id_reembolso.getText());
+        bd.eliminarVenta(id);
+        campo_id_reembolso.setText("");
+    }//GEN-LAST:event_btn_reembolsoActionPerformed
+
+    private void btn_cancelar_factura2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar_factura2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_seleccionar_salaActionPerformed
+    }//GEN-LAST:event_btn_cancelar_factura2ActionPerformed
 
     public static String obtenerFecha() {
         LocalDate fechaActual = LocalDate.now();
@@ -435,39 +615,42 @@ public class SesionCajero extends javax.swing.JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                InicioSesion ventana = new InicioSesion(baseDatos,bd);
+                InicioSesion ventana = new InicioSesion(bd,bd);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_cancelar_factura;
+    private javax.swing.JButton btn_cancelar_factura2;
+    private javax.swing.JButton btn_generar;
+    private javax.swing.JButton btn_imprimir_factura;
+    private javax.swing.JButton btn_reembolso;
+    private javax.swing.JTextField campo_id_reembolso;
+    private javax.swing.JLabel etq_asiento;
+    private javax.swing.JLabel etq_cantidad;
+    private javax.swing.JLabel etq_hora;
+    private javax.swing.JLabel etq_id;
     private javax.swing.JLabel etq_mostrar_asiento;
+    private javax.swing.JLabel etq_mostrar_cantidad;
     private javax.swing.JLabel etq_mostrar_hora;
     private javax.swing.JLabel etq_mostrar_id;
     private javax.swing.JLabel etq_mostrar_pelicula;
     private javax.swing.JLabel etq_mostrar_precio;
     private javax.swing.JLabel etq_mostrar_sala;
+    private javax.swing.JLabel etq_mostrar_valor_total;
+    private javax.swing.JLabel etq_pelicula;
+    private javax.swing.JLabel etq_precio;
+    private javax.swing.JLabel etq_sala;
+    private javax.swing.JLabel etq_valor_total;
     private javax.swing.JPanel fondo;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -476,11 +659,12 @@ public class SesionCajero extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JComboBox<Integer> seleccionar_asiento;
+    private javax.swing.JSpinner seleccionar_cantidad;
+    private javax.swing.JComboBox<String> seleccionar_dia;
+    private javax.swing.JComboBox<String> seleccionar_mes;
     private javax.swing.JComboBox<ItemCombo> seleccionar_pelicula;
-    private javax.swing.JComboBox<String> seleccionar_sala;
     // End of variables declaration//GEN-END:variables
 
     private List<Pelicula> obtenerTodasLasPeliculas() {
