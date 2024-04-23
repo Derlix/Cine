@@ -1,6 +1,10 @@
 
 package JuanCamilo;
 
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import utils.BaseDatosJuanPrincipal;
 import utils.Cine;
 import javax.swing.JOptionPane;
@@ -14,6 +18,10 @@ public class EliminarCine extends javax.swing.JFrame {
         this.basedatos = basedatos;
         setVisible(true);
         setLocationRelativeTo(null);
+        eventosMouse();
+        getContentPane().setBackground(Color.WHITE);
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
+        setTitle("Eliminar Cine");
     }
 
     @SuppressWarnings("unchecked")
@@ -42,12 +50,14 @@ public class EliminarCine extends javax.swing.JFrame {
         jLabel1.setText("ELIMINAR CINE");
 
         etq_buscar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        etq_buscar.setText("BUSCAR:");
+        etq_buscar.setText("Ingresa el numero identificador del Cine");
+
+        campoBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         btn_buscar.setBackground(new java.awt.Color(0, 0, 255));
         btn_buscar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btn_buscar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_buscar.setText("BUSCAR");
+        btn_buscar.setText("BUSCAR🔎");
         btn_buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_buscarActionPerformed(evt);
@@ -67,7 +77,7 @@ public class EliminarCine extends javax.swing.JFrame {
         etq_ciudad.setText("CIUDAD: ");
 
         btn_cancelar.setBackground(new java.awt.Color(0, 255, 0));
-        btn_cancelar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btn_cancelar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btn_cancelar.setForeground(new java.awt.Color(255, 255, 255));
         btn_cancelar.setText("CANCELAR");
         btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -77,7 +87,7 @@ public class EliminarCine extends javax.swing.JFrame {
         });
 
         btn_eliminar_cine.setBackground(new java.awt.Color(255, 0, 0));
-        btn_eliminar_cine.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btn_eliminar_cine.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btn_eliminar_cine.setForeground(new java.awt.Color(255, 255, 255));
         btn_eliminar_cine.setText("ELIMINAR");
         btn_eliminar_cine.addActionListener(new java.awt.event.ActionListener() {
@@ -90,74 +100,73 @@ public class EliminarCine extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(58, Short.MAX_VALUE)
+                .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
+                .addComponent(btn_eliminar_cine, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(88, 88, 88))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
+                .addGap(66, 66, 66)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(179, 179, 179))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(77, 77, 77)
-                        .addComponent(btn_eliminar_cine, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(90, 90, 90))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(etq_ciudad)
-                            .addComponent(etq_nombre))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(etq_buscar)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(campoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(campoCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(etq_direccion)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(campoDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(etq_pais)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(campoPais, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(47, 47, 47))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(etq_buscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(campoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(105, 105, 105))))
+                            .addComponent(etq_ciudad)
+                            .addComponent(campoCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(etq_nombre))
+                        .addGap(69, 69, 69)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoPais, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(etq_pais)
+                            .addComponent(campoDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(etq_direccion))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(2, 2, 2)
+                .addComponent(etq_buscar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(campoBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                    .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(etq_buscar)
-                        .addComponent(campoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                    .addComponent(etq_nombre)
+                    .addComponent(etq_direccion))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(etq_nombre)
-                            .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(etq_ciudad)
-                            .addComponent(campoCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(etq_pais)
-                            .addComponent(campoPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(etq_direccion)
+                    .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(campoDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_eliminar_cine, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38))
+                    .addComponent(etq_ciudad)
+                    .addComponent(etq_pais))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campoCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_eliminar_cine, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
         );
 
         pack();
@@ -203,6 +212,77 @@ public class EliminarCine extends javax.swing.JFrame {
         campoPais.setText("");
         campoDireccion.setText("");
         campoBuscar.setText("");
+    }
+    
+    Color customColor = Color.decode("#7F265B");
+    public void eventosMouse(){
+        
+        
+        btn_buscar.addMouseListener(new MouseAdapter() {
+            @Override
+            // Evento cambio de color cuando se pasa el mouse por el boton
+            public void mouseEntered(MouseEvent e) {
+                btn_buscar.setBackground(customColor);
+                btn_buscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                btn_buscar.setForeground(Color.WHITE);
+            }
+            
+             
+            // Volver al color predeterminado cuando el raton sale del botón
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_buscar.setBackground(Color.WHITE);            
+                btn_buscar.setForeground(Color.BLACK);
+            }
+            // Establecer el color personalizado cuando se hace clic en cualquier botón
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                btn_buscar.setBackground(customColor);
+            }
+        });
+        
+        btn_cancelar.addMouseListener(new MouseAdapter() {
+            @Override
+            // Evento cambio de color cuando se pasa el mouse por el boton
+            public void mouseEntered(MouseEvent e) {
+                btn_cancelar.setBackground(customColor);
+                btn_cancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                btn_cancelar.setForeground(Color.WHITE);
+            }
+            // Volver al color predeterminado cuando el raton sale del botón
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_cancelar.setBackground(Color.WHITE);
+                btn_cancelar.setForeground(Color.BLACK);
+            }
+            // Establecer el color personalizado cuando se hace clic en cualquier botón
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                btn_cancelar.setBackground(customColor);
+                
+            }
+        });
+        btn_eliminar_cine.addMouseListener(new MouseAdapter() {
+            @Override
+            // Evento cambio de color cuando se pasa el mouse por el boton
+            public void mouseEntered(MouseEvent e) {
+                btn_eliminar_cine.setBackground(customColor);
+                btn_eliminar_cine.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                btn_eliminar_cine.setForeground(Color.WHITE);
+            }
+            // Volver al color predeterminado cuando el raton sale del botón
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_eliminar_cine.setBackground(Color.WHITE);            
+                btn_eliminar_cine.setForeground(Color.BLACK);
+            }
+            // Establecer el color personalizado cuando se hace clic en cualquier botón
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                btn_eliminar_cine.setBackground(customColor);
+            }
+        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

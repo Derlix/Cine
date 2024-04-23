@@ -1,5 +1,6 @@
 package JuanCamilo;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import utils.BaseDatosJuanPrincipal;
@@ -17,6 +18,9 @@ public class VerCine extends javax.swing.JFrame {
         cargarCines();
         setVisible(true);
         setLocationRelativeTo(null);
+        getContentPane().setBackground(Color.WHITE);
+        setTitle("Ver cine");
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
     }
 
     private void cargarCines() {

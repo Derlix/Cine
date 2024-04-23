@@ -20,6 +20,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import utils.BaseDatosJuanBustamante;
 import utils.BaseDatosJuanPrincipal;
 
@@ -59,7 +61,24 @@ public class SesionCajero extends javax.swing.JFrame {
         setTitle("Menu Cajero");
         setResizable(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+       
+
      
+    }
+    
+    public void botonDesactivar(){
+            seleccionar_cantidad.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                int cantidadSeleccionada = (int) seleccionar_cantidad.getValue();
+                if (cantidadSeleccionada > 0) {
+                    BotonSeleccionarAsiento.setEnabled(true); // Habilitar el botón
+                } else {
+                BotonSeleccionarAsiento.setEnabled(false); // Deshabilitar el botón
+                }
+                }
+            });
     }
     
     public void obtener_meses(){
@@ -145,7 +164,7 @@ public class SesionCajero extends javax.swing.JFrame {
         seleccionar_mes = new javax.swing.JComboBox<>();
         seleccionar_dia = new javax.swing.JComboBox<>();
         seleccionar_pelicula = new javax.swing.JComboBox<>();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        BotonSeleccionarAsiento = new javax.swing.JToggleButton();
         jLabel3 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
@@ -257,18 +276,18 @@ public class SesionCajero extends javax.swing.JFrame {
 
         jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 510, 160));
 
-        jToggleButton1.setBackground(new java.awt.Color(0, 0, 153));
-        jToggleButton1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton1.setText("Seleccionar Asiento Graficamente");
-        jToggleButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        BotonSeleccionarAsiento.setBackground(new java.awt.Color(0, 0, 153));
+        BotonSeleccionarAsiento.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        BotonSeleccionarAsiento.setForeground(new java.awt.Color(255, 255, 255));
+        BotonSeleccionarAsiento.setText("Seleccionar Asiento Graficamente");
+        BotonSeleccionarAsiento.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BotonSeleccionarAsiento.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotonSeleccionarAsiento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                BotonSeleccionarAsientoActionPerformed(evt);
             }
         });
-        jPanel5.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 340, 40));
+        jPanel5.add(BotonSeleccionarAsiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 340, 40));
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel3.setText("Cantidad");
@@ -536,10 +555,10 @@ public class SesionCajero extends javax.swing.JFrame {
 
     }//GEN-LAST:event_seleccionar_peliculaActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    private void BotonSeleccionarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSeleccionarAsientoActionPerformed
         BaseDatos_ChristianArias db = new BaseDatos_ChristianArias();
         ReservacionesAsientos ventana = new ReservacionesAsientos(db);
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    }//GEN-LAST:event_BotonSeleccionarAsientoActionPerformed
 
     private void btn_generarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarActionPerformed
         etq_pelicula.setText("Pelicula");
@@ -620,6 +639,7 @@ public class SesionCajero extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton BotonSeleccionarAsiento;
     private javax.swing.JButton btn_cancelar_factura;
     private javax.swing.JButton btn_cancelar_factura2;
     private javax.swing.JButton btn_generar;
@@ -659,7 +679,6 @@ public class SesionCajero extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JComboBox<Integer> seleccionar_asiento;
     private javax.swing.JSpinner seleccionar_cantidad;
     private javax.swing.JComboBox<String> seleccionar_dia;
