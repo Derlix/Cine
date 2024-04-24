@@ -8,8 +8,11 @@ import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
 import utils.BaseDatosJuanPrincipal;
+import utils.Funcion;
 
 public class ProgramarFunciones extends javax.swing.JPanel {
 
@@ -19,6 +22,7 @@ public class ProgramarFunciones extends javax.swing.JPanel {
         initComponents();
         componenetesAlternos();
         eventosMouse();
+        cargarFunciones();
     }
     
     public void componenetesAlternos(){
@@ -52,6 +56,8 @@ public class ProgramarFunciones extends javax.swing.JPanel {
         btnCrearFuncion = new javax.swing.JButton();
         btnEditarFuncion = new javax.swing.JButton();
         btnEliminarFuncion = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaFuncuones = new javax.swing.JTable();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -76,18 +82,36 @@ public class ProgramarFunciones extends javax.swing.JPanel {
             }
         });
 
+        tablaFuncuones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaFuncuones);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(btnCrearFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addComponent(btnEditarFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(btnEliminarFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(btnCrearFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEditarFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminarFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,14 +121,16 @@ public class ProgramarFunciones extends javax.swing.JPanel {
                     .addComponent(btnCrearFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEliminarFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditarFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(347, Short.MAX_VALUE))
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,10 +223,47 @@ public class ProgramarFunciones extends javax.swing.JPanel {
         });
     }
     
+    
+    
+    public void cargarFunciones() {
+        try {
+            List<Funcion> funciones = bd.obtenerTodasFunciones();
+
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("ID Funcion");
+            model.addColumn("ID Pelicula");
+            model.addColumn("ID Sala");
+            model.addColumn("Fecha");
+            model.addColumn("Hora Inicio");
+            model.addColumn("Hora Final");
+            model.addColumn("Precio");
+
+            for (Funcion funcion : funciones) {
+                model.addRow(new Object[]{
+                    funcion.getId_funcion(),
+                    funcion.getId_pelicula(),
+                    funcion.getId_sala(),
+                    funcion.getFecha(),
+                    funcion.getHora_inicio(),
+                    funcion.getHora_final(),
+                    funcion.getPrecio()
+                });
+            }
+
+            tablaFuncuones.setModel(model);
+        } catch (Exception ex) {
+            System.out.println("Error al cargar las funciones:");
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearFuncion;
     private javax.swing.JButton btnEditarFuncion;
     private javax.swing.JButton btnEliminarFuncion;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tablaFuncuones;
     // End of variables declaration//GEN-END:variables
 }

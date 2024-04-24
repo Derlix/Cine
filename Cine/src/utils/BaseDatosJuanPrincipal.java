@@ -767,5 +767,32 @@ public class BaseDatosJuanPrincipal {
         return funcion;
     }
     
+    public List<Funcion> obtenerTodasFunciones() throws SQLException {
+        List<Funcion> funciones = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM Funciones";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Funcion funcion = new Funcion(
+                    resultSet.getInt("ID_Funcion"),
+                    resultSet.getInt("ID_Pelicula"),
+                    resultSet.getInt("ID_Sala"),
+                    resultSet.getString("Fecha"),
+                    resultSet.getString("Hora_Inicio"),
+                    resultSet.getString("Hora_Final"),
+                    resultSet.getInt("Precio")
+                );
+                funciones.add(funcion);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener las funciones:");
+            System.out.println(ex.getMessage());
+        }
+        return funciones;
+    }
+
+    
     
 }
