@@ -9,7 +9,7 @@ public class Funcion {
     private String fecha;
     private String hora_inicio;
     private String hora_final;
-    private int precio;
+    private int precio; 
 
     public Funcion(int id_funcion, int id_pelicula, int id_sala, String fecha, String hora_inicio, String hora_final, int precio) {
         this.id_funcion = id_funcion;

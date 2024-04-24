@@ -23,6 +23,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 import static javax.crypto.Cipher.SECRET_KEY;
+import utils.Funcion;
+
 
 public class BaseDatosJuanPrincipal {
     
@@ -628,5 +630,142 @@ public class BaseDatosJuanPrincipal {
         }
     }
 
+    
+
+
+    // Método para guardar una nueva función
+    public void guardarFuncion(Funcion funcion) {
+        try {
+            conexion.setAutoCommit(false);
+
+            String query = "INSERT INTO Funciones (ID_Pelicula, ID_Sala, Fecha, Hora_Inicio, Hora_Final, Precio) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = conexion.prepareStatement(query);
+
+            int idPelicula = funcion.getId_pelicula(); 
+
+            pstmt.setInt(1, idPelicula); 
+            pstmt.setInt(2, funcion.getId_sala()); 
+            pstmt.setString(3, funcion.getFecha());
+            pstmt.setString(4, funcion.getHora_inicio()); 
+            pstmt.setString(5, funcion.getHora_final()); 
+            pstmt.setInt(6, funcion.getPrecio());
+
+            pstmt.executeUpdate();
+
+            conexion.commit();
+            System.out.println("Función creada correctamente.");
+
+        } catch (SQLException ex) {
+            System.out.println("Error al crear la función:");
+            System.out.println(ex.getMessage());
+            try {
+                conexion.rollback();
+            } catch (SQLException e) {
+                System.out.println("Error al hacer rollback:");
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+
+
+
+
+
+    // Método para actualizar una función existente
+    public void actualizarFuncion(Funcion funcion) {
+        try {
+            conexion.setAutoCommit(false);
+            String query = "UPDATE funciones SET ID_Pelicula = ?, ID_Sala = ?, Fecha = ?, Hora_Inicio = ?, Hora_Final = ?, Precio = ? WHERE ID_Funcion = ?";
+            PreparedStatement statement = conexion.prepareStatement(query);
+
+            statement.setInt(1, funcion.getId_pelicula());
+            statement.setInt(2, funcion.getId_sala());
+            statement.setString(3, funcion.getFecha());
+            statement.setString(4, funcion.getHora_inicio());
+            statement.setString(5, funcion.getHora_final());
+            statement.setInt(6, funcion.getPrecio());
+            statement.setInt(7, funcion.getId_funcion());
+
+            int rowsUpdated = statement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                conexion.commit();
+                System.out.println("Función actualizada correctamente.");
+            } else {
+                System.out.println("No se encontró la función con ID: " + funcion.getId_funcion());
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al actualizar la función:");
+            System.out.println(ex.getMessage());
+            try {
+                conexion.rollback();
+            } catch (SQLException e) {
+                System.out.println("Error al hacer rollback:");
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+
+
+    // Método para eliminar una función
+    public boolean eliminarFuncion(int idFuncion) {
+        boolean eliminado = false;
+        try {
+            conexion.setAutoCommit(false);
+            String query = "DELETE FROM funciones WHERE ID_Funcion = ?";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setInt(1, idFuncion);
+
+            int rowsDeleted = statement.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                conexion.commit();
+                eliminado = true;
+                System.out.println("Función eliminada correctamente.");
+            } else {
+                System.out.println("No se encontró la función con ID: " + idFuncion);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al eliminar la función:");
+            System.out.println(ex.getMessage());
+            try {
+                conexion.rollback();
+            } catch (SQLException e) {
+                System.out.println("Error al hacer rollback:");
+                System.out.println(e.getMessage());
+            }
+        }
+        return eliminado;
+    }
+
+
+    // Método para buscar una función por su ID
+    public Funcion buscarFuncion(int idFuncion) {
+        Funcion funcion = null;
+        try {
+            String query = "SELECT * FROM funciones WHERE ID_Funcion = ?";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setInt(1, idFuncion);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                // Crear el objeto Funcion con los datos obtenidos
+                int idPelicula = resultSet.getInt("ID_Pelicula");
+                int idSala = resultSet.getInt("ID_Sala");
+                String fecha = resultSet.getString("Fecha");
+                String horaInicio = resultSet.getString("Hora_Inicio");
+                String horaFinal = resultSet.getString("Hora_Final");
+                int precio = resultSet.getInt("Precio");
+
+                funcion = new Funcion(idFuncion, idPelicula, idSala, fecha, horaInicio, horaFinal, precio);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return funcion;
+    }
+    
     
 }
