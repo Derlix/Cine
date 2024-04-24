@@ -6,14 +6,14 @@ public class Asiento {
     private int sala;
     private String fila;
     private int numero;
-    private String estado;
+    private int id_venta;
     
-    public Asiento(int id, int sala, String fila, int numero, String estado) {
+    public Asiento(int id, int sala, String fila, int numero, int id_venta) {
         this.id = id;
         this.sala = sala;
         this.fila = fila;
         this.numero = numero;
-        this.estado = estado;
+        this.id_venta = id_venta;
     }
 
     public int getId() {
@@ -48,12 +48,12 @@ public class Asiento {
         this.numero = numero;
     }
 
-    public String getEstado() {
-        return estado;
+    public int getVenta() {
+        return id_venta;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setVenta(int  id_venta) {
+        this.id_venta = id_venta;
     }
     
 }

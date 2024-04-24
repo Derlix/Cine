@@ -100,8 +100,8 @@ public class CristianBD extends BaseDatosJuanPrincipal{
                 int id_sala = resultSet.getInt("ID_Sala");
                 String fila = resultSet.getString("Fila");
                 int numero = resultSet.getInt("Numero");
-                String estado = resultSet.getString("Estado");
-                Asiento asiento = new Asiento(id_asiento, id_sala, fila, numero, estado);
+                int id_venta = resultSet.getInt("Estado");
+                Asiento asiento = new Asiento(id_asiento, id_sala, fila, numero, id_venta);
                 asientos.add(asiento);
             }
         } catch (SQLException ex) {

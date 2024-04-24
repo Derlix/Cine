@@ -613,17 +613,15 @@ public class SesionCajero extends javax.swing.JFrame {
     private void btn_imprimir_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimir_facturaActionPerformed
         bd.insertarVenta(id_venta, id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
         limpiar_factura();
-
-            // Almacenar la venta en la base de datos
-            //bd.guardarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta);
-    
-            // Obtener el ID de la venta recién creada
-            id_venta = bd.ultimo_id_venta();
+        // Almacenar la venta en la base de datos
+        //bd.guardarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta);
+        // Obtener el ID de la venta recién creada
+        id_venta = bd.ultimo_id_venta();
             
-    // Asignar el ID de venta a los asientos seleccionados
+            // Asignar el ID de venta a los asientos seleccionados
         try {
             conexion =  (Connection) bd;
-            String consulta = "UPDATE Asientos_funciones SET ID_Venta = '" + id_venta +"'WHERE ";
+            String consulta = "UPDATE Asientos_funciones SET ID_Venta = '" + id_venta +"'WHERE ID_ ";
             PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
 
              // Utilizamos el atributo funcion

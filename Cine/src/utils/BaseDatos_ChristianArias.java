@@ -1,10 +1,7 @@
 package utils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 
+import java.sql.*;
 
 public class BaseDatos_ChristianArias extends BaseDatosJuanPrincipal{
     //Funcionalidades De christian
@@ -47,6 +44,25 @@ public class BaseDatos_ChristianArias extends BaseDatosJuanPrincipal{
             System.out.println("Error al cargar el controlador JDBC: " + e.getMessage());
         }
         return conexion;
+    }
+
+    public int obtenerCapacidadSala(int idSala) {
+        int capacidad = 0;
+        try {
+            Connection conexion = conectar();
+            String consulta = "SELECT Capacidad FROM Salas_Cine WHERE ID_Sala = ?";
+            PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
+            sentenciaPreparada.setInt(1, idSala);
+
+            ResultSet resultado = sentenciaPreparada.executeQuery();
+
+            if (resultado.next()) {
+                capacidad = resultado.getInt("Capacidad");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener la capacidad de la sala: " + e.getMessage());
+        }
+        return capacidad;
     }
 
 
