@@ -19,15 +19,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import java.sql.PreparedStatement; 
 import utils.BaseDatos_ChristianArias;
+import utils.Funcion;
 
-/**
- *
- * @author chris
- */
 public class ReservacionesAsientos extends javax.swing.JFrame {
 
     BaseDatos_ChristianArias db;
-    public ReservacionesAsientos(BaseDatos_ChristianArias db) {
+    int funcion;
+    public ReservacionesAsientos(BaseDatos_ChristianArias db,int funcion) {
+        this.funcion = funcion;
         this.db = db;
         initComponents();
         setLocationRelativeTo(null);
@@ -96,11 +95,7 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
                 DimensionBotones[i][j].setBounds(ejeX,ejeY,anchoboton,largoboton);
                 DimensionBotones[i][j].setText("Asiento"+contadorDeAsientos);
                 DimensionBotones[i][j].setFont(Fuenteletra);
-                
-                
-                
-                
-                
+                    
                 Image icono_etqImagen = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/sillanull.png"));
                 icono_etqImagen = icono_etqImagen.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
                 DimensionBotones[i][j].setIcon(new ImageIcon(icono_etqImagen));
@@ -123,21 +118,23 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         
         
     }
-    
-   public void reservarAsiento(int numeroAsiento){
+
+    public void reservarAsiento(int numeroAsiento) {
     try {
         conexion = (Connection) db.conectar();
-        String consulta = "UPDATE Asientos_funciones SET ID_Venta = ? WHERE ID_Asiento = ? AND ID_Venta IS NULL";
+        String consulta = "INSERT INTO Asientos_funciones (ID_Funcion, ID_Asiento) VALUES (?, ?)";
         PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
-        // En lugar de usar el número de asiento, usamos el ID_Asiento
-        sentenciaPreparada.setInt(1, obtenerIdVenta());
+
+        sentenciaPreparada.setInt(1, funcion); // Utilizamos el atributo funcion
         sentenciaPreparada.setInt(2, numeroAsiento);
+        
+
         int mensaje = sentenciaPreparada.executeUpdate();
 
-        if(mensaje > 0){
-            JOptionPane.showMessageDialog(null,"Asiento reservado correctamente");
+        if (mensaje > 0) {
+            JOptionPane.showMessageDialog(null, "Asiento reservado correctamente");
         } else {
-            JOptionPane.showMessageDialog(null,"El asiento ya está reservado");
+            JOptionPane.showMessageDialog(null, "El asiento ya está reservado");
         }
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta SQL: " + e.getMessage());
@@ -152,6 +149,8 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         }
     }
 }
+
+
     
     public void quitarReservacionAsiento(int numeroAsiento){
     try {
@@ -181,44 +180,42 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
     }
 }
 
+   
 
     
     
     
-    public class accionbotones implements ActionListener{
+    public class accionbotones implements ActionListener {
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            for (int i = 0; i < filas; i++) {
-                for (int j = 0; j < columnas; j++) {
-                    if(e.getSource().equals(DimensionBotones[i][j])){
-                        if (DimensionBotones[i][j].isSelected()) {
-                            Image icono_etqImagen = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/sillavendida.png"));
-                            icono_etqImagen = icono_etqImagen.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-                            DimensionBotones[i][j].setIcon(new ImageIcon(icono_etqImagen));
-                            
-                            
-                            String textoBton = DimensionBotones[i][j].getText();
-                            int numeroAsiento = Integer.parseInt(textoBton.split("Asiento")[1]);
-                            reservarAsiento(numeroAsiento);
-                        }else{
-                            Image icono_etqImagen = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/sillanull.png"));
-                            icono_etqImagen = icono_etqImagen.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-                            DimensionBotones[i][j].setIcon(new ImageIcon(icono_etqImagen));
-                            String textoBton = DimensionBotones[i][j].getText();
-                            int numeroAsiento = Integer.parseInt(textoBton.split("Asiento")[1]);
-                            quitarReservacionAsiento(numeroAsiento);
-                        
-                        }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (e.getSource().equals(DimensionBotones[i][j])) {
+                    if (DimensionBotones[i][j].isSelected()) {
+                        Image icono_etqImagen = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/sillavendida.png"));
+                        icono_etqImagen = icono_etqImagen.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+                        DimensionBotones[i][j].setIcon(new ImageIcon(icono_etqImagen));
+
+                        String textoBton = DimensionBotones[i][j].getText();
+                        int numeroAsiento = Integer.parseInt(textoBton.split("Asiento")[1]);
+                        reservarAsiento(numeroAsiento);
+                    } else {
+                        Image icono_etqImagen = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/sillanull.png"));
+                        icono_etqImagen = icono_etqImagen.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+                        DimensionBotones[i][j].setIcon(new ImageIcon(icono_etqImagen));
+                        String textoBton = DimensionBotones[i][j].getText();
+                        int numeroAsiento = Integer.parseInt(textoBton.split("Asiento")[1]);
+                        quitarReservacionAsiento(numeroAsiento);
+
                     }
                 }
-                
             }
-            
+
         }
-        
-        
+
     }
+}
     
     public void mantenerAsientosOcupados() {
     try {
@@ -264,32 +261,6 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
     }
 }
 
-    
-    private int obtenerIdVenta() {
-    int idVenta = 0;
-    try {
-        conexion = (Connection) db.conectar();
-        String consulta = "SELECT ID_Venta FROM Asientos_funciones WHERE ID_Venta IS NULL LIMIT 1";
-        PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
-        ResultSet resultado = sentenciaPreparada.executeQuery();
-        if (resultado.next()) {
-            idVenta = resultado.getInt("ID_Venta");
-        }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error al obtener el ID de venta: " + e.getMessage());
-    } finally {
-        try {
-            if (conexion != null) {
-                conexion.close();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ReservacionesAsientos.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + ex.getMessage());
-        }
-    }
-    return idVenta;
-}
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

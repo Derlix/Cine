@@ -551,13 +551,23 @@ public class SesionCajero extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_seleccionar_diaActionPerformed
 
+    public int obtenerFuncionPorId(int funcion){
+        
+        int id = 1;
+        return id;
+    }
     private void seleccionar_peliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionar_peliculaActionPerformed
 
     }//GEN-LAST:event_seleccionar_peliculaActionPerformed
 
     private void BotonSeleccionarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSeleccionarAsientoActionPerformed
         BaseDatos_ChristianArias db = new BaseDatos_ChristianArias();
-        ReservacionesAsientos ventana = new ReservacionesAsientos(db);
+        ItemCombo item = (ItemCombo) seleccionar_pelicula.getSelectedItem();
+    if (item != null) {
+        int id_funcion = item.getId_funcion();
+        int funcionSeleccionada = obtenerFuncionPorId(id_funcion); // Implementa este método para obtener la función seleccionada
+        ReservacionesAsientos ventana = new ReservacionesAsientos(db, funcionSeleccionada);
+    }
     }//GEN-LAST:event_BotonSeleccionarAsientoActionPerformed
 
     private void btn_generarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarActionPerformed
@@ -594,6 +604,20 @@ public class SesionCajero extends javax.swing.JFrame {
     private void btn_imprimir_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimir_facturaActionPerformed
         bd.insertarVenta(id_venta, id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
         limpiar_factura();
+
+         // Almacenar la venta en la base de datos
+        //bd.guardarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta);
+    
+    // Obtener el ID de la venta recién creada
+    id_venta = bd.ultimo_id_venta();
+    
+    // Asignar el ID de venta a los asientos seleccionados
+    // Aquí deberías tener un método en tu base de datos que actualice los asientos seleccionados con el ID de la venta
+    // El método sería algo como bd.actualizarAsientosConIDVenta(id_venta, asientosSeleccionados);
+    // Donde asientosSeleccionados es una lista de los IDs de los asientos seleccionados
+    
+    // Limpiar los campos de la factura después de imprimir
+    limpiar_factura();
     }//GEN-LAST:event_btn_imprimir_facturaActionPerformed
 
     private void btn_cancelar_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar_facturaActionPerformed
