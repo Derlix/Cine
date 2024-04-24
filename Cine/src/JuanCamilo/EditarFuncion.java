@@ -14,6 +14,18 @@ public class EditarFuncion extends javax.swing.JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.WHITE);
+        componentesAlternos();
+    }
+    
+    public void componentesAlternos(){
+        setTitle("Editar Funcion");
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
+    
     }
 
 

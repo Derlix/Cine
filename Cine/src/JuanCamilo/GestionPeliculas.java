@@ -31,8 +31,26 @@ public class GestionPeliculas extends javax.swing.JPanel {
 
     public void componentesAlternos(){
         btnCrearPelicula.setBackground(Color.WHITE);
+        Image iconoCrearF = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/crearPelicula.png"));
+        iconoCrearF = iconoCrearF.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        btnCrearPelicula.setIcon(new ImageIcon(iconoCrearF));
+        btnCrearPelicula.setForeground(new Color(0, 0, 200));
+        btnCrearPelicula.setBackground(Color.WHITE);
+        
         btnEditarPelicula.setBackground(Color.WHITE);
+        Image iconoeditarF = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/editarPelicula.png"));
+        iconoeditarF = iconoeditarF.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        btnEditarPelicula.setIcon(new ImageIcon(iconoeditarF));
+        btnEditarPelicula.setForeground(new Color(0, 0, 200));
+        btnEditarPelicula.setBackground(Color.WHITE);
+    
         btnEliminarPelicula.setBackground(Color.WHITE);
+        Image iconoeliminarF = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/eliminarPelicula.png"));
+        iconoeliminarF = iconoeliminarF.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        btnEliminarPelicula.setIcon(new ImageIcon(iconoeliminarF));
+        btnEliminarPelicula.setForeground(new Color(0, 0, 200));
+        btnEliminarPelicula.setBackground(Color.WHITE);
+    
     }
     public void mostrarPeliculas() {
         List<Pelicula> peliculas = basedatos.obtenerTodasLasPeliculas();

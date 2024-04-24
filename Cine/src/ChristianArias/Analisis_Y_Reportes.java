@@ -63,6 +63,7 @@ public class Analisis_Y_Reportes extends javax.swing.JPanel {
         icono_listar = icono_informe.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         boton_Informeventas.setIcon(new ImageIcon(icono_listar));
         boton_Informeventas.setForeground(new Color(0, 0, 200));
+        
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

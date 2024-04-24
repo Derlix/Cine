@@ -14,6 +14,17 @@ public class ActualizarSala extends javax.swing.JFrame {
     public ActualizarSala(BaseDatosJuanBustamante basedatos) {
         initComponents();
         this.basedatos = basedatos;
+        componentesAlternos();
+    }
+    
+    public void componentesAlternos(){
+        setTitle("Actualizar Sala");
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
     }
 
     /**

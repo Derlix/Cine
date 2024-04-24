@@ -14,9 +14,21 @@ public class CrearFuncion extends javax.swing.JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.WHITE);
+        componentesAlternos();
     }
 
 
+    public void componentesAlternos(){
+        setTitle("Crear Funcion");
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
+    
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

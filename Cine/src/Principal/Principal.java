@@ -30,10 +30,10 @@ public class Principal {
         //EditarCine ventanapr = new EditarCine(basedatos);
         //EliminarCine ventanar = new EliminarCine(basedatos);
         //VerCine ventanaPru = new VerCine(basedatos);
-        //InicioSesion ventana = new InicioSesion(basedatos,bd);
+        InicioSesion ventana = new InicioSesion(basedatos,bd);
         //CrearUsuario v = new CrearUsuario(basedatos);
         //EditarUsuario b = new EditarUsuario(basedatos);
-        EliminarFuncion r = new EliminarFuncion(basedatos);
+        // EliminarFuncion r = new EliminarFuncion(basedatos);
 
     }
 }

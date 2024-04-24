@@ -13,9 +13,19 @@ public class Crear_sala extends javax.swing.JFrame {
         initComponents();
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+        componentesAlternos();
     }
 
+    public void componentesAlternos(){
+        setTitle("Crear Sala");
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

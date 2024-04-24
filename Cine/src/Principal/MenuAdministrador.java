@@ -1,6 +1,7 @@
 package Principal;
 
 import ChristianArias.Analisis_Y_Reportes;
+import ChristianArias.ProgramarFunciones;
 import JuanBustamante.Gestion_empresa;
 import JuanBustamante.Gestion_personal;
 import JuanCamilo.CrearPelicula;
@@ -471,8 +472,8 @@ public class MenuAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionPersonasActionPerformed
 
     private void btnProgramarFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProgramarFuncionesActionPerformed
-        /*
-         nuevo = new (basedatos);
+        
+        ProgramarFunciones nuevo = new ProgramarFunciones(basedatos);
         
         
         //Ajustar el tamaño del nuevo contenedor
@@ -485,7 +486,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
         //repaint(); Re pintamos 
         repaint();
         revalidate();
-        */
+        
     }//GEN-LAST:event_btnProgramarFuncionesActionPerformed
 
     private void btnAnalisisReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalisisReporteActionPerformed

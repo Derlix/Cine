@@ -19,7 +19,17 @@ public class Empleados_jornada extends javax.swing.JFrame {
         setTitle("Jornada de empleados");
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-       
+        componentesAlternos();
+    }
+    
+    public void componentesAlternos(){
+        setTitle("Eliminar Funcion");
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
     }
     
     private void cargarInfoUsuario() {

@@ -68,6 +68,10 @@ public class Gestion_personal extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         sedes_jList = new javax.swing.JList<>();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
         etq_gestionPersonal.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         etq_gestionPersonal.setText("Gestion de Personal");
 
