@@ -11,11 +11,14 @@ import utils.Pelicula;
 import utils.Sala;
 import utils.Usuario;
 import CristianArce.ItemCombo;
+import static CristianArce.ReservacionesAsientos.conexion;
 import utils.BaseDatos_ChristianArias;
 import CristianArce.Venta;
 import Principal.InicioSesion;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ import utils.BaseDatosJuanBustamante;
 import utils.BaseDatosJuanPrincipal;
 
 public class SesionCajero extends javax.swing.JFrame {
-    
+    private List<Integer> asientosSeleccionados = new ArrayList<>();
     CristianBD bd;
     List<String> meses_disponibles = new ArrayList<>();
     List<String> dias_disponibles = new ArrayList<>();
@@ -36,14 +39,16 @@ public class SesionCajero extends javax.swing.JFrame {
     int cantidad_boletos;
     int total_venta;
     int id_venta;
-    
+    Usuario usuario;
     public SesionCajero(CristianBD bd, Usuario usuario) {
+        this.usuario = usuario;
         id_usuario = usuario.getIdUsuario();
         this.bd = bd;
         initComponents();
         initAlterComponents();
         setVisible(true);
         setLocationRelativeTo(null);
+         botonDesactivar();
     }
     
     public void initAlterComponents(){
@@ -68,17 +73,17 @@ public class SesionCajero extends javax.swing.JFrame {
     }
     
     public void botonDesactivar(){
-            seleccionar_cantidad.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
+        seleccionar_cantidad.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
                 int cantidadSeleccionada = (int) seleccionar_cantidad.getValue();
                 if (cantidadSeleccionada > 0) {
-                    BotonSeleccionarAsiento.setEnabled(true); // Habilitar el botón
+                    BotonSeleccionarAsiento.setEnabled(true);
                 } else {
-                BotonSeleccionarAsiento.setEnabled(false); // Deshabilitar el botón
+                    BotonSeleccionarAsiento.setEnabled(false); 
                 }
-                }
-            });
+            }
+        });
     }
     
     public void obtener_meses(){
@@ -118,6 +123,10 @@ public class SesionCajero extends javax.swing.JFrame {
         etq_mostrar_cantidad.setText("");
         etq_mostrar_id.setText("");
         etq_mostrar_valor_total.setText("");
+    }
+    
+    public void setAsientosSeleccionados(List<Integer> asientosSeleccionados) {
+        this.asientosSeleccionados = asientosSeleccionados;
     }
     
     public void obtener_dias(String mes_seleccionado){
@@ -563,11 +572,11 @@ public class SesionCajero extends javax.swing.JFrame {
     private void BotonSeleccionarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSeleccionarAsientoActionPerformed
         BaseDatos_ChristianArias db = new BaseDatos_ChristianArias();
         ItemCombo item = (ItemCombo) seleccionar_pelicula.getSelectedItem();
-    if (item != null) {
-        int id_funcion = item.getId_funcion();
-        int funcionSeleccionada = obtenerFuncionPorId(id_funcion); // Implementa este método para obtener la función seleccionada
-        ReservacionesAsientos ventana = new ReservacionesAsientos(db, funcionSeleccionada);
-    }
+        int cantidad_boletoss = (int) seleccionar_cantidad.getValue();
+        int id_funcions = item.getId_funcion();
+        ReservacionesAsientos reservacionesAsientos = new ReservacionesAsientos(db, id_funcions, cantidad_boletoss);
+        reservacionesAsientos.setVisible(true);
+
     }//GEN-LAST:event_BotonSeleccionarAsientoActionPerformed
 
     private void btn_generarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarActionPerformed
@@ -605,13 +614,23 @@ public class SesionCajero extends javax.swing.JFrame {
         bd.insertarVenta(id_venta, id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
         limpiar_factura();
 
-         // Almacenar la venta en la base de datos
-        //bd.guardarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta);
+            // Almacenar la venta en la base de datos
+            //bd.guardarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta);
     
-    // Obtener el ID de la venta recién creada
-    id_venta = bd.ultimo_id_venta();
-    
+            // Obtener el ID de la venta recién creada
+            id_venta = bd.ultimo_id_venta();
+            
     // Asignar el ID de venta a los asientos seleccionados
+        try {
+            conexion =  (Connection) bd;
+            String consulta = "UPDATE Asientos_funciones SET ID_Venta = '" + id_venta +"'WHERE ";
+            PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
+
+             // Utilizamos el atributo funcion
+
+            int mensaje = sentenciaPreparada.executeUpdate();
+        } catch (Exception e) {
+        }
     // Aquí deberías tener un método en tu base de datos que actualice los asientos seleccionados con el ID de la venta
     // El método sería algo como bd.actualizarAsientosConIDVenta(id_venta, asientosSeleccionados);
     // Donde asientosSeleccionados es una lista de los IDs de los asientos seleccionados
@@ -661,6 +680,10 @@ public class SesionCajero extends javax.swing.JFrame {
                 InicioSesion ventana = new InicioSesion(bd,bd);
             }
         });
+    }
+    
+    public void abrirReservacionesAsientos(int cantidadBoletos){
+        
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton BotonSeleccionarAsiento;
