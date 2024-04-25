@@ -23,7 +23,7 @@ public class Gestion_asientos extends javax.swing.JFrame {
         cargarSalas();
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+        componentesAlternos();
     }
     
     // Método para cargar la información del cine
@@ -43,6 +43,16 @@ public class Gestion_asientos extends javax.swing.JFrame {
             // Manejar el caso en que no se encuentre la información del cine
             System.out.println("No se pudo obtener la información del cine.");
         }
+    }
+    
+    public void componentesAlternos(){
+        setTitle("Eliminar Funcion");
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
     }
 
     private void cargarSalas() {

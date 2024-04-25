@@ -13,8 +13,19 @@ public class Actualizar_sede extends javax.swing.JFrame {
         setVisible(true);
         etq_sedeID.setText("Actualizar sede: #"+String.valueOf(idSede));
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        componentesAlternos();
     }
 
+    public void componentesAlternos(){
+        setTitle("Actualizar Sede");
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

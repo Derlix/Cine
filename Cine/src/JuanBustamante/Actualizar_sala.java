@@ -14,10 +14,20 @@ public class Actualizar_sala extends javax.swing.JFrame {
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         etq_idSala.setText("Sala de ID: "+idSala);
-        
+        componentesAlternos();
         
     }
 
+    public void componentesAlternos(){
+        setTitle("Eliminar Funcion");
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

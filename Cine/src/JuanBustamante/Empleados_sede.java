@@ -48,6 +48,17 @@ public class Empleados_sede extends javax.swing.JFrame {
                 }
             }
         });
+        componentesAlternos();
+    }
+    
+    public void componentesAlternos(){
+        setTitle("Eliminar Funcion");
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
