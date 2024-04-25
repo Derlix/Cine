@@ -1,6 +1,8 @@
 package utils;
-
+import java.sql.*;
+import java.sql.Statement;
 import CristianArce.VentanaEmergente;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import utils.Asiento;
 import utils.Sala;
+
+
 
 public class CristianBD extends BaseDatosJuanPrincipal{
     
@@ -69,24 +73,34 @@ public class CristianBD extends BaseDatosJuanPrincipal{
     }
 
     //insertar venta
-    public void insertarVenta(int id_venta, int id_pelicula, int id_funcion, int id_usuario, int cantidad_boletos, double total_venta, String fecha) {
-        String query = "INSERT INTO ventas (ID_Venta, ID_Pelicula, ID_Funcion, ID_Usuario, Cantidad_Boletos, Total_Venta, Fecha_Venta) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = conexion.prepareStatement(query)) {
-            statement.setInt(1, id_venta);
-            statement.setInt(2, id_pelicula);
-            statement.setInt(3, id_funcion);
-            statement.setInt(4, id_usuario);
-            statement.setInt(5, cantidad_boletos);
-            statement.setDouble(6, total_venta);
-            statement.setString(7, fecha);
+    public int insertarVenta(int id_pelicula, int id_funcion, int id_usuario, int cantidad_boletos, double total_venta, String fecha) {
+    String query = "INSERT INTO ventas (ID_Pelicula, ID_Funcion, ID_Usuario, Cantidad_Boletos, Total_Venta, Fecha_Venta) VALUES (?, ?, ?, ?, ?, ?)";
+    try (PreparedStatement statement = conexion.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        statement.setInt(1, id_pelicula);
+        statement.setInt(2, id_funcion);
+        statement.setInt(3, id_usuario);
+        statement.setInt(4, cantidad_boletos);
+        statement.setDouble(5, total_venta);
+        statement.setString(6, fecha);
+        statement.executeUpdate();
 
-            statement.executeUpdate();
-            VentanaEmergente nueva = new VentanaEmergente("Venta exitosa", "La venta se ha agregado con exito");
-        } catch (SQLException ex) {
-            VentanaEmergente nueva = new VentanaEmergente("Error", "No se ha podido hacer la venta");
-            System.out.println("Error al agregar la venta.");
+        // Obtener el ID de venta generado por la base de datos
+        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                int id_venta = generatedKeys.getInt(1);
+                VentanaEmergente nueva = new VentanaEmergente("Venta exitosa", "La venta se ha agregado con exito");
+                return id_venta; // Retornar el ID generado
+            } else {
+                throw new SQLException("Creación de venta fallida, no se obtuvo el ID.");
+            }
         }
+    } catch (SQLException ex) {
+        VentanaEmergente nueva = new VentanaEmergente("Error", "No se ha podido hacer la venta: " + ex.getMessage());
+        System.out.println("Error al agregar la venta: " + ex.getMessage());
+        return -1; // Indicar falla
     }
+}
+
     
     //Obtener asientos
     public List<Asiento> obtenerAsientos() {

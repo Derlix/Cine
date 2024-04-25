@@ -28,7 +28,7 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
     BaseDatos_ChristianArias db;
     int funcion;
     int cantidadBoletos;
-    List<Integer> asientosSeleccionados = new ArrayList<>();
+    public static ArrayList<Integer> asientosSeleccionados = new ArrayList<>();
     public ReservacionesAsientos(BaseDatos_ChristianArias db,int funcion, int cantidadBoletos) {
         this.funcion = funcion;
         this.db = db;
@@ -39,7 +39,7 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         setVisible(true);
         mantenerAsientosOcupados(funcion);
         componentesAlternos();
-        
+        asientosSeleccionados.clear();
         int cantidadAsientos = db.obtenerCapacidadSala(funcion);
         numeroDeasientos.setText("Cantidad de Asientos: " + cantidadAsientos);
     }
@@ -137,6 +137,10 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         
         
     }
+    
+    public static List<Integer> getAsientosSeleccionados() {
+        return asientosSeleccionados;
+    }
 
     public void reservarAsiento(int numeroAsiento) {
         try {
@@ -225,6 +229,7 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
 
                                 String textoBton = DimensionBotones[i][j].getText();
                                 int numeroAsiento = Integer.parseInt(textoBton.split("Asiento")[1]);
+                                asientosSeleccionados.add(numeroAsiento);
                                 reservarAsiento(numeroAsiento);
                                 asientosReservados++;
                             } else {
@@ -238,6 +243,7 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
                             String textoBton = DimensionBotones[i][j].getText();
                             int numeroAsiento = Integer.parseInt(textoBton.split("Asiento")[1]);
                             quitarReservacionAsiento(numeroAsiento);
+                            asientosSeleccionados.remove(Integer.valueOf(numeroAsiento));
                             asientosReservados--;
                         }
                     }
@@ -444,6 +450,7 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
     
     
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelEjemplos;
     private javax.swing.JPanel PanelPrincipal;

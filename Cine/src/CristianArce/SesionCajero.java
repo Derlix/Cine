@@ -1,5 +1,6 @@
 package CristianArce;
 
+import java.sql.*;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -40,7 +42,9 @@ public class SesionCajero extends javax.swing.JFrame {
     int total_venta;
     int id_venta;
     Usuario usuario;
+    BaseDatos_ChristianArias db = new BaseDatos_ChristianArias();
     public SesionCajero(CristianBD bd, Usuario usuario) {
+        
         this.usuario = usuario;
         id_usuario = usuario.getIdUsuario();
         this.bd = bd;
@@ -589,6 +593,7 @@ public class SesionCajero extends javax.swing.JFrame {
         etq_id.setText("id");
         etq_valor_total.setText("Valor total");
 
+        
         ItemCombo item = (ItemCombo) seleccionar_pelicula.getSelectedItem();
         if (item != null) {
 
@@ -597,11 +602,11 @@ public class SesionCajero extends javax.swing.JFrame {
             id_venta = bd.ultimo_id_venta()+1;
             cantidad_boletos = (int) seleccionar_cantidad.getValue();
             total_venta = item.getPrecio() * cantidad_boletos;
-
+            mostrarAsientosSeleccionados() ;
             etq_mostrar_pelicula.setText(item.getNombre_pelicula()+"");
             etq_mostrar_hora.setText(item.getHora());
             etq_mostrar_sala.setText(item.getId_sala()+"");
-            etq_mostrar_asiento.setText("En mantenimiento :)");
+            
             etq_mostrar_precio.setText(item.getPrecio()+"");
             etq_mostrar_cantidad.setText(seleccionar_cantidad.getValue()+"");
             etq_mostrar_id.setText((bd.ultimo_id_venta()+1)+"");
@@ -611,30 +616,17 @@ public class SesionCajero extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_generarActionPerformed
 
     private void btn_imprimir_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimir_facturaActionPerformed
-        bd.insertarVenta(id_venta, id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
-        limpiar_factura();
-        // Almacenar la venta en la base de datos
-        //bd.guardarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta);
-        // Obtener el ID de la venta recién creada
-        id_venta = bd.ultimo_id_venta();
-            
-            // Asignar el ID de venta a los asientos seleccionados
-        try {
-            conexion =  (Connection) bd;
-            String consulta = "UPDATE Asientos_funciones SET ID_Venta = '" + id_venta +"'WHERE ID_ ";
-            PreparedStatement sentenciaPreparada = conexion.prepareStatement(consulta);
-
-             // Utilizamos el atributo funcion
-
-            int mensaje = sentenciaPreparada.executeUpdate();
-        } catch (Exception e) {
-        }
-    // Aquí deberías tener un método en tu base de datos que actualice los asientos seleccionados con el ID de la venta
-    // El método sería algo como bd.actualizarAsientosConIDVenta(id_venta, asientosSeleccionados);
-    // Donde asientosSeleccionados es una lista de los IDs de los asientos seleccionados
+         int idVenta = bd.insertarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
     
-    // Limpiar los campos de la factura después de imprimir
+    // Verifica si la venta se ha generado correctamente antes de actualizar los asientos.
+    if (idVenta != -1) {
+        actualizarAsientosConVenta(idVenta);
+    } else {
+        JOptionPane.showMessageDialog(this, "Error al generar la venta. No se actualizarán los asientos.");
+    }
+    
     limpiar_factura();
+    this.dispose();
     }//GEN-LAST:event_btn_imprimir_facturaActionPerformed
 
     private void btn_cancelar_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar_facturaActionPerformed
@@ -680,9 +672,23 @@ public class SesionCajero extends javax.swing.JFrame {
         });
     }
     
-    public void abrirReservacionesAsientos(int cantidadBoletos){
-        
+    public void finalizarVenta() {
+        int idVenta = bd.ultimo_id_venta();  // Este método debería generar un nuevo ID de venta en la base de datos y retornarlo.
+        actualizarAsientosConVenta(idVenta);
     }
+    
+    private void actualizarAsientosConVenta(int idVenta) {
+    try (Connection conn = db.conectar();
+         PreparedStatement pstmt = conn.prepareStatement("UPDATE Asientos_funciones SET ID_Venta = ? WHERE ID_Asiento = ?")) {
+        for (Integer idAsiento : ReservacionesAsientos.getAsientosSeleccionados()) {
+            pstmt.setInt(1, idVenta);
+            pstmt.setInt(2, idAsiento);
+            pstmt.executeUpdate();
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton BotonSeleccionarAsiento;
     private javax.swing.JButton btn_cancelar_factura;
@@ -734,4 +740,12 @@ public class SesionCajero extends javax.swing.JFrame {
     private List<Pelicula> obtenerTodasLasPeliculas() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    private void mostrarAsientosSeleccionados() {
+    List<Integer> asientos = ReservacionesAsientos.getAsientosSeleccionados();
+    String asientosStr = asientos.stream()
+                                 .map(Object::toString)
+                                 .collect(Collectors.joining(", "));
+    etq_mostrar_asiento.setText(asientosStr);
+}
+
 }
