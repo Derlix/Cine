@@ -75,6 +75,11 @@
         <Component class="javax.swing.JButton" name="btnCrearFuncion">
           <Properties>
             <Property name="text" type="java.lang.String" value="Crear Funcion"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder roundedCorners="true"/>
+              </Border>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCrearFuncionActionPerformed"/>
@@ -83,6 +88,11 @@
         <Component class="javax.swing.JButton" name="btnEditarFuncion">
           <Properties>
             <Property name="text" type="java.lang.String" value="Editar Funcion"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder roundedCorners="true"/>
+              </Border>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarFuncionActionPerformed"/>
@@ -91,6 +101,11 @@
         <Component class="javax.swing.JButton" name="btnEliminarFuncion">
           <Properties>
             <Property name="text" type="java.lang.String" value="Eliminar Funcion"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder roundedCorners="true"/>
+              </Border>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarFuncionActionPerformed"/>

@@ -5,6 +5,7 @@ import JuanCamilo.EditarFuncion;
 import JuanCamilo.EliminarFuncion;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,6 +18,7 @@ import utils.Funcion;
 public class ProgramarFunciones extends javax.swing.JPanel {
 
     BaseDatosJuanPrincipal bd;
+
     public ProgramarFunciones(BaseDatosJuanPrincipal bd) {
         this.bd = bd;
         initComponents();
@@ -24,30 +26,40 @@ public class ProgramarFunciones extends javax.swing.JPanel {
         eventosMouse();
         cargarFunciones();
     }
-    
-    public void componenetesAlternos(){
+
+    public void componenetesAlternos() {
         btnCrearFuncion.setBackground(Color.WHITE);
         Image iconoCrearF = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/crearFuncion.png"));
         iconoCrearF = iconoCrearF.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         btnCrearFuncion.setIcon(new ImageIcon(iconoCrearF));
         btnCrearFuncion.setForeground(new Color(0, 0, 200));
         btnCrearFuncion.setBackground(Color.WHITE);
-        
+
         btnEditarFuncion.setBackground(Color.WHITE);
         Image icono = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/editarFuncion.png"));
-        icono = icono.getScaledInstance(45,45,Image.SCALE_SMOOTH);
+        icono = icono.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         btnEditarFuncion.setIcon(new ImageIcon(icono));
         btnEditarFuncion.setIcon(new ImageIcon(icono));
         btnEditarFuncion.setForeground(new Color(0, 0, 200));
-        
+
         btnEliminarFuncion.setBackground(Color.WHITE);
         Image iconos = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/crearFuncion.png"));
-        iconos = iconos.getScaledInstance(45,45,Image.SCALE_SMOOTH);
+        iconos = iconos.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         btnEliminarFuncion.setIcon(new ImageIcon(iconos));
         btnEliminarFuncion.setIcon(new ImageIcon(iconos));
         btnEliminarFuncion.setForeground(new Color(0, 0, 200));
+
+        tablaFuncuones.setFillsViewportHeight(true);
+        tablaFuncuones.setBackground(new Color(255, 255, 255)); // Blanco
+        tablaFuncuones.setForeground(new Color(51, 51, 51)); // Gris oscuro
+        tablaFuncuones.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tablaFuncuones.getTableHeader().setBackground(new Color(34, 34, 34)); // Casi negro
+        tablaFuncuones.getTableHeader().setForeground(new Color(255, 255, 255)); // Blanco
+        tablaFuncuones.setGridColor(new Color(200, 200, 200)); // Gris claro
+        tablaFuncuones.setShowGrid(true);
+        tablaFuncuones.setRowHeight(50);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -62,6 +74,7 @@ public class ProgramarFunciones extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         btnCrearFuncion.setText("Crear Funcion");
+        btnCrearFuncion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         btnCrearFuncion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearFuncionActionPerformed(evt);
@@ -69,6 +82,7 @@ public class ProgramarFunciones extends javax.swing.JPanel {
         });
 
         btnEditarFuncion.setText("Editar Funcion");
+        btnEditarFuncion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         btnEditarFuncion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarFuncionActionPerformed(evt);
@@ -76,6 +90,7 @@ public class ProgramarFunciones extends javax.swing.JPanel {
         });
 
         btnEliminarFuncion.setText("Eliminar Funcion");
+        btnEliminarFuncion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         btnEliminarFuncion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarFuncionActionPerformed(evt);
@@ -150,11 +165,10 @@ public class ProgramarFunciones extends javax.swing.JPanel {
         EliminarFuncion ventana = new EliminarFuncion(bd);
     }//GEN-LAST:event_btnEliminarFuncionActionPerformed
 
-
     Color customColor = Color.decode("#7F265B");
-    public void eventosMouse(){
-        
-        
+
+    public void eventosMouse() {
+
         btnCrearFuncion.addMouseListener(new MouseAdapter() {
             @Override
             // Evento cambio de color cuando se pasa el mouse por el boton
@@ -163,14 +177,14 @@ public class ProgramarFunciones extends javax.swing.JPanel {
                 btnCrearFuncion.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 btnCrearFuncion.setForeground(Color.WHITE);
             }
-            
-             
+
             // Volver al color predeterminado cuando el raton sale del botón
             @Override
             public void mouseExited(MouseEvent e) {
-                btnCrearFuncion.setBackground(Color.WHITE);            
+                btnCrearFuncion.setBackground(Color.WHITE);
                 btnCrearFuncion.setForeground(Color.BLACK);
             }
+
             // Establecer el color personalizado cuando se hace clic en cualquier botón
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -185,14 +199,14 @@ public class ProgramarFunciones extends javax.swing.JPanel {
                 btnEditarFuncion.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 btnEditarFuncion.setForeground(Color.WHITE);
             }
-            
-             
+
             // Volver al color predeterminado cuando el raton sale del botón
             @Override
             public void mouseExited(MouseEvent e) {
-                btnEditarFuncion.setBackground(Color.WHITE);            
+                btnEditarFuncion.setBackground(Color.WHITE);
                 btnEditarFuncion.setForeground(Color.BLACK);
             }
+
             // Establecer el color personalizado cuando se hace clic en cualquier botón
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -207,14 +221,14 @@ public class ProgramarFunciones extends javax.swing.JPanel {
                 btnEliminarFuncion.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 btnEliminarFuncion.setForeground(Color.WHITE);
             }
-            
-             
+
             // Volver al color predeterminado cuando el raton sale del botón
             @Override
             public void mouseExited(MouseEvent e) {
-                btnEliminarFuncion.setBackground(Color.BLACK);            
-                btnCrearFuncion.setForeground(Color.WHITE);
+                btnEliminarFuncion.setBackground(Color.WHITE);
+                btnEliminarFuncion.setForeground(Color.BLACK);
             }
+
             // Establecer el color personalizado cuando se hace clic en cualquier botón
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -222,9 +236,7 @@ public class ProgramarFunciones extends javax.swing.JPanel {
             }
         });
     }
-    
-    
-    
+
     public void cargarFunciones() {
         try {
             List<Funcion> funciones = bd.obtenerTodasFunciones();
@@ -257,7 +269,7 @@ public class ProgramarFunciones extends javax.swing.JPanel {
         }
     }
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearFuncion;
     private javax.swing.JButton btnEditarFuncion;

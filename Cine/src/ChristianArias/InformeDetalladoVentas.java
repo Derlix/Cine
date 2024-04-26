@@ -38,6 +38,11 @@ public class InformeDetalladoVentas extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
         setTitle(" Informe detallado de ventas ");
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
+    }
+    
+    public void componentesAlternos(){
+    
     }
     
     public void mostrar() {

@@ -1,12 +1,16 @@
-
 package Principal;
 
+import ChristianArias.MenuCajero;
 import ChristianArias.RedondearBorde;
 import CristianArce.SesionCajero;
 import JuanCamilo.CrearUsuario;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.border.LineBorder;
@@ -14,14 +18,16 @@ import utils.BaseDatosJuanPrincipal;
 import utils.CristianBD;
 import utils.Usuario;
 import javax.swing.*;
+
 public class InicioSesion extends javax.swing.JFrame {
 
     private BaseDatosJuanPrincipal baseDatos;
     private Timer timer;
     private int currentIndex = 0;
     CristianBD bd;
-    
-    private String[] imagenes = {"/imagenesCarrusel/figthClub.png", "/imagenesCarrusel/gustavo.png", "/imagenesCarrusel/joliwu.png","/imagenesCarrusel/batman.png","/imagenesCarrusel/totoro.png", "/imagenesCarrusel/dardevil.png" , "/imagenesCarrusel/futuro.png", "/imagenesCarrusel/elzorro.png", "/imagenesCarrusel/tonystark.png", "/imagenesCarrusel/ironman.png","/imagenesCarrusel/nose.png","/imagenesCarrusel/chica.png","/imagenesCarrusel/strangerthings.png","/imagenesCarrusel/guardianesGalaxia.png"};
+
+    private String[] imagenes = {"/imagenesCarrusel/figthClub.png", "/imagenesCarrusel/gustavo.png", "/imagenesCarrusel/joliwu.png", "/imagenesCarrusel/batman.png", "/imagenesCarrusel/totoro.png", "/imagenesCarrusel/dardevil.png", "/imagenesCarrusel/futuro.png", "/imagenesCarrusel/elzorro.png", "/imagenesCarrusel/tonystark.png", "/imagenesCarrusel/ironman.png", "/imagenesCarrusel/nose.png", "/imagenesCarrusel/chica.png", "/imagenesCarrusel/strangerthings.png", "/imagenesCarrusel/guardianesGalaxia.png", "/imagenesCarrusel/cine.png"};
+
     public InicioSesion(BaseDatosJuanPrincipal baseDatos, CristianBD bd) {
         this.baseDatos = baseDatos;
         this.bd = bd;
@@ -30,27 +36,26 @@ public class InicioSesion extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         componentesAlternos();
         imagenesCarusel();
-        
+        eventosMouse();
     }
-    
-    public void componentesAlternos(){
+
+    public void componentesAlternos() {
         //icono Principal
         RedondearBorde redondear = new RedondearBorde(20);
         setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
         setTitle("Inicio de Sesion");
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+
         Image icono_listar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/cine.png"));
         icono_listar = icono_listar.getScaledInstance(550, 400, Image.SCALE_SMOOTH);
         etq_imagePrincipal.setIcon(new ImageIcon(icono_listar));
-        
+
         btn_inicar.setBackground(null);
         btn_registrarse.setBackground(null);
         campo_contraseña.putClientProperty("JComponent.roundRect", true);
-        
-    }
 
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -192,7 +197,7 @@ public class InicioSesion extends javax.swing.JFrame {
     private void btn_registrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarseActionPerformed
         CrearUsuario v = new CrearUsuario(baseDatos);
     }//GEN-LAST:event_btn_registrarseActionPerformed
-    
+
     public void iniciarSesion(String correo, String contraseña) {
         // Verificar las credenciales en la base de datos
         Usuario usuario = baseDatos.verificarCredenciales(correo, contraseña);
@@ -201,7 +206,7 @@ public class InicioSesion extends javax.swing.JFrame {
             if (usuario.getRol().equals("Cajero")) {
                 // Rol es Cajero
                 System.out.println("Bienvenido Cajero");
-                SesionCajero ventana = new SesionCajero(bd, usuario);
+                MenuCajero ventana = new MenuCajero(baseDatos, usuario);
                 this.dispose();
             } else if (usuario.getRol().equals("Administrador")) {
                 // Rol es Administrador
@@ -218,7 +223,7 @@ public class InicioSesion extends javax.swing.JFrame {
         }
     }
 
-    public void imagenesCarusel(){
+    public void imagenesCarusel() {
         timer = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -231,8 +236,55 @@ public class InicioSesion extends javax.swing.JFrame {
         timer.start();
     }
 
+    Color customColor = Color.decode("#7F265B");
 
+    public void eventosMouse() {
 
+        btn_inicar.addMouseListener(new MouseAdapter() {
+            @Override
+            // Evento cambio de color cuando se pasa el mouse por el boton
+            public void mouseEntered(MouseEvent e) {
+                btn_inicar.setBackground(customColor);
+                btn_inicar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                btn_inicar.setForeground(Color.WHITE);
+            }
+
+            // Volver al color predeterminado cuando el raton sale del botón
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_inicar.setBackground(Color.WHITE);
+                btn_inicar.setForeground(Color.BLACK);
+            }
+
+            // Establecer el color personalizado cuando se hace clic en cualquier botón
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                btn_inicar.setBackground(customColor);
+            }
+        });
+        btn_registrarse.addMouseListener(new MouseAdapter() {
+            @Override
+            // Evento cambio de color cuando se pasa el mouse por el boton
+            public void mouseEntered(MouseEvent e) {
+                btn_registrarse.setBackground(customColor);
+                btn_registrarse.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                btn_registrarse.setForeground(Color.WHITE);
+            }
+
+            // Volver al color predeterminado cuando el raton sale del botón
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_registrarse.setBackground(Color.WHITE);
+                btn_registrarse.setForeground(Color.BLACK);
+            }
+
+            // Establecer el color personalizado cuando se hace clic en cualquier botón
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                btn_registrarse.setBackground(customColor);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_inicar;

@@ -16,9 +16,13 @@ import CristianArce.Venta;
 import Principal.InicioSesion;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -36,14 +40,20 @@ public class SesionCajero extends javax.swing.JFrame {
     int cantidad_boletos;
     int total_venta;
     int id_venta;
+    Usuario usuario;
+    BaseDatos_ChristianArias db = new BaseDatos_ChristianArias();
+
+    
     
     public SesionCajero(CristianBD bd, Usuario usuario) {
+        this.usuario = usuario;
         id_usuario = usuario.getIdUsuario();
         this.bd = bd;
         initComponents();
         initAlterComponents();
         setVisible(true);
         setLocationRelativeTo(null);
+        botonDesactivar();
     }
     
     public void initAlterComponents(){
@@ -56,20 +66,20 @@ public class SesionCajero extends javax.swing.JFrame {
         });
         
         obtener_meses();
-        
-        btn_imprimir_factura.setEnabled(false);
         seleccionar_pelicula.setEnabled(false);
+
         seleccionar_mes.addItem("Mes");
         seleccionar_dia.addItem("Día");
-        
-        for(String mes : meses_disponibles){
+
+        for (String mes : meses_disponibles) {
             seleccionar_mes.addItem(mes);
         }
-        
+
         setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
         setTitle("Menu Cajero");
         setResizable(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
         
        
 
@@ -567,7 +577,11 @@ public class SesionCajero extends javax.swing.JFrame {
 
     private void BotonSeleccionarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSeleccionarAsientoActionPerformed
         BaseDatos_ChristianArias db = new BaseDatos_ChristianArias();
-        ReservacionesAsientos ventana = new ReservacionesAsientos(db);
+        ItemCombo item = (ItemCombo) seleccionar_pelicula.getSelectedItem();
+        int cantidad_boletoss = (int) seleccionar_cantidad.getValue();
+        int id_funcions = item.getId_funcion();
+        ReservacionesAsientos reservacionesAsientos = new ReservacionesAsientos(db, id_funcions, cantidad_boletoss);
+        reservacionesAsientos.setVisible(true);
     }//GEN-LAST:event_BotonSeleccionarAsientoActionPerformed
 
     private void btn_generarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarActionPerformed
@@ -576,47 +590,58 @@ public class SesionCajero extends javax.swing.JFrame {
         if (item != null) {
             
             etq_pelicula.setText("Pelicula");
-            etq_hora.setText("Hora");
-            etq_sala.setText("Sala");
-            etq_asiento.setText("Asiento");
-            etq_precio.setText("Precio");
-            etq_cantidad.setText("Cantidad");
-            etq_id.setText("id");
-            etq_valor_total.setText("Valor total");
+        etq_hora.setText("Hora");
+        etq_sala.setText("Sala");
+        etq_asiento.setText("Asiento");
+        etq_precio.setText("Precio");
+        etq_cantidad.setText("Cantidad");
+        etq_id.setText("id");
+        etq_valor_total.setText("Valor total");
+
+        ItemCombo items = (ItemCombo) seleccionar_pelicula.getSelectedItem();
+        if (items != null) {
 
             id_pelicula = item.getId_pelicula();
             id_funcion = item.getId_funcion();
-            id_venta = bd.ultimo_id_venta()+1;
+            id_venta = bd.ultimo_id_venta() + 1;
             cantidad_boletos = (int) seleccionar_cantidad.getValue();
             total_venta = item.getPrecio() * cantidad_boletos;
-
-            etq_mostrar_pelicula.setText(item.getNombre_pelicula()+"");
+            mostrarAsientosSeleccionados();
+            etq_mostrar_pelicula.setText(item.getNombre_pelicula() + "");
             etq_mostrar_hora.setText(item.getHora());
-            etq_mostrar_sala.setText(item.getId_sala()+"");
-            etq_mostrar_asiento.setText("En mantenimiento :)");
-            etq_mostrar_precio.setText(item.getPrecio()+"");
-            etq_mostrar_cantidad.setText(seleccionar_cantidad.getValue()+"");
-            etq_mostrar_id.setText((bd.ultimo_id_venta()+1)+"");
-            etq_mostrar_valor_total.setText((item.getPrecio() * cantidad_boletos)+"");
-            
+            etq_mostrar_sala.setText(item.getId_sala() + "");
+
+            etq_mostrar_precio.setText(item.getPrecio() + "");
+            etq_mostrar_cantidad.setText(seleccionar_cantidad.getValue() + "");
+            etq_mostrar_id.setText((bd.ultimo_id_venta() + 1) + "");
+            etq_mostrar_valor_total.setText((item.getPrecio() * cantidad_boletos) + "");
             btn_imprimir_factura.setEnabled(true);
 
         }
     }//GEN-LAST:event_btn_generarActionPerformed
-
+    }
     private void btn_imprimir_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimir_facturaActionPerformed
-        bd.insertarVenta(id_venta, id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
+        int idVenta = bd.insertarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
+
+        if (idVenta != -1) {
+            actualizarAsientosConVenta(idVenta);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al generar la venta. No se actualizarán los asientos.");
+        }
+
         limpiar_factura();
+        this.dispose();
     }//GEN-LAST:event_btn_imprimir_facturaActionPerformed
 
     private void btn_cancelar_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar_facturaActionPerformed
-        limpiar_factura();
-        btn_imprimir_factura.setEnabled(false);
+        int id = Integer.parseInt(campo_id_reembolso.getText());
+        bd.eliminarVenta(id);
+        campo_id_reembolso.setText("");
     }//GEN-LAST:event_btn_cancelar_facturaActionPerformed
 
     private void btn_reembolsoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reembolsoActionPerformed
 
-        String id = campo_id_reembolso.getText();
+         int id = Integer.parseInt(campo_id_reembolso.getText());
         bd.eliminarVenta(id);
         campo_id_reembolso.setText("");
     }//GEN-LAST:event_btn_reembolsoActionPerformed
@@ -651,6 +676,23 @@ public class SesionCajero extends javax.swing.JFrame {
                 InicioSesion ventana = new InicioSesion(bd,bd);
             }
         });
+    }
+    
+    public void finalizarVenta() {
+        int idVenta = bd.ultimo_id_venta();  // Este método debería generar un nuevo ID de venta en la base de datos y retornarlo.
+        actualizarAsientosConVenta(idVenta);
+    }
+
+    private void actualizarAsientosConVenta(int idVenta) {
+        try (Connection conn = db.conectar(); PreparedStatement pstmt = conn.prepareStatement("UPDATE Asientos_funciones SET ID_Venta = ? WHERE ID_Asiento = ?")) {
+            for (Integer idAsiento : ReservacionesAsientos.getAsientosSeleccionados()) {
+                pstmt.setInt(1, idVenta);
+                pstmt.setInt(2, idAsiento);
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton BotonSeleccionarAsiento;
@@ -702,5 +744,13 @@ public class SesionCajero extends javax.swing.JFrame {
 
     private List<Pelicula> obtenerTodasLasPeliculas() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+     private void mostrarAsientosSeleccionados() {
+        List<Integer> asientos = ReservacionesAsientos.getAsientosSeleccionados();
+        String asientosStr = asientos.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(", "));
+        etq_mostrar_asiento.setText(asientosStr);
     }
 }

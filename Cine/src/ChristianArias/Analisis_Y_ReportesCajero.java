@@ -1,6 +1,6 @@
-
 package ChristianArias;
 
+import ChristianArias.InformeDetalladoVentas;
 import Principal.MenuAdministrador;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -18,31 +18,38 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 import utils.BaseDatos_ChristianArias;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Element;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-
-
-
-public class Analisis_Y_Reportes extends javax.swing.JPanel {
+public class Analisis_Y_ReportesCajero extends javax.swing.JPanel {
 
     BaseDatos_ChristianArias db;
-    public Analisis_Y_Reportes(BaseDatos_ChristianArias db) {
+
+    public Analisis_Y_ReportesCajero(BaseDatos_ChristianArias db) {
         initComponents();
         eventosMouse();
         this.db = db;
@@ -51,20 +58,21 @@ public class Analisis_Y_Reportes extends javax.swing.JPanel {
         componentesAlternos();
     }
 
-    private void componentesAlternos(){
+    private void componentesAlternos() {
         boton_Generarreporte.setBackground(Color.WHITE);
         Image icono_listar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/reporte.png"));
         icono_listar = icono_listar.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         boton_Generarreporte.setIcon(new ImageIcon(icono_listar));
         boton_Generarreporte.setForeground(new Color(0, 0, 200));
-        
+
         boton_Informeventas.setBackground(Color.WHITE);
         Image icono_informe = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/informeVentas.png"));
         icono_listar = icono_informe.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         boton_Informeventas.setIcon(new ImageIcon(icono_listar));
         boton_Informeventas.setForeground(new Color(0, 0, 200));
-        
+
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -127,64 +135,54 @@ public class Analisis_Y_Reportes extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void boton_GenerarreporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_GenerarreporteActionPerformed
-        Document documento = new Document() {};
-       
-        try {
-            
-            String directorioActual = System.getProperty("user.dir");
-            String rutaArchivoPDF = directorioActual + "\\Reporte_Cine.pdf";
+        Document documento = new Document();
 
-            
+        try {
+            String directorioActual = System.getProperty("user.dir");
+            String rutaArchivoPDF = directorioActual + "\\ReporteVentasCajero.pdf";
             PdfWriter.getInstance(documento, new FileOutputStream(rutaArchivoPDF));
             documento.open();
-            //PdfWriter.getInstance(documento, new FileOutputStream("C:\\Users\\chris\\OneDrive\\Escritorio\\Reporte_Cine.pdf"));
-            //documento.open();
-            
-            PdfPTable tabla = new PdfPTable(2);
-            tabla.addCell("Numero Usuario");
-            tabla.addCell("Nombre del usuario");
-            
-            
-            try {
-                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/bd_cine", "root", "");
-                PreparedStatement pst = cn.prepareStatement("select ID_Usuario,Nombre_Usuario from usuarios");
-                
-                ResultSet rs = pst.executeQuery();
-                
-                if(rs.next()){
-                                       
-                    do {                        
-                        tabla.addCell(rs.getString(1));
-                        tabla.addCell(rs.getString(2));
-                    } while (rs.next());
-                    documento.add(tabla);                    
-                }
-                
-            } catch (DocumentException | SQLException e) {
-                System.out.println(e);
+
+            Font fontCabecera = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLUE);
+            Paragraph cabecera = new Paragraph("Reporte de Ventas", fontCabecera);
+            cabecera.setAlignment(Paragraph.ALIGN_CENTER);
+            documento.add(cabecera);
+
+            PdfPTable tabla = new PdfPTable(3);
+            tabla.setWidthPercentage(100);
+            tabla.addCell("Fecha de Venta");
+            tabla.addCell("Cantidad de Boletos");
+            tabla.addCell("Total de Ventas");
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/bd_cine", "root", "");
+            PreparedStatement statement = connection.prepareStatement("SELECT Fecha_Venta, SUM(Cantidad_Boletos), SUM(Total_Venta) FROM Ventas GROUP BY Fecha_Venta");
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                tabla.addCell(resultSet.getString("Fecha_Venta"));
+                tabla.addCell(resultSet.getString("SUM(Cantidad_Boletos)"));
+                tabla.addCell(resultSet.getString("SUM(Total_Venta)"));
             }
+
+            documento.add(tabla);
             documento.close();
-            JOptionPane.showMessageDialog(null, "Reporte creado en: " + rutaArchivoPDF);
-            //JOptionPane.showMessageDialog(null, "Reporte creado.");
-        } catch (DocumentException | HeadlessException | FileNotFoundException e) {
-            System.out.println("Error al crear el reporte");
-            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "Reporte generado con éxito en: " + rutaArchivoPDF);
+        } catch (DocumentException | SQLException | FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Error al generar el reporte: " + e.getMessage());
         }
-       
+
     }//GEN-LAST:event_boton_GenerarreporteActionPerformed
 
-    
-    
+
     private void boton_InformeventasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_InformeventasActionPerformed
         InformeDetalladoVentas ventana = new InformeDetalladoVentas(db);
     }//GEN-LAST:event_boton_InformeventasActionPerformed
-    
-    
+
     //ESTILOS
-     Color customColor = Color.decode("#7F265B");
-    public void eventosMouse(){
-        
-        
+    Color customColor = Color.decode("#7F265B");
+
+    public void eventosMouse() {
+
         boton_Generarreporte.addMouseListener(new MouseAdapter() {
             @Override
             // Evento cambio de color cuando se pasa el mouse por el boton
@@ -193,14 +191,14 @@ public class Analisis_Y_Reportes extends javax.swing.JPanel {
                 boton_Generarreporte.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 boton_Generarreporte.setForeground(Color.WHITE);
             }
-            
-             
+
             // Volver al color predeterminado cuando el raton sale del botón
             @Override
             public void mouseExited(MouseEvent e) {
-                boton_Generarreporte.setBackground(Color.WHITE);            
+                boton_Generarreporte.setBackground(Color.WHITE);
                 boton_Generarreporte.setForeground(Color.BLACK);
             }
+
             // Establecer el color personalizado cuando se hace clic en cualquier botón
             @Override
             public void mouseClicked(MouseEvent e) {
