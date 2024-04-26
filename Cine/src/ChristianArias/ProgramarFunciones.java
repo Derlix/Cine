@@ -56,6 +56,7 @@ public class ProgramarFunciones extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         btnCrearFuncion.setText("Crear Funcion");
+        btnCrearFuncion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         btnCrearFuncion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearFuncionActionPerformed(evt);
@@ -63,6 +64,7 @@ public class ProgramarFunciones extends javax.swing.JPanel {
         });
 
         btnEditarFuncion.setText("Editar Funcion");
+        btnEditarFuncion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         btnEditarFuncion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarFuncionActionPerformed(evt);
@@ -70,6 +72,7 @@ public class ProgramarFunciones extends javax.swing.JPanel {
         });
 
         btnEliminarFuncion.setText("Eliminar Funcion");
+        btnEliminarFuncion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         btnEliminarFuncion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarFuncionActionPerformed(evt);
@@ -85,9 +88,9 @@ public class ProgramarFunciones extends javax.swing.JPanel {
                 .addComponent(btnCrearFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(btnEditarFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(btnEliminarFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEliminarFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,8 +189,8 @@ public class ProgramarFunciones extends javax.swing.JPanel {
             // Volver al color predeterminado cuando el raton sale del botón
             @Override
             public void mouseExited(MouseEvent e) {
-                btnEliminarFuncion.setBackground(Color.BLACK);            
-                btnCrearFuncion.setForeground(Color.WHITE);
+                btnEliminarFuncion.setBackground(Color.WHITE);            
+                btnEliminarFuncion.setForeground(Color.BLACK);
             }
             // Establecer el color personalizado cuando se hace clic en cualquier botón
             @Override

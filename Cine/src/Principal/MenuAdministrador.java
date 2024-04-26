@@ -1,6 +1,6 @@
 package Principal;
 
-import ChristianArias.Analisis_Y_Reportes;
+import ChristianArias.Analisis_Y_ReportesAdmin;
 import ChristianArias.ProgramarFunciones;
 import JuanBustamante.Gestion_empresa;
 import JuanBustamante.Gestion_personal;
@@ -11,9 +11,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -39,43 +41,38 @@ public class MenuAdministrador extends javax.swing.JFrame {
     Usuario usuarioActual;
     
     public MenuAdministrador(BaseDatosJuanPrincipal basedatos, Usuario usuario) {
+        getContentPane().setBackground(Color.WHITE);
         initComponents();
         this.basedatos = new BaseDatosJuanPrincipal();
         eventosMouse();
         initAlternComponents();
         this.usuarioActual = usuario;
         mostrarInformacionUsuario(); 
-        getContentPane().setBackground(Color.WHITE);
+        
     }
     
     private void mostrarInformacionUsuario() {
-        if (usuarioActual != null) {
-            // Mostrar nombre y rol
-            etq_nombreUsuario.setText(usuarioActual.getNombreUsuario());
-            etq_roll.setText(usuarioActual.getRol());
+    if (usuarioActual != null) {
+        etq_nombreUsuario.setText(usuarioActual.getNombreUsuario());
+        etq_roll.setText(usuarioActual.getRol());
 
-            // Mostrar imagen del usuario
-            byte[] imagenBytes = usuarioActual.getFoto();
-            if (imagenBytes != null) {
-                try {
-                    BufferedImage imagenOriginal = ImageIO.read(new ByteArrayInputStream(imagenBytes));
-
-                    // Redimensionar la imagen para que se adapte al tamaño del JLabel
-                    ImageIcon icono = new ImageIcon(imagenOriginal.getScaledInstance(etq_imagenUser.getWidth(), etq_imagenUser.getHeight(), Image.SCALE_SMOOTH));
-
-                    etq_imagenUser.setIcon(icono);
-                } catch (IOException ex) {
-                    System.out.println("Error al leer la imagen: " + ex.getMessage());
-                }
-            } else {
-                ImageIcon iconoOriginal = new ImageIcon(ClassLoader.getSystemResource("imagenes/user.png"));
-                Image imagenOriginal = iconoOriginal.getImage();
-                Image imagenRedimensionada = imagenOriginal.getScaledInstance(etq_imagenUser.getWidth(), etq_imagenUser.getHeight(), Image.SCALE_SMOOTH);
-                ImageIcon iconoRedimensionado = new ImageIcon(imagenRedimensionada);
-                etq_imagenUser.setIcon(iconoRedimensionado);
+        byte[] imagenBytes = usuarioActual.getFoto();
+        if (imagenBytes != null) {
+            try {
+                BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(imagenBytes));
+                ImageIcon icon = createCircleImageIcon(originalImage.getScaledInstance(etq_imagenUser.getWidth(), etq_imagenUser.getHeight(), Image.SCALE_SMOOTH));
+                etq_imagenUser.setIcon(icon);
+            } catch (IOException ex) {
+                System.out.println("Error al leer la imagen: " + ex.getMessage());
             }
+        } else {
+            ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/imagenes/user.png"));
+            etq_imagenUser.setIcon(createCircleImageIcon(defaultIcon.getImage().getScaledInstance(etq_imagenUser.getWidth(), etq_imagenUser.getHeight(), Image.SCALE_SMOOTH)));
+            
         }
     }
+}
+
 
 
 
@@ -85,14 +82,11 @@ public class MenuAdministrador extends javax.swing.JFrame {
         setVisible(true);
         setResizable(false);
         
-        //Image icono_registro = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/icono_usuario.png"));
-        //icono_registro = icono_registro.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-        //etqImagen.setIcon(new ImageIcon(icono_registro));
         setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
         
         
-        Image icono_etqImagen = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/etqimagen.png"));
-        icono_etqImagen = icono_etqImagen.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        Image icono_etqImagen = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoAdministador.png"));
+        icono_etqImagen = icono_etqImagen.getScaledInstance(180, 90, Image.SCALE_SMOOTH);
         etqImagen.setIcon(new ImageIcon(icono_etqImagen));
         btnAdministrarSedes.setBackground(Color.WHITE);
         
@@ -125,8 +119,9 @@ public class MenuAdministrador extends javax.swing.JFrame {
         btnAnalisisReporte.setIcon(new ImageIcon(icono_analisisReporte));
         btnAnalisisReporte.setForeground(Color.BLACK);
         
+        boton_cerrarSesion.setBackground(Color.WHITE);
+        boton_cerrarSesion.setForeground(Color.BLACK);
         
-                
         //Muestra un notificacion para confirmar si deseas cerrar la aplicacion
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -145,6 +140,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDesktopPane1 = new javax.swing.JDesktopPane();
         contentMenu = new javax.swing.JPanel();
         btnAdministrarSedes = new javax.swing.JButton();
         btnGestionPeliculas = new javax.swing.JButton();
@@ -165,6 +161,17 @@ public class MenuAdministrador extends javax.swing.JFrame {
         etq_imagenUser = new javax.swing.JLabel();
         user = new javax.swing.JLabel();
         rol = new javax.swing.JLabel();
+
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setBackground(new java.awt.Color(204, 51, 255));
@@ -223,7 +230,9 @@ public class MenuAdministrador extends javax.swing.JFrame {
             }
         });
 
-        boton_cerrarSesion.setText("CERRAR SESION");
+        boton_cerrarSesion.setText("Cerrar Sesion");
+        boton_cerrarSesion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        boton_cerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         boton_cerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 boton_cerrarSesionActionPerformed(evt);
@@ -244,8 +253,8 @@ public class MenuAdministrador extends javax.swing.JFrame {
                     .addComponent(btnAnalisisReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(contentMenuLayout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addComponent(boton_cerrarSesion)
+                .addGap(90, 90, 90)
+                .addComponent(boton_cerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         contentMenuLayout.setVerticalGroup(
@@ -261,12 +270,12 @@ public class MenuAdministrador extends javax.swing.JFrame {
                 .addComponent(btnProgramarFunciones, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAnalisisReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(boton_cerrarSesion)
-                .addGap(22, 22, 22))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(boton_cerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
 
-        getContentPane().add(contentMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 138, 290, -1));
+        getContentPane().add(contentMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 138, 290, 430));
 
         contentPrincipal.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -281,7 +290,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
             contentPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contentPrincipalLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(etqTemporal, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
+                .addComponent(etqTemporal, javax.swing.GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)
                 .addGap(31, 31, 31))
         );
         contentPrincipalLayout.setVerticalGroup(
@@ -292,10 +301,11 @@ public class MenuAdministrador extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        getContentPane().add(contentPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(309, 138, 650, 430));
+        getContentPane().add(contentPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(299, 138, 660, 430));
 
         panelIcon.setBackground(new java.awt.Color(255, 255, 255));
 
+        etiquetatitulo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         etiquetatitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etiquetatitulo.setText("Menu Administrador");
 
@@ -305,24 +315,21 @@ public class MenuAdministrador extends javax.swing.JFrame {
         panelIcon.setLayout(panelIconLayout);
         panelIconLayout.setHorizontalGroup(
             panelIconLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelIconLayout.createSequentialGroup()
+            .addGroup(panelIconLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelIconLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(etiquetatitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(etqImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(etiquetatitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(etqImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelIconLayout.setVerticalGroup(
             panelIconLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelIconLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
                 .addComponent(etiquetatitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(etqImagen, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(etqImagen, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
         );
 
-        getContentPane().add(panelIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, -1));
+        getContentPane().add(panelIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 290, 130));
 
         lineaCentral.setBackground(new java.awt.Color(0, 0, 0));
         lineaCentral.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -357,53 +364,53 @@ public class MenuAdministrador extends javax.swing.JFrame {
 
         panelInfo.setBackground(new java.awt.Color(255, 255, 255));
 
+        etq_nombreUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         etq_nombreUsuario.setText("Nombre Usuario Admin");
 
+        etq_roll.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         etq_roll.setText("Roll: ~~~");
 
         etq_imagenUser.setText("Imagen");
 
-        user.setText("Usuario");
+        user.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        user.setText("Usuario:");
 
-        rol.setText("Rol");
+        rol.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        rol.setText("Rol:");
 
         javax.swing.GroupLayout panelInfoLayout = new javax.swing.GroupLayout(panelInfo);
         panelInfo.setLayout(panelInfoLayout);
         panelInfoLayout.setHorizontalGroup(
             panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInfoLayout.createSequentialGroup()
-                .addContainerGap(338, Short.MAX_VALUE)
-                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(user, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(rol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(281, Short.MAX_VALUE)
+                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rol, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(user, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(etq_roll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(etq_nombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(etq_nombreUsuario))
                 .addGap(18, 18, 18)
-                .addComponent(etq_imagenUser, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+                .addComponent(etq_imagenUser, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
         panelInfoLayout.setVerticalGroup(
             panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInfoLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etq_nombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelInfoLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(etq_nombreUsuario)
-                            .addComponent(user))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(etq_roll)
-                            .addComponent(rol)))
-                    .addGroup(panelInfoLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(etq_imagenUser, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(rol, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                    .addComponent(etq_roll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
+            .addComponent(etq_imagenUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        getContentPane().add(panelInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(309, 0, 650, 124));
+        getContentPane().add(panelInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(289, 0, 670, 124));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -491,7 +498,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
 
     private void btnAnalisisReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalisisReporteActionPerformed
         BaseDatos_ChristianArias db = new BaseDatos_ChristianArias();
-        Analisis_Y_Reportes ventana = new Analisis_Y_Reportes(db);
+        Analisis_Y_ReportesAdmin ventana = new Analisis_Y_ReportesAdmin(db);
 
          
 
@@ -636,6 +643,27 @@ public class MenuAdministrador extends javax.swing.JFrame {
                 btnAnalisisReporte.setBackground(customColor);
             }
         });
+        boton_cerrarSesion.addMouseListener(new MouseAdapter() {
+            @Override
+            // Evento cambio de color cuando se pasa el mouse por el boton
+            public void mouseEntered(MouseEvent e) {
+                boton_cerrarSesion.setForeground(Color.WHITE);
+                boton_cerrarSesion.setBackground(customColor);
+                boton_cerrarSesion.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                
+            }
+            // Volver al color predeterminado cuando el raton sale del botón
+            @Override
+            public void mouseExited(MouseEvent e) {
+                boton_cerrarSesion.setBackground(Color.WHITE);    
+                boton_cerrarSesion.setForeground(Color.BLACK);
+            }
+            // Establecer el color personalizado cuando se hace clic en cualquier botón
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                boton_cerrarSesion.setBackground(customColor);
+            }
+        });
     }
     private void confirmarCerrarAplicacion() {
     int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de cerrar la aplicación?", "Cerrar aplicación", JOptionPane.YES_NO_OPTION);
@@ -644,6 +672,18 @@ public class MenuAdministrador extends javax.swing.JFrame {
         System.exit(0);
     }
 }
+    
+    private ImageIcon createCircleImageIcon(Image img) {
+        // Asume que la imagen ya está escalada al tamaño del JLabel
+        int diameter = Math.min(img.getWidth(null), img.getHeight(null));
+        BufferedImage circleBuffer = new BufferedImage(diameter, diameter, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = circleBuffer.createGraphics();
+        g2.setClip(new Ellipse2D.Float(0, 0, diameter, diameter));
+        g2.drawImage(img, 0, 0, null);
+        g2.dispose();
+        return new ImageIcon(circleBuffer);
+    }
+
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -661,6 +701,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
     private javax.swing.JLabel etq_imagenUser;
     private javax.swing.JLabel etq_nombreUsuario;
     private javax.swing.JLabel etq_roll;
+    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPanel lineaCentral;
     private javax.swing.JPanel lineaIzquierda;
     private javax.swing.JPanel panelIcon;

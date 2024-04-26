@@ -1,12 +1,17 @@
 
 package Principal;
 
+import ChristianArias.MenuCajero;
 import ChristianArias.RedondearBorde;
 import CristianArce.SesionCajero;
 import JuanCamilo.CrearUsuario;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.border.LineBorder;
@@ -21,7 +26,7 @@ public class InicioSesion extends javax.swing.JFrame {
     private int currentIndex = 0;
     CristianBD bd;
     
-    private String[] imagenes = {"/imagenesCarrusel/figthClub.png", "/imagenesCarrusel/gustavo.png", "/imagenesCarrusel/joliwu.png","/imagenesCarrusel/batman.png","/imagenesCarrusel/totoro.png", "/imagenesCarrusel/dardevil.png" , "/imagenesCarrusel/futuro.png", "/imagenesCarrusel/elzorro.png", "/imagenesCarrusel/tonystark.png", "/imagenesCarrusel/ironman.png","/imagenesCarrusel/nose.png","/imagenesCarrusel/chica.png","/imagenesCarrusel/strangerthings.png","/imagenesCarrusel/guardianesGalaxia.png"};
+    private String[] imagenes = {"/imagenesCarrusel/figthClub.png", "/imagenesCarrusel/gustavo.png", "/imagenesCarrusel/joliwu.png","/imagenesCarrusel/batman.png","/imagenesCarrusel/totoro.png", "/imagenesCarrusel/dardevil.png" , "/imagenesCarrusel/futuro.png", "/imagenesCarrusel/elzorro.png", "/imagenesCarrusel/tonystark.png", "/imagenesCarrusel/ironman.png","/imagenesCarrusel/nose.png","/imagenesCarrusel/chica.png","/imagenesCarrusel/strangerthings.png","/imagenesCarrusel/guardianesGalaxia.png","/imagenesCarrusel/cine.png"};
     public InicioSesion(BaseDatosJuanPrincipal baseDatos, CristianBD bd) {
         this.baseDatos = baseDatos;
         this.bd = bd;
@@ -30,6 +35,7 @@ public class InicioSesion extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         componentesAlternos();
         imagenesCarusel();
+        eventosMouse();
         
     }
     
@@ -76,10 +82,10 @@ public class InicioSesion extends javax.swing.JFrame {
         etq_titulo.setText("INICIAR SESION");
 
         etq_usuario.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        etq_usuario.setText("USUARIO: ");
+        etq_usuario.setText("Usuario: ");
 
         etq_contraseña.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        etq_contraseña.setText("CONTRASEÑA: ");
+        etq_contraseña.setText("Contraseña: ");
 
         btn_inicar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btn_inicar.setText("INICIAR");
@@ -91,6 +97,7 @@ public class InicioSesion extends javax.swing.JFrame {
             }
         });
 
+        campo_usuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         campo_usuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         etq_olvido_contraseña.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -99,6 +106,7 @@ public class InicioSesion extends javax.swing.JFrame {
 
         etq_imagePrincipal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        campo_contraseña.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         campo_contraseña.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         btn_registrarse.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -134,11 +142,11 @@ public class InicioSesion extends javax.swing.JFrame {
                                     .addComponent(btn_registrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
-                        .addComponent(etq_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(104, 104, 104))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
                         .addComponent(btn_inicar, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(71, 71, 71)))
+                        .addGap(71, 71, 71))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
+                        .addComponent(etq_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(96, 96, 96)))
                 .addComponent(etq_imagePrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(28, Short.MAX_VALUE))
         );
@@ -201,7 +209,7 @@ public class InicioSesion extends javax.swing.JFrame {
             if (usuario.getRol().equals("Cajero")) {
                 // Rol es Cajero
                 System.out.println("Bienvenido Cajero");
-                SesionCajero ventana = new SesionCajero(bd, usuario);
+                MenuCajero ventana = new MenuCajero(baseDatos, usuario);          
                 this.dispose();
             } else if (usuario.getRol().equals("Administrador")) {
                 // Rol es Administrador
@@ -231,8 +239,56 @@ public class InicioSesion extends javax.swing.JFrame {
         timer.start();
     }
 
-
-
+    
+    Color customColor = Color.decode("#7F265B");
+    public void eventosMouse(){
+        
+        
+        btn_inicar.addMouseListener(new MouseAdapter() {
+            @Override
+            // Evento cambio de color cuando se pasa el mouse por el boton
+            public void mouseEntered(MouseEvent e) {
+                btn_inicar.setBackground(customColor);
+                btn_inicar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                btn_inicar.setForeground(Color.WHITE);
+            }
+            
+             
+            // Volver al color predeterminado cuando el raton sale del botón
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_inicar.setBackground(Color.WHITE);            
+                btn_inicar.setForeground(Color.BLACK);
+            }
+            // Establecer el color personalizado cuando se hace clic en cualquier botón
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                btn_inicar.setBackground(customColor);
+            }
+        });        
+        btn_registrarse.addMouseListener(new MouseAdapter() {
+            @Override
+            // Evento cambio de color cuando se pasa el mouse por el boton
+            public void mouseEntered(MouseEvent e) {
+                btn_registrarse.setBackground(customColor);
+                btn_registrarse.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                btn_registrarse.setForeground(Color.WHITE);
+            }
+            
+             
+            // Volver al color predeterminado cuando el raton sale del botón
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_registrarse.setBackground(Color.WHITE);            
+                btn_registrarse.setForeground(Color.BLACK);
+            }
+            // Establecer el color personalizado cuando se hace clic en cualquier botón
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                btn_registrarse.setBackground(customColor);
+            }
+        });     
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_inicar;

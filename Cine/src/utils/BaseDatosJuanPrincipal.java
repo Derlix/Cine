@@ -225,6 +225,8 @@ public class BaseDatosJuanPrincipal {
             statement.setString(8, horaFinal);
             statement.setInt(9, idCine);
 
+            System.out.println("Rol seleccionado: " + rol);
+
             statement.executeUpdate();
             conexion.commit();
             System.out.println("Usuario creado correctamente.");

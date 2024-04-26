@@ -214,22 +214,7 @@ CREATE TABLE Asientos_funciones (
 
 
 
--- Trigger para verificar la restricción de edad en las ventas
-DELIMITER //
-CREATE TRIGGER verificar_restriccion_edad
-BEFORE INSERT ON Ventas
-FOR EACH ROW
-BEGIN
-    DECLARE edad_usuario INT;
-    DECLARE usuario_id INT;
-    SELECT Restriccion_Edad INTO edad_usuario FROM Peliculas WHERE ID_Pelicula = NEW.ID_Pelicula;
-    SELECT ID_Usuario INTO usuario_id FROM Ventas WHERE ID_Venta = NEW.ID_Venta;
-    
-    IF edad_usuario > (SELECT DATEDIFF(CURRENT_DATE(), (SELECT Fecha_Nacimiento FROM Usuarios WHERE ID_Usuario = usuario_id)) / 365) THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El usuario no cumple con la restricción de edad para esta película.';
-    END IF;
-END//
-DELIMITER ;
+
 
 -- Trigger para actualizar el total de ventas después de insertar una venta
 DELIMITER //

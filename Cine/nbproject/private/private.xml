@@ -3,19 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/chris/OneDrive/Escritorio/Cine/Cine/src/CristianArce/SesionCajero.java</file>
-            <file>file:/C:/Users/chris/OneDrive/Escritorio/Cine/Cine/src/utils/CristianBD.java</file>
+            <file>file:/C:/Users/chris/OneDrive/Escritorio/Cine/Cine/src/Principal/MenuAdministrador.java</file>
+            <file>file:/C:/Users/chris/OneDrive/Escritorio/Cine/Cine/src/Principal/InicioSesion.java</file>
             <file>file:/C:/Users/chris/OneDrive/Escritorio/Cine/Cine/src/utils/BaseDatos_ChristianArias.java</file>
             <file>file:/C:/Users/chris/OneDrive/Escritorio/Cine/Cine/src/CristianArce/ReservacionesAsientos.java</file>
-            <file>file:/C:/Users/chris/OneDrive/Escritorio/Cine/Cine/src/utils/Asiento.java</file>
-=======
-            <file>file:/C:/Users/arias/Desktop/Cine/Cine/src/JuanCamilo/GestionPeliculas.java</file>
-            <file>file:/C:/Users/arias/Desktop/Cine/Cine/src/ChristianArias/ProgramarFunciones.java</file>
-            <file>file:/C:/Users/arias/Desktop/Cine/Cine/src/Principal/MenuAdministrador.java</file>
-            <file>file:/C:/Users/arias/Desktop/Cine/Cine/src/ChristianArias/Analisis_Y_Reportes.java</file>
-            <file>file:/C:/Users/arias/Desktop/Cine/Cine/src/imagenes/crearFuncion.png</file>
->>>>>>> main
+            <file>file:/C:/Users/chris/OneDrive/Escritorio/Cine/Cine/src/ChristianArias/MenuCajero.java</file>
+            <file>file:/C:/Users/chris/OneDrive/Escritorio/Cine/Cine/src/ChristianArias/PeliculasSala.java</file>
         </group>
     </open-files>
 </project-private>

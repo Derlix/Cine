@@ -31,6 +31,7 @@ import utils.BaseDatosJuanBustamante;
 import utils.BaseDatosJuanPrincipal;
 
 public class SesionCajero extends javax.swing.JFrame {
+
     private List<Integer> asientosSeleccionados = new ArrayList<>();
     CristianBD bd;
     List<String> meses_disponibles = new ArrayList<>();
@@ -43,8 +44,9 @@ public class SesionCajero extends javax.swing.JFrame {
     int id_venta;
     Usuario usuario;
     BaseDatos_ChristianArias db = new BaseDatos_ChristianArias();
+
     public SesionCajero(CristianBD bd, Usuario usuario) {
-        
+
         this.usuario = usuario;
         id_usuario = usuario.getIdUsuario();
         this.bd = bd;
@@ -52,31 +54,28 @@ public class SesionCajero extends javax.swing.JFrame {
         initAlterComponents();
         setVisible(true);
         setLocationRelativeTo(null);
-         botonDesactivar();
+        botonDesactivar();
     }
-    
-    public void initAlterComponents(){
+
+    public void initAlterComponents() {
         obtener_meses();
         seleccionar_pelicula.setEnabled(false);
-        
+
         seleccionar_mes.addItem("Mes");
         seleccionar_dia.addItem("Día");
-        
-        for(String mes : meses_disponibles){
+
+        for (String mes : meses_disponibles) {
             seleccionar_mes.addItem(mes);
         }
-        
+
         setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
         setTitle("Menu Cajero");
         setResizable(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
-       
 
-     
     }
-    
-    public void botonDesactivar(){
+
+    public void botonDesactivar() {
         seleccionar_cantidad.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -84,13 +83,13 @@ public class SesionCajero extends javax.swing.JFrame {
                 if (cantidadSeleccionada > 0) {
                     BotonSeleccionarAsiento.setEnabled(true);
                 } else {
-                    BotonSeleccionarAsiento.setEnabled(false); 
+                    BotonSeleccionarAsiento.setEnabled(false);
                 }
             }
         });
     }
-    
-    public void obtener_meses(){
+
+    public void obtener_meses() {
         meses_disponibles.clear();
         List<Funcion> lista_funciones = bd.obtenerFunciones();
         List<Pelicula> lista_peliculas = bd.obtenerTodasLasPeliculas();
@@ -100,15 +99,15 @@ public class SesionCajero extends javax.swing.JFrame {
                     String fecha = funcion.getFecha();
                     String[] fecha_separada = fecha.split("-");
                     String mes = fecha_separada[1];
-                    if(!meses_disponibles.contains(mes)){
+                    if (!meses_disponibles.contains(mes)) {
                         meses_disponibles.add(mes);
                     }
                 }
             }
         }
     }
-    
-    public void limpiar_factura(){
+
+    public void limpiar_factura() {
         seleccionar_cantidad.setValue(1);
         etq_pelicula.setText("");
         etq_hora.setText("");
@@ -118,7 +117,7 @@ public class SesionCajero extends javax.swing.JFrame {
         etq_cantidad.setText("");
         etq_id.setText("");
         etq_valor_total.setText("");
-        
+
         etq_mostrar_pelicula.setText("");
         etq_mostrar_hora.setText("");
         etq_mostrar_sala.setText("");
@@ -128,12 +127,12 @@ public class SesionCajero extends javax.swing.JFrame {
         etq_mostrar_id.setText("");
         etq_mostrar_valor_total.setText("");
     }
-    
+
     public void setAsientosSeleccionados(List<Integer> asientosSeleccionados) {
         this.asientosSeleccionados = asientosSeleccionados;
     }
-    
-    public void obtener_dias(String mes_seleccionado){
+
+    public void obtener_dias(String mes_seleccionado) {
         dias_disponibles.clear();
         seleccionar_dia.removeAllItems();
         seleccionar_dia.addItem("Día");
@@ -142,21 +141,21 @@ public class SesionCajero extends javax.swing.JFrame {
         for (Funcion funcion : lista_funciones) {
             for (Pelicula pelicula : lista_peliculas) {
                 if (funcion.getId_pelicula() == pelicula.getIdPelicula()) {
-                    
+
                     String fecha = funcion.getFecha();
                     String[] fecha_separada = fecha.split("-");
-                    
-                    if(fecha_separada[1].equals(mes_seleccionado)){
+
+                    if (fecha_separada[1].equals(mes_seleccionado)) {
                         String dia = fecha_separada[2];
-                        if(!dias_disponibles.contains(dia)){
+                        if (!dias_disponibles.contains(dia)) {
                             dias_disponibles.add(dia);
                         }
                     }
                 }
             }
         }
-        
-        for(String dia : dias_disponibles){
+
+        for (String dia : dias_disponibles) {
             seleccionar_dia.addItem(dia);
         }
     }
@@ -528,13 +527,13 @@ public class SesionCajero extends javax.swing.JFrame {
         Boolean pelicula_encontrada = false;
 
         if (dia_seleccionado != null && mes_seleccionado != null) {
-            if(!dia_seleccionado.equals("Día") && !mes_seleccionado.equals("Mes")){
-                pelicula_encontrada  = true;
+            if (!dia_seleccionado.equals("Día") && !mes_seleccionado.equals("Mes")) {
+                pelicula_encontrada = true;
 
             }
         }
 
-        if(pelicula_encontrada){
+        if (pelicula_encontrada) {
 
             List<Funcion> lista_funciones = bd.obtenerFunciones();
             List<Pelicula> lista_peliculas = bd.obtenerTodasLasPeliculas();
@@ -549,7 +548,7 @@ public class SesionCajero extends javax.swing.JFrame {
                         String dia = fecha_separada[2];
                         String mes = fecha_separada[1];
 
-                        if(dia_seleccionado.equals(dia) && mes_seleccionado.equals(mes)){
+                        if (dia_seleccionado.equals(dia) && mes_seleccionado.equals(mes)) {
                             ItemCombo item;
                             item = new ItemCombo(pelicula.getIdPelicula(), funcion.getId_funcion(), funcion.getId_sala(), pelicula.getTitulo(), funcion.getHora_inicio(), funcion.getPrecio());
                             seleccionar_pelicula.addItem(item);
@@ -564,8 +563,8 @@ public class SesionCajero extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_seleccionar_diaActionPerformed
 
-    public int obtenerFuncionPorId(int funcion){
-        
+    public int obtenerFuncionPorId(int funcion) {
+
         int id = 1;
         return id;
     }
@@ -593,40 +592,38 @@ public class SesionCajero extends javax.swing.JFrame {
         etq_id.setText("id");
         etq_valor_total.setText("Valor total");
 
-        
         ItemCombo item = (ItemCombo) seleccionar_pelicula.getSelectedItem();
         if (item != null) {
 
             id_pelicula = item.getId_pelicula();
             id_funcion = item.getId_funcion();
-            id_venta = bd.ultimo_id_venta()+1;
+            id_venta = bd.ultimo_id_venta() + 1;
             cantidad_boletos = (int) seleccionar_cantidad.getValue();
             total_venta = item.getPrecio() * cantidad_boletos;
-            mostrarAsientosSeleccionados() ;
-            etq_mostrar_pelicula.setText(item.getNombre_pelicula()+"");
+            mostrarAsientosSeleccionados();
+            etq_mostrar_pelicula.setText(item.getNombre_pelicula() + "");
             etq_mostrar_hora.setText(item.getHora());
-            etq_mostrar_sala.setText(item.getId_sala()+"");
-            
-            etq_mostrar_precio.setText(item.getPrecio()+"");
-            etq_mostrar_cantidad.setText(seleccionar_cantidad.getValue()+"");
-            etq_mostrar_id.setText((bd.ultimo_id_venta()+1)+"");
-            etq_mostrar_valor_total.setText((item.getPrecio() * cantidad_boletos)+"");
+            etq_mostrar_sala.setText(item.getId_sala() + "");
+
+            etq_mostrar_precio.setText(item.getPrecio() + "");
+            etq_mostrar_cantidad.setText(seleccionar_cantidad.getValue() + "");
+            etq_mostrar_id.setText((bd.ultimo_id_venta() + 1) + "");
+            etq_mostrar_valor_total.setText((item.getPrecio() * cantidad_boletos) + "");
 
         }
     }//GEN-LAST:event_btn_generarActionPerformed
 
     private void btn_imprimir_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimir_facturaActionPerformed
-         int idVenta = bd.insertarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
-    
-    // Verifica si la venta se ha generado correctamente antes de actualizar los asientos.
-    if (idVenta != -1) {
-        actualizarAsientosConVenta(idVenta);
-    } else {
-        JOptionPane.showMessageDialog(this, "Error al generar la venta. No se actualizarán los asientos.");
-    }
-    
-    limpiar_factura();
-    this.dispose();
+        int idVenta = bd.insertarVenta(id_pelicula, id_funcion, id_usuario, cantidad_boletos, total_venta, obtenerFecha());
+
+        if (idVenta != -1) {
+            actualizarAsientosConVenta(idVenta);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al generar la venta. No se actualizarán los asientos.");
+        }
+
+        limpiar_factura();
+        this.dispose();
     }//GEN-LAST:event_btn_imprimir_facturaActionPerformed
 
     private void btn_cancelar_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar_facturaActionPerformed
@@ -650,45 +647,44 @@ public class SesionCajero extends javax.swing.JFrame {
         String fechaFormateada = fechaActual.format(formatoDeseado);
         return fechaFormateada;
     }
-    
-    public void seleccionarAsientos(int id_sala, int capacidad){
+
+    public void seleccionarAsientos(int id_sala, int capacidad) {
         seleccionar_asiento.removeAllItems();
         List<Asiento> lista_asientos = bd.obtenerAsientos();
         for (Asiento asiento : lista_asientos) {
-            if(id_sala == asiento.getId()){
-                for(int i = 1; i <= capacidad; i++){
+            if (id_sala == asiento.getId()) {
+                for (int i = 1; i <= capacidad; i++) {
                     seleccionar_asiento.addItem(i);
                 }
             }
         }
-   }
+    }
 
-    public void abrirventanaAlCerrar(){
+    public void abrirventanaAlCerrar() {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                InicioSesion ventana = new InicioSesion(bd,bd);
+                InicioSesion ventana = new InicioSesion(bd, bd);
             }
         });
     }
-    
+
     public void finalizarVenta() {
         int idVenta = bd.ultimo_id_venta();  // Este método debería generar un nuevo ID de venta en la base de datos y retornarlo.
         actualizarAsientosConVenta(idVenta);
     }
-    
+
     private void actualizarAsientosConVenta(int idVenta) {
-    try (Connection conn = db.conectar();
-         PreparedStatement pstmt = conn.prepareStatement("UPDATE Asientos_funciones SET ID_Venta = ? WHERE ID_Asiento = ?")) {
-        for (Integer idAsiento : ReservacionesAsientos.getAsientosSeleccionados()) {
-            pstmt.setInt(1, idVenta);
-            pstmt.setInt(2, idAsiento);
-            pstmt.executeUpdate();
+        try (Connection conn = db.conectar(); PreparedStatement pstmt = conn.prepareStatement("UPDATE Asientos_funciones SET ID_Venta = ? WHERE ID_Asiento = ?")) {
+            for (Integer idAsiento : ReservacionesAsientos.getAsientosSeleccionados()) {
+                pstmt.setInt(1, idVenta);
+                pstmt.setInt(2, idAsiento);
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
     }
-}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton BotonSeleccionarAsiento;
     private javax.swing.JButton btn_cancelar_factura;
@@ -737,15 +733,12 @@ public class SesionCajero extends javax.swing.JFrame {
     private javax.swing.JComboBox<ItemCombo> seleccionar_pelicula;
     // End of variables declaration//GEN-END:variables
 
-    private List<Pelicula> obtenerTodasLasPeliculas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     private void mostrarAsientosSeleccionados() {
-    List<Integer> asientos = ReservacionesAsientos.getAsientosSeleccionados();
-    String asientosStr = asientos.stream()
-                                 .map(Object::toString)
-                                 .collect(Collectors.joining(", "));
-    etq_mostrar_asiento.setText(asientosStr);
-}
+        List<Integer> asientos = ReservacionesAsientos.getAsientosSeleccionados();
+        String asientosStr = asientos.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(", "));
+        etq_mostrar_asiento.setText(asientosStr);
+    }
 
 }

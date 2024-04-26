@@ -1,5 +1,6 @@
 package CristianArce;
 
+import ChristianArias.ImagenDeFondoPanel;
 import com.mysql.cj.jdbc.PreparedStatementWrapper;
 import java.sql.Connection;
 
@@ -17,10 +18,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import java.sql.PreparedStatement; 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import utils.BaseDatos_ChristianArias;
+
 import utils.Funcion;
 
 public class ReservacionesAsientos extends javax.swing.JFrame {
@@ -29,7 +31,9 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
     int funcion;
     int cantidadBoletos;
     public static ArrayList<Integer> asientosSeleccionados = new ArrayList<>();
-    public ReservacionesAsientos(BaseDatos_ChristianArias db,int funcion, int cantidadBoletos) {
+
+    public ReservacionesAsientos(BaseDatos_ChristianArias db, int funcion, int cantidadBoletos) {
+        PanelPrincipal = new ImagenDeFondoPanel("imagenes/fondoPrin.jpg");
         this.funcion = funcion;
         this.db = db;
         this.cantidadBoletos = cantidadBoletos;
@@ -44,100 +48,111 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         numeroDeasientos.setText("Cantidad de Asientos: " + cantidadAsientos);
     }
 
-    public void componentesAlternos(){
-        
+    public void componentesAlternos() {
+       
+
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
-        Image icono_disponible = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/sillanull.png"));
-        icono_disponible = icono_disponible.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        botonejemploDisponible.setIcon(new ImageIcon(icono_disponible));
-        
-        Image icono_ocupado = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/sillavendida.png"));
-        icono_ocupado = icono_ocupado.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        botonejemploOcupado.setIcon(new ImageIcon(icono_ocupado));
-        
-        botonejemploDisponible.setContentAreaFilled(false);
-        botonejemploDisponible.setBorderPainted(false);
-        
-        botonejemploOcupado.setContentAreaFilled(false);
-        botonejemploOcupado.setBorderPainted(false);
+        setTitle("Reservación de Asientos");
+
+        // Configuración de la pantalla
+        Image iconoPantalla = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/pantalla.png"));
+        iconoPantalla = iconoPantalla.getScaledInstance(700, 80, Image.SCALE_SMOOTH);
+        Pantalla.setIcon(new ImageIcon(iconoPantalla));
         Pantalla.setBorderPainted(false);
         Pantalla.setContentAreaFilled(false);
-        
-        Image icono= getToolkit().createImage(ClassLoader.getSystemResource("imagenes/pantalla.png"));
-        icono = icono.getScaledInstance(700, 80, Image.SCALE_SMOOTH);
-        Pantalla.setIcon(new ImageIcon(icono));
+
+        // Configuración de los botones de ejemplo
+        Image iconoDisponible = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/sillanull.png"));
+        iconoDisponible = iconoDisponible.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        botonejemploDisponible.setIcon(new ImageIcon(iconoDisponible));
+        botonejemploDisponible.setContentAreaFilled(false);
+        botonejemploDisponible.setBorderPainted(false);
+
+        Image iconoOcupado = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/sillavendida.png"));
+        iconoOcupado = iconoOcupado.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        botonejemploOcupado.setIcon(new ImageIcon(iconoOcupado));
+        botonejemploOcupado.setContentAreaFilled(false);
+        botonejemploOcupado.setBorderPainted(false);
+
+        // Estilos de texto y panel
+        jLabel1.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        jLabel2.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        jLabel3.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        numeroDeasientos.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+
+        // Colores de fondo y texto
+        PanelPrincipal.setBackground(new Color(25, 24, 24));
+        PanelEjemplos.setBackground(new Color(60, 63, 65));
+        jLabel1.setForeground(new Color(180, 180, 180));
+        jLabel2.setForeground(new Color(180, 180, 180));
+        jLabel3.setForeground(new Color(255, 203, 5));
+        numeroDeasientos.setForeground(new Color(255, 203, 5));
         setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/iconoPrincipal.png")));
-        setTitle("Reservacion de Asientos ");
-        
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
     }
-    
+
     String rutaImg = "imgs/icon.png";
     //
     int filas = 5;
     int columnas = 7;
-    int anchoboton =90;
+    int anchoboton = 90;
     int largoboton = 50;
     int ejeX = 20;
     int ejeY = 20;
-     int limite = 0;
+    int limite = 0;
     public static Connection conexion;
     public static PreparedStatementWrapper sentenciaPreparada;
     public static ResultSet resultado;
-     
-    public JToggleButton [][] DimensionBotones = new JToggleButton[filas][columnas];
-    
+
+    public JToggleButton[][] DimensionBotones = new JToggleButton[filas][columnas];
+
     //Las filas son las que van hacia la derecha = horizontal
     //Las columnas son las que van a ir hacia abajo = verticalmente
-    
-    public void botones(){
-        Font Fuenteletra = new Font("Arial",Font.BOLD,12);
+    public void botones() {
+        Font Fuenteletra = new Font("Arial", Font.BOLD, 12);
         int contadorDeAsientos = 1;
         DimensionBotones = new JToggleButton[filas][columnas];
         int asientosDisponibles = filas * columnas;
         char letraFila = 'A';
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                
-                DimensionBotones[i][j]= new JToggleButton();
-                DimensionBotones[i][j].setBounds(ejeX,ejeY,anchoboton,largoboton);
-                DimensionBotones[i][j].setText("Asiento"+contadorDeAsientos);
-                DimensionBotones[i][j].setForeground(Color.WHITE);
+
+                DimensionBotones[i][j] = new JToggleButton();
+                DimensionBotones[i][j].setBounds(ejeX, ejeY, anchoboton, largoboton);
+                DimensionBotones[i][j].setText("Asiento" + contadorDeAsientos);
+                DimensionBotones[i][j].setForeground(new Color(25, 24, 24));
+
                 DimensionBotones[i][j].setFont(Fuenteletra);
-                    
+
                 Image icono_etqImagen = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/sillanull.png"));
                 icono_etqImagen = icono_etqImagen.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
                 DimensionBotones[i][j].setIcon(new ImageIcon(icono_etqImagen));
-               
-                
+
                 DimensionBotones[i][j].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                
+
                 DimensionBotones[i][j].setContentAreaFilled(false);
                 DimensionBotones[i][j].setBorderPainted(false);
                 accionbotones accion = new accionbotones();
                 DimensionBotones[i][j].addActionListener(accion);
                 PanelPrincipal.add(DimensionBotones[i][j]);
                 ejeX += 100;//separacion entre columnas
-                
-                
+
                 if (asientosDisponibles <= 0) {
                     DimensionBotones[i][j].setEnabled(false); // Deshabilitar el botón si no hay asientos disponibles
                 }
-                if(limite >=cantidadBoletos){
+                if (limite >= cantidadBoletos) {
                     DimensionBotones[i][j].setEnabled(false);
                 }
                 contadorDeAsientos++;
             }
             letraFila++;
-            ejeX=20;// devolver el ejeX a su posicion inicial
+            ejeX = 20;// devolver el ejeX a su posicion inicial
             ejeY += 60;//separacion de los boton en cuanto a filas
-            
+
         }
-        
-        
+
     }
-    
+
     public static List<Integer> getAsientosSeleccionados() {
         return asientosSeleccionados;
     }
@@ -150,7 +165,6 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
 
             sentenciaPreparada.setInt(1, funcion); // Utilizamos el atributo funcion
             sentenciaPreparada.setInt(2, numeroAsiento);
-
 
             int mensaje = sentenciaPreparada.executeUpdate();
 
@@ -174,8 +188,6 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         }
     }
 
-
-    
     public void quitarReservacionAsiento(int numeroAsiento) {
         Connection conexion = null;
         try {
@@ -208,12 +220,8 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         }
     }
 
-
-   
-
-    
-    
     int asientosReservados = 0;
+
     public class accionbotones implements ActionListener {
 
         @Override
@@ -250,10 +258,9 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
                 }
             }
         }
-        
-        
+
     }
-    
+
     public void mantenerAsientosOcupados(int funcion) {
         try {
             conexion = db.conectar();
@@ -298,7 +305,7 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.out.println("Error" + e);
         }
-}
+    }
 
     public int obtenerCantidadAsientos(int funcion) {
         int cantidadAsientos = 0;
@@ -326,8 +333,7 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         }
         return cantidadAsientos;
     }
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -340,13 +346,13 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         botonejemploOcupado = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
         numeroDeasientos = new javax.swing.JLabel();
-        boton_confirmacionAsientos = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
         setResizable(false);
 
-        PanelPrincipal.setBackground(new java.awt.Color(25, 24, 24));
+        PanelPrincipal.setBackground(new java.awt.Color(86, 52, 52));
 
         javax.swing.GroupLayout PanelPrincipalLayout = new javax.swing.GroupLayout(PanelPrincipal);
         PanelPrincipal.setLayout(PanelPrincipalLayout);
@@ -371,16 +377,12 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         jLabel1.setText("Asiento Disponible");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setText("Asiento Ocupado");
+        jLabel2.setText("Asiento Seleccionado");
 
         numeroDeasientos.setText("jLabel3");
 
-        boton_confirmacionAsientos.setText("Confirmar Asientos");
-        boton_confirmacionAsientos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boton_confirmacionAsientosActionPerformed(evt);
-            }
-        });
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Asientos Grises son asientos ya vendidos");
 
         javax.swing.GroupLayout PanelEjemplosLayout = new javax.swing.GroupLayout(PanelEjemplos);
         PanelEjemplos.setLayout(PanelEjemplosLayout);
@@ -388,41 +390,43 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
             PanelEjemplosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelEjemplosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(botonejemploDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botonejemploOcupado, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addComponent(jLabel2)
-                .addGap(43, 43, 43))
-            .addGroup(PanelEjemplosLayout.createSequentialGroup()
                 .addGroup(PanelEjemplosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(PanelEjemplosLayout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addComponent(numeroDeasientos, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PanelEjemplosLayout.createSequentialGroup()
-                        .addGap(236, 236, 236)
-                        .addComponent(boton_confirmacionAsientos)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(PanelEjemplosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelEjemplosLayout.createSequentialGroup()
+                                .addComponent(botonejemploDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(PanelEjemplosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PanelEjemplosLayout.createSequentialGroup()
+                                        .addGap(184, 184, 184)
+                                        .addComponent(botonejemploOcupado, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(PanelEjemplosLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel1)
+                                        .addGap(184, 184, 184)
+                                        .addComponent(jLabel2))))
+                            .addComponent(numeroDeasientos))
+                        .addGap(0, 22, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         PanelEjemplosLayout.setVerticalGroup(
             PanelEjemplosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelEjemplosLayout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(numeroDeasientos, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(14, 14, 14)
+                .addComponent(numeroDeasientos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PanelEjemplosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
+                    .addComponent(botonejemploOcupado, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(PanelEjemplosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(PanelEjemplosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonejemploOcupado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonejemploDisponible, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(PanelEjemplosLayout.createSequentialGroup()
-                            .addGap(64, 64, 64)
-                            .addComponent(jLabel1))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(boton_confirmacionAsientos))
+                        .addComponent(botonejemploDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelEjemplosLayout.createSequentialGroup()
+                            .addGroup(PanelEjemplosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addGap(23, 23, 23))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -443,23 +447,15 @@ public class ReservacionesAsientos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void boton_confirmacionAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_confirmacionAsientosActionPerformed
-
-    }//GEN-LAST:event_boton_confirmacionAsientosActionPerformed
-
-    
-    
-
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelEjemplos;
     private javax.swing.JPanel PanelPrincipal;
     private javax.swing.JToggleButton Pantalla;
-    private javax.swing.JButton boton_confirmacionAsientos;
     private javax.swing.JToggleButton botonejemploDisponible;
     private javax.swing.JToggleButton botonejemploOcupado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel numeroDeasientos;
     // End of variables declaration//GEN-END:variables
 }

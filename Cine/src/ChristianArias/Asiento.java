@@ -1,8 +1,8 @@
 package ChristianArias;
 
-
 public class Asiento {
-     private int idAsiento;
+
+    private int idAsiento;
     private int idSala;
     private String fila;
     private int idFuncion;
@@ -57,9 +57,8 @@ public class Asiento {
     public void setNumero(int numero) {
         this.numero = numero;
     }
-    
-    
-    public void reservarAsiento(){
-        
+
+    public void reservarAsiento() {
+
     }
 }
