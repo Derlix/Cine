@@ -54,39 +54,56 @@ public class CristianBD extends BaseDatosJuanPrincipal{
         return id_venta;
     }
     
-    public void eliminarVenta(int id) {
+    public void eliminarVenta(String id_entrada) {
+        
         try {
-            String query = "DELETE FROM VENTAS WHERE ID_Venta = ?";
-            PreparedStatement statement = conexion.prepareStatement(query);
-            statement.setInt(1, id);
-            statement.executeUpdate();
-            VentanaEmergente nueva = new VentanaEmergente("Reembolso exitoso", "El reembolso se ha realizado con éxico");
-
-        } catch (SQLException ex) {
-            VentanaEmergente nueva = new VentanaEmergente("Error", "No se ha podido realizar el reembolso");
-            System.out.println(ex.getMessage());
+            int id = Integer.parseInt(id_entrada);
+            
+            if (id != 0) {
+            try {
+                String query = "DELETE FROM VENTAS WHERE ID_Venta = ?";
+                PreparedStatement statement = conexion.prepareStatement(query);
+                statement.setInt(1, id);
+                statement.executeUpdate();
+                VentanaEmergente nueva = new VentanaEmergente("Reembolso exitoso", "El reembolso se ha realizado con éxito");
+            } catch (SQLException ex) {
+                VentanaEmergente nueva = new VentanaEmergente("Error", "No se ha podido realizar el reembolso");
+                System.out.println(ex.getMessage());
+            }
+            } else {
+                VentanaEmergente nueva = new VentanaEmergente("Error", "Este id no fue encontrado");
+            }
+            
+        } catch (NumberFormatException e) {
+            VentanaEmergente nueva = new VentanaEmergente("Error", "El ID no es un número válido");
         }
+        
     }
 
     //insertar venta
     public void insertarVenta(int id_venta, int id_pelicula, int id_funcion, int id_usuario, int cantidad_boletos, double total_venta, String fecha) {
-        String query = "INSERT INTO ventas (ID_Venta, ID_Pelicula, ID_Funcion, ID_Usuario, Cantidad_Boletos, Total_Venta, Fecha_Venta) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = conexion.prepareStatement(query)) {
-            statement.setInt(1, id_venta);
-            statement.setInt(2, id_pelicula);
-            statement.setInt(3, id_funcion);
-            statement.setInt(4, id_usuario);
-            statement.setInt(5, cantidad_boletos);
-            statement.setDouble(6, total_venta);
-            statement.setString(7, fecha);
+        if (id_venta != 0 && id_pelicula != 0 && id_funcion != 0 && id_usuario != 0 && cantidad_boletos != 0 && total_venta != 0 && fecha != null) {
+            String query = "INSERT INTO ventas (ID_Venta, ID_Pelicula, ID_Funcion, ID_Usuario, Cantidad_Boletos, Total_Venta, Fecha_Venta) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement statement = conexion.prepareStatement(query)) {
+                statement.setInt(1, id_venta);
+                statement.setInt(2, id_pelicula);
+                statement.setInt(3, id_funcion);
+                statement.setInt(4, id_usuario);
+                statement.setInt(5, cantidad_boletos);
+                statement.setDouble(6, total_venta);
+                statement.setString(7, fecha);
 
-            statement.executeUpdate();
-            VentanaEmergente nueva = new VentanaEmergente("Venta exitosa", "La venta se ha agregado con exito");
-        } catch (SQLException ex) {
-            VentanaEmergente nueva = new VentanaEmergente("Error", "No se ha podido hacer la venta");
-            System.out.println("Error al agregar la venta.");
+                statement.executeUpdate();
+                VentanaEmergente nueva = new VentanaEmergente("Venta exitosa", "La venta se ha agregado con éxito");
+            } catch (SQLException ex) {
+                VentanaEmergente nueva = new VentanaEmergente("Error", "No se ha podido hacer la venta");
+                System.out.println("Error al agregar la venta.");
+            }
+        } else {
+            VentanaEmergente nueva = new VentanaEmergente("Error", "Alguno de los datos de entrada está vacío");
         }
     }
+
     
     //Obtener asientos
     public List<Asiento> obtenerAsientos() {
