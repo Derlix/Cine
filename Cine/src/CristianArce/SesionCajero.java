@@ -47,9 +47,18 @@ public class SesionCajero extends javax.swing.JFrame {
     }
     
     public void initAlterComponents(){
-        obtener_meses();
-        seleccionar_pelicula.setEnabled(false);
         
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                InicioSesion ventana = new InicioSesion(bd, bd);
+            }
+        });
+        
+        obtener_meses();
+        
+        btn_imprimir_factura.setEnabled(false);
+        seleccionar_pelicula.setEnabled(false);
         seleccionar_mes.addItem("Mes");
         seleccionar_dia.addItem("Día");
         
@@ -372,7 +381,8 @@ public class SesionCajero extends javax.swing.JFrame {
 
         jPanel5.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 350, 510, 250));
 
-        seleccionar_cantidad.setModel(new javax.swing.SpinnerNumberModel(1, null, null, 1));
+        seleccionar_cantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
+        seleccionar_cantidad.setFocusable(false);
         jPanel5.add(seleccionar_cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 60, 40));
 
         btn_generar.setBackground(new java.awt.Color(102, 102, 102));
@@ -561,17 +571,18 @@ public class SesionCajero extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonSeleccionarAsientoActionPerformed
 
     private void btn_generarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarActionPerformed
-        etq_pelicula.setText("Pelicula");
-        etq_hora.setText("Hora");
-        etq_sala.setText("Sala");
-        etq_asiento.setText("Asiento");
-        etq_precio.setText("Precio");
-        etq_cantidad.setText("Cantidad");
-        etq_id.setText("id");
-        etq_valor_total.setText("Valor total");
 
         ItemCombo item = (ItemCombo) seleccionar_pelicula.getSelectedItem();
         if (item != null) {
+            
+            etq_pelicula.setText("Pelicula");
+            etq_hora.setText("Hora");
+            etq_sala.setText("Sala");
+            etq_asiento.setText("Asiento");
+            etq_precio.setText("Precio");
+            etq_cantidad.setText("Cantidad");
+            etq_id.setText("id");
+            etq_valor_total.setText("Valor total");
 
             id_pelicula = item.getId_pelicula();
             id_funcion = item.getId_funcion();
@@ -587,6 +598,8 @@ public class SesionCajero extends javax.swing.JFrame {
             etq_mostrar_cantidad.setText(seleccionar_cantidad.getValue()+"");
             etq_mostrar_id.setText((bd.ultimo_id_venta()+1)+"");
             etq_mostrar_valor_total.setText((item.getPrecio() * cantidad_boletos)+"");
+            
+            btn_imprimir_factura.setEnabled(true);
 
         }
     }//GEN-LAST:event_btn_generarActionPerformed
@@ -598,11 +611,12 @@ public class SesionCajero extends javax.swing.JFrame {
 
     private void btn_cancelar_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar_facturaActionPerformed
         limpiar_factura();
+        btn_imprimir_factura.setEnabled(false);
     }//GEN-LAST:event_btn_cancelar_facturaActionPerformed
 
     private void btn_reembolsoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reembolsoActionPerformed
 
-        int id = Integer.parseInt(campo_id_reembolso.getText());
+        String id = campo_id_reembolso.getText();
         bd.eliminarVenta(id);
         campo_id_reembolso.setText("");
     }//GEN-LAST:event_btn_reembolsoActionPerformed
