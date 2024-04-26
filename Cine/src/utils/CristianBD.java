@@ -58,19 +58,31 @@ public class CristianBD extends BaseDatosJuanPrincipal{
         return id_venta;
     }
     
-    public void eliminarVenta(int id) {
-        try {
-            String query = "DELETE FROM VENTAS WHERE ID_Venta = ?";
-            PreparedStatement statement = conexion.prepareStatement(query);
-            statement.setInt(1, id);
-            statement.executeUpdate();
-            VentanaEmergente nueva = new VentanaEmergente("Reembolso exitoso", "El reembolso se ha realizado con éxico");
+    public void eliminarVenta(String id_entrada) {
 
-        } catch (SQLException ex) {
-            VentanaEmergente nueva = new VentanaEmergente("Error", "No se ha podido realizar el reembolso");
-            System.out.println(ex.getMessage());
+            try {
+                int id = Integer.parseInt(id_entrada);
+
+                if (id != 0) {
+                try {
+                    String query = "DELETE FROM VENTAS WHERE ID_Venta = ?";
+                    PreparedStatement statement = conexion.prepareStatement(query);
+                    statement.setInt(1, id);
+                    statement.executeUpdate();
+                    VentanaEmergente nueva = new VentanaEmergente("Reembolso exitoso", "El reembolso se ha realizado con éxito");
+                } catch (SQLException ex) {
+                    VentanaEmergente nueva = new VentanaEmergente("Error", "No se ha podido realizar el reembolso");
+                    System.out.println(ex.getMessage());
+                }
+                } else {
+                    VentanaEmergente nueva = new VentanaEmergente("Error", "Este id no fue encontrado");
+                }
+
+            } catch (NumberFormatException e) {
+                VentanaEmergente nueva = new VentanaEmergente("Error", "El ID no es un número válido");
+            }
+
         }
-    }
 
     //insertar venta
     public int insertarVenta(int id_pelicula, int id_funcion, int id_usuario, int cantidad_boletos, double total_venta, String fecha) {

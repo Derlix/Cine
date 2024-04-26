@@ -1,4 +1,5 @@
 package JuanBustamante;
+import javax.swing.JOptionPane;
 import utils.BaseDatosJuanBustamante;
 import utils.Sala;
 
@@ -125,15 +126,26 @@ public class Actualizar_sala extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
-        // TODO add your handling code here:
+        // Obtener los valores de los campos
         String nombreSala = campo_Nombre_sala.getText();
-        int capacidadSala = Integer.parseInt(campo_Capacidad_sala.getText());
+        String capacidadSalaStr = campo_Capacidad_sala.getText();
+
+        // Verificar si alguno de los campos está vacío
+        if (nombreSala.isEmpty() || capacidadSalaStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos antes de actualizar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Salir del método si algún campo está vacío
+        }
+
+        // Convertir la capacidad de la sala a entero
+        int capacidadSala = Integer.parseInt(capacidadSalaStr);
 
         // Crear una instancia de Sala con los valores proporcionados
         Sala salaActualizada = new Sala(idSala, nombreSala, capacidadSala, idSede);
 
         // Actualizar la sala en la base de datos
         basedatos.actualizarSala(salaActualizada);
+
+        JOptionPane.showMessageDialog(this, "Sala actualizada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
 

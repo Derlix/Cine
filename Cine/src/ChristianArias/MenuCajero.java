@@ -75,7 +75,7 @@ public class MenuCajero extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
-
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         //Image icono_registro = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/icono_usuario.png"));
         //icono_registro = icono_registro.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         //etqImagen.setIcon(new ImageIcon(icono_registro));

@@ -89,6 +89,7 @@ public class Gestion_asientos extends javax.swing.JFrame {
                 // Ahora puedes usar la ID de la sala para lo que necesites
                 System.out.println("ID de la sala seleccionada: " + idSala);
                 Actualizar_sala actuaSala = new Actualizar_sala(basedatos, idSala, idSede);
+                SalaCap_jList.clearSelection();
             }
         }
     });

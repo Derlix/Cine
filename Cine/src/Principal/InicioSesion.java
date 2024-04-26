@@ -195,6 +195,7 @@ public class InicioSesion extends javax.swing.JFrame {
         String correo = campo_usuario.getText();
         String contraseña = campo_contraseña.getText();
         iniciarSesion(correo, contraseña);
+        this.dispose();
     }//GEN-LAST:event_btn_inicarActionPerformed
 
     private void btn_registrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarseActionPerformed
