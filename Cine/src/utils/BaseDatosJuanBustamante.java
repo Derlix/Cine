@@ -162,22 +162,25 @@ public class BaseDatosJuanBustamante extends BaseDatosJuanPrincipal{
         return cines;
     }
 
-    public int obtenerIdCinePorNombre(String nombreCine) {
-        int idCine = -1; // Valor por defecto si no se encuentra el cine
-        String query = "SELECT ID_Cine FROM cines WHERE Nombre_Cine = ?";
-        try {
-            PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setString(1, nombreCine);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                idCine = rs.getInt("ID_Cine");
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al obtener el ID del cine:");
-            System.out.println(ex.getMessage());
+    public int obtenerIdCinePorNombre(String cineCompleto) {
+    int idCine = -1; // Valor por defecto si no se encuentra el cine
+    String[] partes = cineCompleto.split(", "); // Asume que siempre hay una coma seguida de un espacio
+    String nombreCine = partes[0]; // El nombre del cine está antes de la coma
+    String query = "SELECT ID_Cine FROM cines WHERE Nombre_Cine = ?";
+    try {
+        PreparedStatement ps = conexion.prepareStatement(query);
+        ps.setString(1, nombreCine);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            idCine = rs.getInt("ID_Cine");
         }
-        return idCine;
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener el ID del cine:");
+        System.out.println(ex.getMessage());
     }
+    return idCine;
+}
+
 
     public List<Sala> obtenerSalasPorIdCine(int idCine) {
     List<Sala> salas = new ArrayList<>();
@@ -370,7 +373,52 @@ public List<Sala> obtenerSalasPorIdSede(int idSede) {
         }
     }
     
-    
+    public boolean actualizarEmpleadoCineYRol(int idEmpleado, int idCine, String rol) {
+    String query = "UPDATE usuarios SET ID_Cine = ?, Rol = ? WHERE ID_Usuario = ?";
+    try {
+        PreparedStatement ps = conexion.prepareStatement(query);
+        ps.setInt(1, idCine);
+        ps.setString(2, rol);
+        ps.setInt(3, idEmpleado);
+        int result = ps.executeUpdate();
+        return result > 0;  // Retorna true si la actualización fue exitosa
+    } catch (SQLException ex) {
+        System.out.println("Error al actualizar el cine y el rol del empleado:");
+        System.out.println(ex.getMessage());
+        return false;
+    }
+}
 
+    // Método para insertar una nueva sala de cine
+    public boolean insertarSala(String nombreSala, int capacidad, int idCine) {
+        String query = "INSERT INTO salas_cine (Nombre_Sala, Capacidad, ID_Cine) VALUES (?, ?, ?)";
+        try {
+            PreparedStatement stmt = conexion.prepareStatement(query);
+            stmt.setString(1, nombreSala);
+            stmt.setInt(2, capacidad);
+            stmt.setInt(3, idCine);
+            int resultado = stmt.executeUpdate();
+            return resultado > 0;
+        } catch (SQLException ex) {
+            System.out.println("Error al insertar la sala:");
+            System.out.println(ex.getMessage());
+            return false;
+        }
+    }
+    
+    // Método para eliminar una sala de cine por ID
+    public boolean eliminarSala(int idSala) {
+        String query = "DELETE FROM salas_cine WHERE ID_Sala = ?";
+        try {
+            PreparedStatement stmt = conexion.prepareStatement(query);
+            stmt.setInt(1, idSala);
+            int resultado = stmt.executeUpdate();
+            return resultado > 0;
+        } catch (SQLException ex) {
+            System.out.println("Error al eliminar la sala:");
+            System.out.println(ex.getMessage());
+            return false;
+        }
+    }
 
 }

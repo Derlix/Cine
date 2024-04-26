@@ -112,46 +112,68 @@ public class Empleados_jornada extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
         etq_empleado_nombre.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        etq_empleado_nombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etq_empleado_nombre.setText("Empleada/o: Nombre empleado");
 
+        etq_cambiar_rol.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         etq_cambiar_rol.setText("Cambiar rol:");
 
         select_rol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cajero", "Administrador" }));
+        select_rol.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        etq_sede.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         etq_sede.setText("Sede:");
 
         select_sede.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguna" }));
+        select_sede.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        etq_dias_laboral.setText("Dias de laborales:");
+        etq_dias_laboral.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        etq_dias_laboral.setText("Dias laborales:");
 
+        rbtn_lunes.setBackground(new java.awt.Color(255, 255, 255));
         rbtn_lunes.setText("L");
 
+        rbtn_martes.setBackground(new java.awt.Color(255, 255, 255));
         rbtn_martes.setText("M");
 
+        rbtn_miercoles.setBackground(new java.awt.Color(255, 255, 255));
         rbtn_miercoles.setText("MI");
 
+        rbtn_jueves.setBackground(new java.awt.Color(255, 255, 255));
         rbtn_jueves.setText("J");
 
+        rbtn_viernes.setBackground(new java.awt.Color(255, 255, 255));
         rbtn_viernes.setText("V");
 
+        rbtn_sabado.setBackground(new java.awt.Color(255, 255, 255));
         rbtn_sabado.setText("S");
 
+        rbtn_domingo.setBackground(new java.awt.Color(255, 255, 255));
         rbtn_domingo.setText("D");
 
+        etq_inicio_jornada.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         etq_inicio_jornada.setText("Inicio de jornada:");
 
+        campo_inicio_jornada.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         campo_inicio_jornada.setText("00:00");
+        campo_inicio_jornada.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         etq_formato_horas.setText("* Fomato 24 Horas *");
 
+        etq_fin_jornada.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         etq_fin_jornada.setText("Fin de jornada");
 
+        campo_fin_jornada.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         campo_fin_jornada.setText("00:00");
+        campo_fin_jornada.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         etq_formato_horas_dos.setText("* Fomato 24 Horas *");
 
         btn_cancelar.setText("Cancelar");
+        btn_cancelar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cancelarActionPerformed(evt);
@@ -159,6 +181,7 @@ public class Empleados_jornada extends javax.swing.JFrame {
         });
 
         btn_actualizar.setText("Actualizar");
+        btn_actualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_actualizarActionPerformed(evt);
@@ -170,58 +193,50 @@ public class Empleados_jornada extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(etq_sede, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(etq_empleado_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(etq_cambiar_rol, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(select_sede, javax.swing.GroupLayout.Alignment.LEADING, 0, 328, Short.MAX_VALUE)
-                                .addComponent(select_rol, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(etq_dias_laboral, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(etq_dias_laboral, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(select_rol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(select_sede, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(etq_empleado_nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(campo_fin_jornada, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(etq_formato_horas_dos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(etq_fin_jornada, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(campo_inicio_jornada, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(etq_inicio_jornada, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(etq_formato_horas, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(etq_fin_jornada)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(78, 78, 78)
+                                .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(105, 105, 105)
+                                .addComponent(btn_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(campo_fin_jornada, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(etq_formato_horas_dos, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(rbtn_lunes, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(etq_inicio_jornada)
+                                    .addComponent(campo_inicio_jornada, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(etq_formato_horas, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(rbtn_lunes, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(rbtn_martes, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGap(18, 18, 18)
                                         .addComponent(rbtn_miercoles)
                                         .addGap(18, 18, 18)
-                                        .addComponent(rbtn_jueves)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(rbtn_viernes))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(65, 65, 65)
-                                        .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(rbtn_sabado, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(rbtn_jueves, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(rbtn_domingo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btn_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(8, 8, 8)))))))
-                .addContainerGap(89, Short.MAX_VALUE))
+                                        .addComponent(rbtn_viernes, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(rbtn_sabado, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(rbtn_domingo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,13 +268,13 @@ public class Empleados_jornada extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campo_inicio_jornada, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(etq_formato_horas))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(etq_fin_jornada)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campo_fin_jornada, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(etq_formato_horas_dos))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -313,10 +328,48 @@ private void marcarDiasLaborales(String diasLaborales) {
 }
     
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
-         // TODO add your handling code here:
         
-        
-        // Recopilar los datos de los botones de radio
+        String nombreCineSeleccionado = select_sede.getSelectedItem().toString();
+        String rolSeleccionado = select_rol.getSelectedItem().toString();
+        String inicioJornada = campo_inicio_jornada.getText();
+        String finJornada = campo_fin_jornada.getText();
+
+        // Comprobar si algún campo está vacío
+        if (nombreCineSeleccionado.isEmpty() || rolSeleccionado.isEmpty() || inicioJornada.isEmpty() || finJornada.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos deben estar llenos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;  // Detener la ejecución si falta algún dato
+        }
+
+        // Validar el formato de hora
+        if (!inicioJornada.matches("\\d{2}:\\d{2}") || !finJornada.matches("\\d{2}:\\d{2}")) {
+            JOptionPane.showMessageDialog(this, "Ingrese el formato HH:mm en los campos de inicio y fin de jornada.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar el orden de las horas
+        LocalTime inicio = LocalTime.parse(inicioJornada, DateTimeFormatter.ofPattern("HH:mm"));
+        LocalTime fin = LocalTime.parse(finJornada, DateTimeFormatter.ofPattern("HH:mm"));
+        if (inicio.isAfter(fin)) {
+            JOptionPane.showMessageDialog(this, "El inicio de la jornada debe ser antes que el fin de la jornada.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Instancia de la base de datos
+        BaseDatosJuanBustamante db = new BaseDatosJuanBustamante();
+        int idCine = db.obtenerIdCinePorNombre(nombreCineSeleccionado);
+        if (idCine == -1) {
+            JOptionPane.showMessageDialog(this, "Error al obtener el ID del cine.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;  // Detener si no se encuentra el cine
+        }
+
+        // Actualiza el cine y el rol
+        boolean actualizado = db.actualizarEmpleadoCineYRol(idEmpleado, idCine, rolSeleccionado);
+        if (!actualizado) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el cine y el rol del empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Recopilar los días laborales seleccionados
         StringBuilder diasLaborales = new StringBuilder();
         if (rbtn_lunes.isSelected()) diasLaborales.append("L,");
         if (rbtn_martes.isSelected()) diasLaborales.append("M,");
@@ -325,44 +378,20 @@ private void marcarDiasLaborales(String diasLaborales) {
         if (rbtn_viernes.isSelected()) diasLaborales.append("V,");
         if (rbtn_sabado.isSelected()) diasLaborales.append("S,");
         if (rbtn_domingo.isSelected()) diasLaborales.append("D,");
-
-        // Eliminar la última coma si hay días seleccionados
         if (diasLaborales.length() > 0) {
             diasLaborales.setLength(diasLaborales.length() - 1); // Elimina la última coma
-        }
-
-        // Asumiendo que hay un método para obtener el ID del empleado, por ejemplo, getEmpleadoID()
-        // int idEmpleado = getEmpleadoID(); // Este método debe ser implementado según tu lógica de negocio
-
-        // Llamar al método para actualizar los días laborales en la base de datos
-        basedatos.actualizarDiasLaborales(idEmpleado, diasLaborales.toString());
-        
-        String inicio_jornada = campo_inicio_jornada.getText();
-        String fin_jornada = campo_fin_jornada.getText();
-        
-        // Validar que los campos de inicio y fin de jornada sigan el formato HH:mm
-        if (!inicio_jornada.matches("\\d{2}:\\d{2}") || !fin_jornada.matches("\\d{2}:\\d{2}")) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingrese el formato HH:mm en los campos de inicio y fin de jornada.", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (inicio_jornada.isEmpty() || fin_jornada.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos deben estar llenos.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            // Convertir las cadenas de inicio y fin de jornada a objetos LocalTime para realizar la comparación
-            LocalTime inicio = LocalTime.parse(inicio_jornada, DateTimeFormatter.ofPattern("HH:mm"));
-            LocalTime fin = LocalTime.parse(fin_jornada, DateTimeFormatter.ofPattern("HH:mm"));
-
-            // Validar que los tiempos estén dentro del rango de 00:00 a 24:00
-            if (inicio.isBefore(LocalTime.MIN) || inicio.isAfter(LocalTime.MAX) || fin.isBefore(LocalTime.MIN) || fin.isAfter(LocalTime.MAX)) {
-                JOptionPane.showMessageDialog(this, "Por favor, ingrese tiempos entre 00:00 y 24:00 en los campos de inicio y fin de jornada.", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (inicio.isAfter(fin)) {
-                // Asegurar que el inicio de la jornada sea menor que el fin
-                JOptionPane.showMessageDialog(this, "El inicio de la jornada debe ser menor que el fin.", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                // Actualizar la jornada en la base de datos
-                basedatos.actualizarJornada(idEmpleado, inicio_jornada, fin_jornada);
-                JOptionPane.showMessageDialog(this, "Jornada actualizada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                limpiarCampos();
-            }
+            JOptionPane.showMessageDialog(this, "Seleccione al menos un día laboral.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
+        // Actualizar los días laborales en la base de datos
+        db.actualizarDiasLaborales(idEmpleado, diasLaborales.toString());
+
+        // Actualizar la jornada en la base de datos
+        db.actualizarJornada(idEmpleado, inicioJornada, finJornada);
+        JOptionPane.showMessageDialog(this, "Información actualizada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -370,11 +399,7 @@ private void marcarDiasLaborales(String diasLaborales) {
         this.dispose();
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
-    private void limpiarCampos(){
-        campo_inicio_jornada.setText("");
-        campo_fin_jornada.setText("");
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_actualizar;
     private javax.swing.JButton btn_cancelar;

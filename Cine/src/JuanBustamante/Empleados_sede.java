@@ -28,7 +28,6 @@ public class Empleados_sede extends javax.swing.JFrame {
         String nombreCine = basedatos.obtenerNombrePorIDCine(idCine);
         setTitle("Empleados de "+nombreCine);
         etq_empleados_sede.setText("Empleados de la sede: " + nombreCine);
-        etq_idCine.setText("ID: "+String.valueOf(idCine));
 
         // Llenar la tabla con los datos de los empleados
         llenarTabla();
@@ -68,11 +67,13 @@ public class Empleados_sede extends javax.swing.JFrame {
         etq_empleados_sede = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         empleados_jTable = new javax.swing.JTable();
-        etq_idCine = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        etq_empleados_sede.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        etq_empleados_sede.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         etq_empleados_sede.setText("EMPLEADOS DE LA SEDE: UNICENTRO");
 
         empleados_jTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -96,8 +97,9 @@ public class Empleados_sede extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(empleados_jTable);
 
-        etq_idCine.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        etq_idCine.setText("ID: ");
+        jLabel1.setForeground(new java.awt.Color(255, 102, 102));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("<< Doble clic al usuario a seleccionar >>");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -106,23 +108,21 @@ public class Empleados_sede extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(etq_empleados_sede, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(etq_idCine, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+                    .addComponent(etq_empleados_sede, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(etq_empleados_sede)
-                    .addComponent(etq_idCine))
+                .addComponent(etq_empleados_sede)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -167,7 +167,7 @@ public class Empleados_sede extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable empleados_jTable;
     private javax.swing.JLabel etq_empleados_sede;
-    private javax.swing.JLabel etq_idCine;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

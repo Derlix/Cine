@@ -43,30 +43,40 @@ public class Actualizar_sede extends javax.swing.JFrame {
         btn_CancelarSede = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         etq_sedeID.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         etq_sedeID.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        etq_sedeID.setText("Actualizar sede: #");
+        etq_sedeID.setText("Actualizar sede: #0");
 
         etq_NombreSede.setText("Nombre sede:");
 
+        campo_NombreSede.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         etq_Direccion.setText("Direccion:");
+
+        campo_Direccion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         etq_ciudad.setText("Ciudad:");
 
+        campo_ciudad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         etq_pais.setText("Pais:");
+
+        campo_pais.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btn_actualizarSede.setBackground(new java.awt.Color(0, 138, 55));
         btn_actualizarSede.setForeground(new java.awt.Color(255, 255, 255));
         btn_actualizarSede.setText("ACTUALIZAR");
+        btn_actualizarSede.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_actualizarSede.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_actualizarSedeActionPerformed(evt);
             }
         });
 
-        btn_CancelarSede.setBackground(new java.awt.Color(255, 102, 102));
         btn_CancelarSede.setText("CANCELAR");
+        btn_CancelarSede.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_CancelarSede.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_CancelarSedeActionPerformed(evt);

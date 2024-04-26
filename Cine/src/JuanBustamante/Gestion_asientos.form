@@ -34,6 +34,11 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="jPanel1">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -41,8 +46,8 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="37" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="btn_crearSala" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
+                      <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="etq_PaisSede" max="32767" attributes="0"/>
                               <Component id="etq_CiudadSede" alignment="0" pref="234" max="32767" attributes="0"/>
@@ -51,10 +56,10 @@
                               <Component id="etq_InformacionSede" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="etq_Nombre_sede" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="161" max="-2" attributes="0"/>
-                          <Component id="btn_Editar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
+                          <Component id="btn_Editar" min="-2" pref="81" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btn_crearSala" min="-2" pref="118" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
@@ -66,7 +71,7 @@
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="etq_InformacionSede" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btn_Editar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_Editar" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="etq_Nombre_sede" min="-2" max="-2" attributes="0"/>
@@ -78,11 +83,11 @@
                   <Component id="etq_CiudadSede" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="etq_PaisSede" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="btn_crearSala" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                  <Component id="btn_crearSala" min="-2" pref="34" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="313" max="-2" attributes="0"/>
-                  <EmptySpace pref="27" max="32767" attributes="0"/>
+                  <EmptySpace pref="23" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -91,14 +96,25 @@
         <Component class="javax.swing.JLabel" name="etq_InformacionSede">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="15" style="0"/>
+              <Font name="Segoe UI" size="15" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Informacion sede:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btn_Editar">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="99" red="33" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Editar"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder/>
+              </Border>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_EditarActionPerformed"/>
@@ -132,6 +148,11 @@
         <Component class="javax.swing.JButton" name="btn_crearSala">
           <Properties>
             <Property name="text" type="java.lang.String" value="Crear sala"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder/>
+              </Border>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_crearSalaActionPerformed"/>
@@ -146,12 +167,15 @@
           <SubComponents>
             <Component class="javax.swing.JList" name="SalaCap_jList">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="12" style="1"/>
+                </Property>
                 <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                   <StringArray count="4">
-                    <StringItem index="0" value="Sala: 1 - Capacidad: 30"/>
-                    <StringItem index="1" value="Sala: 2 - Capacidad: 30"/>
-                    <StringItem index="2" value="Sala: 3 - Capacidad: 30"/>
-                    <StringItem index="3" value="Sala: 4 - Capacidad: 30"/>
+                    <StringItem index="0" value="Sala: 1 - Capacidad: 30 - ID: 0"/>
+                    <StringItem index="1" value="Sala: 2 - Capacidad: 30 - ID: 0"/>
+                    <StringItem index="2" value="Sala: 3 - Capacidad: 30 - ID: 0"/>
+                    <StringItem index="3" value="Sala: 4 - Capacidad: 30 - ID: 0"/>
                   </StringArray>
                 </Property>
               </Properties>

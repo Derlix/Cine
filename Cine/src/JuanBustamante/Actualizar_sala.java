@@ -1,4 +1,5 @@
 package JuanBustamante;
+import javax.swing.JOptionPane;
 import utils.BaseDatosJuanBustamante;
 import utils.Sala;
 
@@ -19,7 +20,7 @@ public class Actualizar_sala extends javax.swing.JFrame {
     }
 
     public void componentesAlternos(){
-        setTitle("Eliminar Funcion");
+        setTitle("Actualizar Sala");
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
@@ -44,18 +45,29 @@ public class Actualizar_sala extends javax.swing.JFrame {
         campo_Capacidad_sala = new javax.swing.JTextField();
         btn_actualizar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         etq_idSala.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         etq_idSala.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etq_idSala.setText("Actualizar: 1");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Nombre sala:");
 
+        campo_Nombre_sala.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Capacidad:");
 
+        campo_Capacidad_sala.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        btn_actualizar.setBackground(new java.awt.Color(51, 204, 0));
+        btn_actualizar.setForeground(new java.awt.Color(255, 255, 255));
         btn_actualizar.setText("Actualizar");
+        btn_actualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_actualizarActionPerformed(evt);
@@ -63,9 +75,20 @@ public class Actualizar_sala extends javax.swing.JFrame {
         });
 
         btn_cancelar.setText("Cancelar");
+        btn_cancelar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cancelarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setBackground(new java.awt.Color(255, 51, 51));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Eliminar");
+        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -76,7 +99,7 @@ public class Actualizar_sala extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(180, 180, 180)
                 .addComponent(etq_idSala, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(83, 83, 83)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,8 +114,10 @@ public class Actualizar_sala extends javax.swing.JFrame {
                             .addComponent(campo_Nombre_sala)
                             .addComponent(campo_Capacidad_sala)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addComponent(btn_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(72, 72, 72))))
         );
@@ -112,7 +137,8 @@ public class Actualizar_sala extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
@@ -136,6 +162,19 @@ public class Actualizar_sala extends javax.swing.JFrame {
         basedatos.actualizarSala(salaActualizada);
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        // Mostrar un cuadro de diálogo de confirmación
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres eliminar esta sala?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+        // Comprobar si el usuario hizo clic en "Sí"
+        if (confirm == JOptionPane.YES_OPTION) {
+            // Si el usuario confirma, ejecutar la eliminación de la sala
+            basedatos.eliminarSala(idSala);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_actualizar;
@@ -143,6 +182,7 @@ public class Actualizar_sala extends javax.swing.JFrame {
     private javax.swing.JTextField campo_Capacidad_sala;
     private javax.swing.JTextField campo_Nombre_sala;
     private javax.swing.JLabel etq_idSala;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables

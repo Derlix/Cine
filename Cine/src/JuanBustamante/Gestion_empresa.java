@@ -34,11 +34,14 @@ public class Gestion_empresa extends javax.swing.JPanel {
                     String nombreCine = partes[0];
                     // Obtener la ID del cine a partir del nombre
                     int idCine = basedatos.obtenerIdCinePorNombre(nombreCine);
-                    
-                    // Crear la ventana Empleados_sede y pasar la ID del cine
+
+                    // Crear la ventana Gestion_asientos y pasar la ID del cine
                     Gestion_asientos VengestionAsientos = new Gestion_asientos(basedatos, idCine);
-                    // Mostrar la ventana Empleados_sede
+                    // Mostrar la ventana Gestion_asientos
                     VengestionAsientos.setVisible(true);
+
+                    // Deseleccionar el elemento actualmente seleccionado
+                    sedes_jList.clearSelection();
                 }
             }
         });
@@ -72,10 +75,11 @@ public class Gestion_empresa extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        etq_gestionPersonal.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        etq_gestionPersonal.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         etq_gestionPersonal.setText("Administracion Sede");
 
         campoBuscar.setText("Buscar por sede...");
+        campoBuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btn_buscar.setText("Buscar");
         btn_buscar.addActionListener(new java.awt.event.ActionListener() {
@@ -105,19 +109,18 @@ public class Gestion_empresa extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(btn_buscar))
                     .addComponent(jScrollPane1))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(campoBuscar)
-                        .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(campoBuscar)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(etq_gestionPersonal)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 8, Short.MAX_VALUE))
+                    .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36))
@@ -133,7 +136,7 @@ public class Gestion_empresa extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

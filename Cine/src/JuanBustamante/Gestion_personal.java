@@ -28,20 +28,24 @@ public class Gestion_personal extends javax.swing.JPanel {
                 if (selectedIndex != -1) { // Verificar si se ha seleccionado un elemento
                     // Obtener el nombre completo del cine seleccionado
                     String cineSeleccionado = sedes_jList.getModel().getElementAt(selectedIndex);
+
                     // Separar el nombre del cine de la ciudad
                     String[] partes = cineSeleccionado.split(", ");
                     // Obtener el nombre del cine
                     String nombreCine = partes[0];
                     // Obtener la ID del cine a partir del nombre
                     int idCine = basedatos.obtenerIdCinePorNombre(nombreCine);
-                    
+
                     // Crear la ventana Empleados_sede y pasar la ID del cine
                     Empleados_sede empleadosSedeFrame = new Empleados_sede(basedatos, idCine);
                     // Mostrar la ventana Empleados_sede
                     empleadosSedeFrame.setVisible(true);
-                }
+
+                    // Deseleccionar el elemento actualmente seleccionado
+                    sedes_jList.clearSelection();
             }
-        });
+        }
+    });
 
         cargarCinesEnLista();
         
@@ -72,10 +76,11 @@ public class Gestion_personal extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        etq_gestionPersonal.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        etq_gestionPersonal.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         etq_gestionPersonal.setText("Gestion de Personal");
 
         campoBuscar.setText("Buscar por sede...");
+        campoBuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btn_buscar.setText("Buscar");
         btn_buscar.addActionListener(new java.awt.event.ActionListener() {
@@ -89,6 +94,7 @@ public class Gestion_personal extends javax.swing.JPanel {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        sedes_jList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(sedes_jList);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -105,19 +111,16 @@ public class Gestion_personal extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(btn_buscar))
                     .addComponent(jScrollPane1))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(campoBuscar)
-                        .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(etq_gestionPersonal)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(etq_gestionPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoBuscar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36))
@@ -133,7 +136,7 @@ public class Gestion_personal extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

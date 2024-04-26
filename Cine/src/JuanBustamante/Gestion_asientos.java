@@ -46,7 +46,7 @@ public class Gestion_asientos extends javax.swing.JFrame {
     }
     
     public void componentesAlternos(){
-        setTitle("Eliminar Funcion");
+        setTitle("Gestion de asientos");
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
@@ -113,10 +113,15 @@ public class Gestion_asientos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        etq_InformacionSede.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        etq_InformacionSede.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         etq_InformacionSede.setText("Informacion sede:");
 
+        btn_Editar.setBackground(new java.awt.Color(51, 153, 255));
+        btn_Editar.setForeground(new java.awt.Color(255, 255, 255));
         btn_Editar.setText("Editar");
+        btn_Editar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_EditarActionPerformed(evt);
@@ -134,14 +139,16 @@ public class Gestion_asientos extends javax.swing.JFrame {
         etq_PaisSede.setText("Pais: Pais A");
 
         btn_crearSala.setText("Crear sala");
+        btn_crearSala.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_crearSala.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_crearSalaActionPerformed(evt);
             }
         });
 
+        SalaCap_jList.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         SalaCap_jList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Sala: 1 - Capacidad: 30", "Sala: 2 - Capacidad: 30", "Sala: 3 - Capacidad: 30", "Sala: 4 - Capacidad: 30" };
+            String[] strings = { "Sala: 1 - Capacidad: 30 - ID: 0", "Sala: 2 - Capacidad: 30 - ID: 0", "Sala: 3 - Capacidad: 30 - ID: 0", "Sala: 4 - Capacidad: 30 - ID: 0" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -154,7 +161,7 @@ public class Gestion_asientos extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(37, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btn_crearSala)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(etq_PaisSede, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -163,9 +170,9 @@ public class Gestion_asientos extends javax.swing.JFrame {
                             .addComponent(etq_SalaTotal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(etq_InformacionSede, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(etq_Nombre_sede, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(161, 161, 161)
-                        .addComponent(btn_Editar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(152, 152, 152)
+                        .addComponent(btn_Editar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_crearSala, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
         );
         jPanel1Layout.setVerticalGroup(
@@ -174,7 +181,7 @@ public class Gestion_asientos extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(etq_InformacionSede)
-                    .addComponent(btn_Editar))
+                    .addComponent(btn_Editar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(etq_Nombre_sede)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -185,11 +192,11 @@ public class Gestion_asientos extends javax.swing.JFrame {
                 .addComponent(etq_CiudadSede)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(etq_PaisSede)
-                .addGap(18, 18, 18)
-                .addComponent(btn_crearSala)
+                .addGap(7, 7, 7)
+                .addComponent(btn_crearSala, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
